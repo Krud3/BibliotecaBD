@@ -39,19 +39,19 @@ public class Autor {
         Autor.segundoNombreAutor = segundoNombreAutor;
     }
 
-    public static String getPrimerApelldoAutor() {
+    public static String getPrimerApellidoAutor() {
         return primerApelldoAutor;
     }
 
-    public static void setPrimerApelldoAutor(String primerApelldoAutor) {
+    public static void setPrimerApellidoAutor(String primerApelldoAutor) {
         Autor.primerApelldoAutor = primerApelldoAutor;
     }
 
-    public static String getSegundoApelldoAutor() {
+    public static String getSegundoApellidoAutor() {
         return segundoApelldoAutor;
     }
 
-    public static void setSegundoApelldoAutor(String segundoApelldoAutor) {
+    public static void setSegundoApellidoAutor(String segundoApelldoAutor) {
         Autor.segundoApelldoAutor = segundoApelldoAutor;
     }
 }
