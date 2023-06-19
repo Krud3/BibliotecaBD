@@ -1,17 +1,14 @@
 package com.bliblioteca.proyectobasesdedatos.DAO;
 
-import com.bliblioteca.proyectobasesdedatos.logica.Autor;
+import com.bliblioteca.proyectobasesdedatos.logica.Descarga;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class DAOAutor {
-
-       public static int guardarAutor(Autor autor){
+public class DAODescarga {
+    
+    public static int guardarDescarga(Descarga descarga){
         String sql_guardar;
-        sql_guardar="INSERT INTO autor (codigo_autor, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido)" +
+        sql_guardar="INSERT INTO descarga (ISBN, id_usuario, ip_computadora_descarga, fecha_descarga, horario_descarga)" +
                 "VALUES (?, ?, ?, ?, ?)";
 
         int filasAfectadas = 0;
@@ -23,11 +20,11 @@ public class DAOAutor {
         if (connection != null) {
             try(PreparedStatement statement = connection.prepareStatement(sql_guardar)){
                 // Establecer los valores de los parámetros en la sentencia SQL
-                statement.setString(1, autor.getCodigoAutor());
-                statement.setString(2, autor.getPrimerNombreAutor());
-                statement.setString(3, autor.getSegundoNombreAutor());
-                statement.setString(4, autor.getPrimerApellidoAutor());
-                statement.setString(5, autor.getSegundoApellidoAutor());
+                statement.setString(1, descarga.getISBN());
+                statement.setString(2, descarga.getIdUsuario());
+                statement.setString(3, descarga.getIpComputadoraDescarga());
+                statement.setDate(4, (Date) descarga.getFechaDescarga());
+                statement.setString(5, descarga.getHorarioDescarga());
                 
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
@@ -41,10 +38,10 @@ public class DAOAutor {
         }
         return filasAfectadas;
     }
-       
-       public static Autor obtenerAutorPorID(String codigoAutor){
-          Autor autor = new Autor();
-        String sql_consulta = "SELECT * FROM autor WHERE codigo_autor = ?";
+    
+    public static Descarga obtenerDescargaPorID(String ISBN){
+          Descarga descarga = new Descarga();
+        String sql_consulta = "SELECT * FROM descarga WHERE ISBN = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -54,18 +51,18 @@ public class DAOAutor {
         if (connection != null) {
             try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
                 // Establecer el valor del parámetro en la sentencia SQL
-                statement.setString(1, codigoAutor);
+                statement.setString(1, ISBN);
 
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
 
                 if (resultSet.next()) {
-                    // Obtener los valores de las columnas y asignarlos al objeto Autor
-                    autor.setCodigoAutor(resultSet.getString("codigo_autor"));
-                    autor.setPrimerNombreAutor(resultSet.getString("primer_nombre"));
-                    autor.setSegundoNombreAutor(resultSet.getString("segundo_nombre"));
-                    autor.setPrimerApellidoAutor(resultSet.getString("primer_apellido"));
-                    autor.setSegundoApellidoAutor(resultSet.getString("segundo_apellido"));
+                    // Obtener los valores de las columnas y asignarlos al objeto Descarga
+                    descarga.setISBN(resultSet.getString("ISBN"));
+                    descarga.setIdUsuario(resultSet.getString("id_usuario"));
+                    descarga.setIpComputadoraDescarga(resultSet.getString("ip_computadora_descarga"));
+                    descarga.setFechaDescarga(resultSet.getDate("fecha_descarga"));
+                    descarga.setHorarioDescarga(resultSet.getString("horario_descarga"));
                 }
 
                 resultSet.close();
@@ -76,14 +73,14 @@ public class DAOAutor {
                 conexion.closeConnection();
             }
         }
-        return autor;
+        return descarga;
     }
 
-       public static boolean actualizarAutor(Autor autorModificado) {
+    public static boolean actualizarDescarga(Descarga descargaModificada) {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar el área
-        String sql_actualizar = "UPDATE autor SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ? WHERE codigo_autor = ?";
+        String sql_actualizar = "UPDATE descarga SET id_usuario = ?, ip_computadora_descarga = ?, fecha_descarga = ?, horario_descarga = ? WHERE ISBN = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -93,27 +90,27 @@ public class DAOAutor {
         if (connection != null) {
             try (PreparedStatement statement = connection.prepareStatement(sql_actualizar)) {
                 // Obtener los nuevos valores del área que se actualizarán
-                String codigoAutor = autorModificado.getCodigoAutor();
-                String nuevoPrimerNombreAutor = autorModificado.getPrimerNombreAutor();
-                String nuevoSegundoNombreAutor = autorModificado.getSegundoNombreAutor();
-                String nuevoPrimerApellidoAutor = autorModificado.getPrimerApellidoAutor();
-                String nuevoSegundoApellidoAutor = autorModificado.getSegundoApellidoAutor();
+                String ISBN = descargaModificada.getISBN();
+                String nuevoIdUsuarioDescarga = descargaModificada.getIdUsuario();
+                String nuevaIpComputadoraDescarga = descargaModificada.getIpComputadoraDescarga();
+                Date nuevaFechaDescarga = (Date) descargaModificada.getFechaDescarga();
+                String nuevoHorarioDescarga = descargaModificada.getHorarioDescarga();
 
                 // Establecer los valores de los parámetros en la sentencia SQL
-                statement.setString(1, nuevoPrimerNombreAutor);
-                statement.setString(2, nuevoSegundoNombreAutor);
-                statement.setString(3, nuevoPrimerApellidoAutor);
-                statement.setString(4, nuevoSegundoApellidoAutor);
-                statement.setString(5, codigoAutor);
+                statement.setString(1, nuevoIdUsuarioDescarga);
+                statement.setString(2, nuevaIpComputadoraDescarga);
+                statement.setDate(3, nuevaFechaDescarga);
+                statement.setString(4, nuevoHorarioDescarga);
+                statement.setString(5, ISBN);
 
                 // Ejecutar la actualización
                 int filasActualizadas = statement.executeUpdate();
 
                 if (filasActualizadas > 0) {
                     isUpdated = true;
-                   // System.out.println("El Autor con código " + codigoAutor + " ha sido actualizada correctamente.");
+                   // System.out.println("El Descarga con ISBN " + ISBN + " ha sido actualizada correctamente.");
                 } else {
-                    System.out.println("No se encontró el Autor con código " + codigoAutor + " en la base de datos.");
+                    System.out.println("No se encontró el Descarga con ISBN " + ISBN + " en la base de datos.");
                 }
             } catch (SQLException e) {
                 System.err.println("Error al ejecutar la actualización: " + e.getMessage());
@@ -126,11 +123,11 @@ public class DAOAutor {
         return isUpdated;
     }
     
-       public static boolean eliminarAutor(String codigoAutor) {
+    public static boolean eliminarDescarga(String ISBN) {
         boolean isDeleted = false;
 
         // Sentencia SQL para eliminar el área
-        String sql_eliminar = "DELETE FROM autor WHERE codigo_autor = ?";
+        String sql_eliminar = "DELETE FROM descarga WHERE ISBN = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -140,16 +137,16 @@ public class DAOAutor {
         if (connection != null) {
             try (PreparedStatement statement = connection.prepareStatement(sql_eliminar)) {
                 // Establecer el valor del parámetro en la sentencia SQL
-                statement.setString(1, codigoAutor);
+                statement.setString(1, ISBN);
 
                 // Ejecutar la eliminación
                 int filasEliminadas = statement.executeUpdate();
 
                 if (filasEliminadas > 0) {
                     isDeleted = true;
-                    //System.out.println("El autor con código " + codigoAutor + " ha sido eliminada correctamente.");
+                    //System.out.println("El descarga con ISBN " + ISBN + " ha sido eliminada correctamente.");
                 } else {
-                    System.out.println("No se encontró el autor con código " + codigoAutor + " en la base de datos.");
+                    System.out.println("No se encontró el descarga con ISBN " + ISBN + " en la base de datos.");
                 }
             } catch (SQLException e) {
                 System.err.println("Error al ejecutar la eliminación: " + e.getMessage());

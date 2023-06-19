@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 public class DAOEmpleado {
     
-    public static int guardarEmpleado(Empleado empleado){
+        public static int guardarEmpleado(Empleado empleado){
         String sql_guardar;
         sql_guardar="INSERT INTO " +
                 "empleado (id_empleado, password_empleado, nombre_empleado, cargo_empleado) " +
