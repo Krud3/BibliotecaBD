@@ -1,6 +1,7 @@
 package com.bliblioteca.proyectobasesdedatos.DAO;
 
 import com.bliblioteca.proyectobasesdedatos.logica.Descarga;
+import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 import java.sql.*;
 
@@ -29,7 +30,7 @@ public class DAODescarga {
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
             }
-            catch (SQLException e){System.err.println("Error al ejecutar la sentencia SQL: " + e.getMessage());}
+            catch (SQLException e){System.err.println(ERROR_SENTENCIA_SQL + e.getMessage());}
             catch(Exception e){ System.out.println(e); }
             finally {
                 // Cerrar la conexión
@@ -67,7 +68,7 @@ public class DAODescarga {
 
                 resultSet.close();
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la consulta: " + e.getMessage());
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();
@@ -113,7 +114,7 @@ public class DAODescarga {
                     System.out.println("No se encontró el Descarga con ISBN " + ISBN + " en la base de datos.");
                 }
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la actualización: " + e.getMessage());
+                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();
@@ -149,7 +150,7 @@ public class DAODescarga {
                     System.out.println("No se encontró el descarga con ISBN " + ISBN + " en la base de datos.");
                 }
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la eliminación: " + e.getMessage());
+                System.err.println(ERROR_ELIMINACION + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();

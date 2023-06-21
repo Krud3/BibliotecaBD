@@ -155,7 +155,7 @@ public class DAOUsuario {
 
                 resultSet.close();
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la consulta: " + e.getMessage());
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();

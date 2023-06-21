@@ -27,4 +27,6 @@ public class Constantes {
     public static final String VALIDAR_CAMPOS = "Debes llenar todos los campos";
     public static final String VERIFICAR_DATOS = "Debes verificar que la identificación y contraseña sean correctos";
     public static final String BIENVENIDO = "Bienvenido ";
+    public static final String ERROR_ELIMINACION = "Error al ejecutar la eliminación: ";
+    public static final String ERROR_ACTUALIZACION = "Error al ejecutar la eliminación: ";
 }

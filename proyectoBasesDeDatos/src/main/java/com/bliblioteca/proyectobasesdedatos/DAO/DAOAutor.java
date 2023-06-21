@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
+
 public class DAOAutor {
 
        public static int guardarAutor(Autor autor){
@@ -32,7 +34,7 @@ public class DAOAutor {
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
             }
-            catch (SQLException e){System.err.println("Error al ejecutar la sentencia SQL: " + e.getMessage());}
+            catch (SQLException e){System.err.println(ERROR_SENTENCIA_SQL + e.getMessage());}
             catch(Exception e){ System.out.println(e); }
             finally {
                 // Cerrar la conexión
@@ -70,7 +72,7 @@ public class DAOAutor {
 
                 resultSet.close();
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la consulta: " + e.getMessage());
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();
@@ -116,7 +118,7 @@ public class DAOAutor {
                     System.out.println("No se encontró el Autor con código " + codigoAutor + " en la base de datos.");
                 }
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la actualización: " + e.getMessage());
+                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();
@@ -152,7 +154,7 @@ public class DAOAutor {
                     System.out.println("No se encontró el autor con código " + codigoAutor + " en la base de datos.");
                 }
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la eliminación: " + e.getMessage());
+                System.err.println(ERROR_ELIMINACION + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();
