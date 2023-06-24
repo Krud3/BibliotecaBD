@@ -4,6 +4,7 @@ import com.bliblioteca.proyectobasesdedatos.logica.Descarga;
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DAODescarga {
     
@@ -75,6 +76,44 @@ public class DAODescarga {
             }
         }
         return descarga;
+    }
+
+    public static ArrayList<Descarga> obtenerTodasLasDescargas(){
+        ArrayList descargas = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM descarga GROUP BY ISBN";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Descarga descarga = new Descarga();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Descarga
+                    descarga.setISBN(resultSet.getString("ISBN"));
+                    descarga.setIdUsuario(resultSet.getString("id_usuario"));
+                    descarga.setIpComputadoraDescarga(resultSet.getString("ip_computadora_descarga"));
+                    descarga.setFechaDescarga(resultSet.getDate("fecha_descarga"));
+                    descarga.setHorarioDescarga(resultSet.getString("horario_descarga"));
+                    descargas.add(descarga);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return descargas;
     }
 
     public static boolean actualizarDescarga(Descarga descargaModificada) {

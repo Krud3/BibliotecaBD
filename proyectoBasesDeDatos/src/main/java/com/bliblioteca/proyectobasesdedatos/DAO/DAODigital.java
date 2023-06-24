@@ -4,6 +4,7 @@ import com.bliblioteca.proyectobasesdedatos.logica.Digital;
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DAODigital {
     
@@ -73,6 +74,44 @@ public class DAODigital {
             }
         }
         return digital;
+    }
+
+    public static ArrayList<Digital> obtenerTodosLosDigitales(){
+        ArrayList digitales = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM digital GROUP BY ISBN";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while(resultSet.next()) {
+                    Digital digital = new Digital();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Digital
+                    digital.setISBN(resultSet.getString("ISBN"));
+                    digital.setUrl(resultSet.getString("url"));
+                    digital.setFormato(resultSet.getString("formato"));
+                    digital.setTamanio(resultSet.getString("tamanio"));
+
+                    digitales.add(digital);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return digitales;
     }
 
     public static boolean actualizarDigital(Digital digitalModificada) {

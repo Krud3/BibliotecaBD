@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 
@@ -84,6 +86,48 @@ public class DAOEjemplar {
             }
         }
         return ejemplar;
+    }
+
+       public static ArrayList<Ejemplar> obtenerTodosLosEjemplares(){
+        ArrayList ejemplares = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM ejemplar GROUP BY ISBN";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Ejemplar ejemplar = new Ejemplar();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Ejemplar
+                    ejemplar.setISBN(resultSet.getString("ISBN"));
+                    ejemplar.setNumero(resultSet.getString("numero"));
+                    ejemplar.setnCajon(resultSet.getString("n_cajon"));
+                    ejemplar.setnPasillo(resultSet.getString("n_pasillo"));
+                    ejemplar.setNomSala(resultSet.getString("nom_sala"));
+                    ejemplar.setEstante(resultSet.getString("estante"));
+                    ejemplar.setEstado(resultSet.getString("estado"));
+
+                    ejemplares.add(ejemplar);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return ejemplares;
     }
 
        public static boolean actualizarEjemplar(Ejemplar ejemplarModificado) {

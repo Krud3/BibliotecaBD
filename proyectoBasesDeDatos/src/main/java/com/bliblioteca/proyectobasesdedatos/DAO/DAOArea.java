@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
@@ -78,6 +79,42 @@ public class DAOArea {
             }
         }
         return area;
+    }
+
+    public static ArrayList<Area> obtenerTodasLasAreas(){
+        ArrayList<Area> areas = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM area GROUP BY codigo_area";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Area area = new Area();
+                    // Obtener los valores de las columnas y asignarlos al objeto Area
+                    area.setCodigoArea(resultSet.getString("codigo_area"));
+                    area.setNombreArea(resultSet.getString("nombre_area"));
+                    area.setDescripcionArea(resultSet.getString("descripcion_area"));
+                    area.setNombreAreaHija(resultSet.getString("nombre_area_hija"));
+                    areas.add(area);
+                }
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return areas;
     }
 
     //Actualiza el area, retorna true si actualizo correctamente de lo contrario retorna false

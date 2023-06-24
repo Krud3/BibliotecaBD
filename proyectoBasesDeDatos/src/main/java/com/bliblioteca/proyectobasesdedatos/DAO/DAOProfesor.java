@@ -5,6 +5,7 @@ import com.bliblioteca.proyectobasesdedatos.logica.Profesor;
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DAOProfesor {
 
@@ -73,6 +74,43 @@ public class DAOProfesor {
             }
         }
         return profesor;
+    }
+
+    public static ArrayList<Profesor> obtenerTodosLosProfesores(){
+        ArrayList profesores = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM profesor GROUP BY id_usuario";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Profesor profesor = new Profesor();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Profesor
+                    profesor.setIdUsuario(resultSet.getString("id_usuario"));
+                    profesor.setTitulo(resultSet.getString("titulo_profesor"));
+                    profesor.setDependencia(resultSet.getString("dependencia_profesor"));
+
+                    profesores.add(profesor);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return profesores;
     }
 
     public static boolean actualizarProfesor(Profesor profesorModificado) {

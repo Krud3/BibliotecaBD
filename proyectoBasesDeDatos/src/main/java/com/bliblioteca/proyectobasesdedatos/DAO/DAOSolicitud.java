@@ -3,6 +3,7 @@ package com.bliblioteca.proyectobasesdedatos.DAO;
 import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
@@ -80,6 +81,48 @@ public class DAOSolicitud {
             }
         }
         return solicitud;
+    }
+
+    public static ArrayList<Solicitud> obtenerTodasLasSolicitudes(){
+        ArrayList solicitudes = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM solicitud GROUP BY n_solicitud";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Solicitud solicitud = new Solicitud();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Solicitud
+                    solicitud.setNumeroSolicitud(resultSet.getString("n_solicitud"));
+                    solicitud.setTituloLibro(resultSet.getString("titulo_libro"));
+                    solicitud.setFecha(resultSet.getDate("fecha"));
+                    solicitud.setDescripcion(resultSet.getString("descripcion"));
+                    solicitud.setISBNSolicitud(resultSet.getString("ISBN_solicitud"));
+                    solicitud.setISBNSolicitud(resultSet.getString("id_empleado"));
+                    solicitud.setISBNSolicitud(resultSet.getString("id_usuario"));
+
+                    solicitudes.add(solicitud);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return solicitudes;
     }
 
     public static boolean actualizarSolicitud(Solicitud solicitudModificado) {

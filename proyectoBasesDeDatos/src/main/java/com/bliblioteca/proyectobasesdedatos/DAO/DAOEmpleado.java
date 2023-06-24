@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -128,7 +129,7 @@ public class DAOEmpleado {
         return existe;
     }
 
-        public Empleado obtenerEmpleadoPorID(String idEmpleado) {
+        public static Empleado obtenerEmpleadoPorID(String idEmpleado) {
         Empleado empleado = new Empleado();
         String sql_consulta = "SELECT * FROM empleado WHERE id_empleado = ?";
 
@@ -164,5 +165,43 @@ public class DAOEmpleado {
 
         return empleado;
     }
-    
+
+        public static ArrayList<Empleado> obtenerTodosLosEmpleados() {
+        ArrayList empleados = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM empleado GROUP BY id_empleado";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Empleado empleado = new Empleado();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Empleado
+                    empleado.setIdEmpleado(resultSet.getString("id_empleado"));
+                    empleado.setPasswordEmpleado(resultSet.getString("password_empleado"));
+                    empleado.setNombreEmpleado(resultSet.getString("nombre_empleado"));
+                    empleado.setCargoEmpleado(resultSet.getString("cargo_empleado"));
+
+                    empleados.add(empleado);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+
+        return empleados;
+    }
+
 }

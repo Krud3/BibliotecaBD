@@ -6,12 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 public class DAOAutor {
 
-       public static int guardarAutor(Autor autor){
+    public static int guardarAutor(Autor autor){
         String sql_guardar;
         sql_guardar="INSERT INTO autor (codigo_autor, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido)" +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -44,7 +45,7 @@ public class DAOAutor {
         return filasAfectadas;
     }
        
-       public static Autor obtenerAutorPorID(String codigoAutor){
+    public static Autor obtenerAutorPorID(String codigoAutor){
           Autor autor = new Autor();
         String sql_consulta = "SELECT * FROM autor WHERE codigo_autor = ?";
 
@@ -81,7 +82,48 @@ public class DAOAutor {
         return autor;
     }
 
-       public static boolean actualizarAutor(Autor autorModificado) {
+    public static ArrayList<Autor> obtenerTodosLosAutores(){
+        ArrayList autores = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM autor GROUP BY codigo_autor";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Autor autor = new Autor();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Autor
+                    autor.setCodigoAutor(resultSet.getString("codigo_autor"));
+                    autor.setPrimerNombreAutor(resultSet.getString("primer_nombre"));
+                    autor.setSegundoNombreAutor(resultSet.getString("segundo_nombre"));
+                    autor.setPrimerApellidoAutor(resultSet.getString("primer_apellido"));
+                    autor.setSegundoApellidoAutor(resultSet.getString("segundo_apellido"));
+
+                    autores.add(autor);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return autores;
+    }
+
+    public static boolean actualizarAutor(Autor autorModificado) {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar el área
@@ -128,7 +170,7 @@ public class DAOAutor {
         return isUpdated;
     }
     
-       public static boolean eliminarAutor(String codigoAutor) {
+    public static boolean eliminarAutor(String codigoAutor) {
         boolean isDeleted = false;
 
         // Sentencia SQL para eliminar el área

@@ -88,6 +88,48 @@ public class DAOLibro {
         return libro;
     }
 
+       public static ArrayList<Libro> obtenerTodosLosLibros(){
+        ArrayList libros = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM libro GROUP BY ISBN";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    // Obtener los valores de las columnas y asignarlos al objeto Libro
+                    Libro libro = new Libro();
+
+                    libro.setISBN(resultSet.getString("ISBN"));
+                    libro.setCodArea(resultSet.getString("codigo_area"));
+                    libro.setCodigoEditorial(resultSet.getString("codigo_editorial"));
+                    libro.setIdEmpleado(resultSet.getString("id_empleado"));
+                    libro.setTituloLibro(resultSet.getString("titulo"));
+                    libro.setAnioPublicacion(resultSet.getInt("anio_publicacion"));
+                    libro.setNumeroPaginas(resultSet.getInt("numero_paginas"));
+                    libro.setIdioma(resultSet.getString("idioma"));
+
+                    libros.add(libro);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return libros;
+    }
+
        public static ArrayList<Libro> obtenerLibroPorCualquierCampo(Object value, String nombreCampo){
 
         ArrayList<Libro> libros = new ArrayList<>();

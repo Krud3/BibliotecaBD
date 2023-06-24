@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 
@@ -73,6 +75,41 @@ public class DAOEscrito {
             }
         }
         return escrito;
+    }
+
+       public static ArrayList<Escrito> obtenerTodosLosEscritos(){
+        ArrayList escritos = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM escrito GROUP BY ISBN";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    // Obtener los valores de las columnas y asignarlos al objeto Escrito
+                    Escrito escrito = new Escrito();
+                    escrito.setISBN(resultSet.getString("ISBN"));
+                    escrito.setCodigoAutor(resultSet.getString("codigo_autor"));
+
+                    escritos.add(escrito);
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return escritos;
     }
 
        public static boolean actualizarEscrito(Escrito escritoModificado) {
