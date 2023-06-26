@@ -19,6 +19,9 @@ public class Prestamo {
     private static String ISBN;
     private static String numero;
 
+    public static void setNumero(String nuumero){
+        Prestamo.numero = numero;
+    }
     public static String getnPrestamo() {
         return nPrestamo;
     }
@@ -71,7 +74,7 @@ public class Prestamo {
         return numero;
     }
 
-    public static void setNumero(String numero) {
-        Prestamo.numero = numero;
-    }
+    
+
+
 }
