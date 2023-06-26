@@ -13,7 +13,9 @@ import com.bliblioteca.proyectobasesdedatos.logica.Libro;
 
 import static com.bliblioteca.proyectobasesdedatos.DAO.DAOEjemplar.obtenerEjemplarPorID;
 import com.bliblioteca.proyectobasesdedatos.*;
+import com.bliblioteca.proyectobasesdedatos.DAO.ConexionBD;
 import com.bliblioteca.proyectobasesdedatos.GUI.Login;
+import java.sql.Connection;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -24,7 +26,6 @@ import javax.swing.SwingUtilities;
 public class ProyectoBasesDeDatos {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
         Controlador controlador = new Controlador();
         SwingUtilities.invokeLater(new Runnable() {
             @Override

@@ -9,31 +9,46 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Estudiante {
-    private static String idUsuario;
-    private static String carreraEstudiante;
-    private static String universidadEstudiante;
+    private  String idUsuario;
+    private  String carreraEstudiante;
+    private  String universidadEstudiante;
 
-    public static String getIdUsuario() {
+    public Estudiante(String idUsuario, String carreraEstudiante, String universidadEstudiante) {
+        this.idUsuario = idUsuario;
+        this.carreraEstudiante = carreraEstudiante;
+        this.universidadEstudiante = universidadEstudiante;
+    }
+    
+    public Estudiante() {
+        this.idUsuario = "";
+        this.carreraEstudiante = "";
+        this.universidadEstudiante = "";
+    }
+
+    public  String getIdUsuario() {
         return idUsuario;
     }
 
-    public static void setIdUsuario(String idUsuario) {
-        Estudiante.idUsuario = idUsuario;
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public static String getCarreraEstudiante() {
+    public void setCarreraEstudiante(String carreraEstudiante) {
+        this.carreraEstudiante = carreraEstudiante;
+    }
+
+    public void setUniversidadEstudiante(String universidadEstudiante) {
+        this.universidadEstudiante = universidadEstudiante;
+    }
+
+
+    public  String getCarreraEstudiante() {
         return carreraEstudiante;
     }
 
-    public static void setCarreraEstudiante(String carreraEstudiante) {
-        Estudiante.carreraEstudiante = carreraEstudiante;
-    }
 
-    public static String getUniversidadEstudiante() {
+    public  String getUniversidadEstudiante() {
         return universidadEstudiante;
     }
 
-    public static void setUniversidadEstudiante(String universidadEstudiante) {
-        Estudiante.universidadEstudiante = universidadEstudiante;
-    }
 }

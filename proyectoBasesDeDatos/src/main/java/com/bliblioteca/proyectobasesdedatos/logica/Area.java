@@ -9,41 +9,55 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Area {
-    private static String codigoArea;
-    private static String nombreArea;
-    private static String descripcionArea;
-    private static String nombreAreaHija;
+    private  String codigoArea;
+    private  String nombreArea;
+    private  String descripcionArea;
+    private  String nombreAreaHija;
 
-    public static String getCodigoArea() {
+    public Area(String codigoArea, String nombreArea, String descripcionArea, String nombreAreaHija) {
+        this.codigoArea = codigoArea;
+        this.nombreArea = nombreArea;
+        this.descripcionArea = descripcionArea;
+        this.nombreAreaHija = nombreAreaHija;
+    }
+    
+    public Area() {
+        this.codigoArea = "";
+        this.nombreArea = "";
+        this.descripcionArea = "";
+        this.nombreAreaHija = "";
+    }
+
+    public void setCodigoArea(String codigoArea) {
+        this.codigoArea = codigoArea;
+    }
+
+    public void setNombreArea(String nombreArea) {
+        this.nombreArea = nombreArea;
+    }
+
+    public void setDescripcionArea(String descripcionArea) {
+        this.descripcionArea = descripcionArea;
+    }
+
+    public void setNombreAreaHija(String nombreAreaHija) {
+        this.nombreAreaHija = nombreAreaHija;
+    }
+
+    public  String getCodigoArea() {
         return codigoArea;
     }
 
-    public static void setCodigoArea(String codigoArea) {
-        Area.codigoArea = codigoArea;
-    }
-
-    public static String getNombreArea() {
+    public  String getNombreArea() {
         return nombreArea;
     }
 
-    public static void setNombreArea(String nombreArea) {
-        Area.nombreArea = nombreArea;
-    }
-
-    public static String getDescripcionArea() {
+    public  String getDescripcionArea() {
         return descripcionArea;
     }
 
-    public static void setDescripcionArea(String descripcionArea) {
-        Area.descripcionArea = descripcionArea;
-    }
-
-    public static String getNombreAreaHija() {
+    public  String getNombreAreaHija() {
         return nombreAreaHija;
-    }
-
-    public static void setNombreAreaHija(String nombreAreaHija) {
-        Area.nombreAreaHija = nombreAreaHija;
     }
     
 }

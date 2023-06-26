@@ -11,68 +11,88 @@ import java.util.Date;
  * @author juanm
  */
 public class Prestamo {
-    private static String nPrestamo;
-    private static Date fechaR;
-    private static Date fechaD;
-    private static String idUsuario;
-    private static String idEmpleado;
-    private static String ISBN;
-    private static String numero;
+    private  String nPrestamo;
+    private  Date fechaR;
+    private  Date fechaD;
+    private  String idUsuario;
+    private  String idEmpleado;
+    private  String ISBN;
+    private  String numero;
 
-    public static String getNumero() {
+    public Prestamo(String nPrestamo, Date fechaR, Date fechaD, String idUsuario, String idEmpleado, String ISBN, String numero) {
+        this.nPrestamo = nPrestamo;
+        this.fechaR = fechaR;
+        this.fechaD = fechaD;
+        this.idUsuario = idUsuario;
+        this.idEmpleado = idEmpleado;
+        this.ISBN = ISBN;
+        this.numero = numero;
+    }
+
+    public Prestamo() {
+        this.nPrestamo = "";
+        this.fechaR = null;
+        this.fechaD = null;
+        this.idUsuario = "";
+        this.idEmpleado = "";
+        this.ISBN = "";
+        this.numero = "";
+    }
+    public void setnPrestamo(String nPrestamo) {
+        this.nPrestamo = nPrestamo;
+    }
+
+    public void setFechaR(Date fechaR) {
+        this.fechaR = fechaR;
+    }
+
+    public void setFechaD(Date fechaD) {
+        this.fechaD = fechaD;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public void setIdEmpleado(String idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public  String getNumero() {
         return numero;
     }
 
-    public static void setNumero(String numero) {
-        Prestamo.numero = numero;
-    }
-
-    public static String getnPrestamo() {
+    public  String getnPrestamo() {
         return nPrestamo;
     }
 
-    public static void setnPrestamo(String nPrestamo) {
-        Prestamo.nPrestamo = nPrestamo;
-    }
-
-    public static Date getFechaR() {
+    public  Date getFechaR() {
         return fechaR;
     }
 
-    public static void setFechaR(Date fechaR) {
-        Prestamo.fechaR = fechaR;
-    }
-
-    public static Date getFechaD() {
+    public  Date getFechaD() {
         return fechaD;
     }
 
-    public static void setFechaD(Date fechaD) {
-        Prestamo.fechaD = fechaD;
-    }
 
-    public static String getIdUsuario() {
+    public  String getIdUsuario() {
         return idUsuario;
     }
 
-    public static void setIdUsuario(String idUsuario) {
-        Prestamo.idUsuario = idUsuario;
-    }
-
-    public static String getIdEmpleado() {
+    public  String getIdEmpleado() {
         return idEmpleado;
     }
 
-    public static void setIdEmpleado(String idEmpleado) {
-        Prestamo.idEmpleado = idEmpleado;
-    }
-
-    public static String getISBN() {
+    public  String getISBN() {
         return ISBN;
-    }
-
-    public static void setISBN(String ISBN) {
-        Prestamo.ISBN = ISBN;
     }
 
 }

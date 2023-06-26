@@ -5,7 +5,10 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +20,12 @@ public class CrearSolicitud extends javax.swing.JPanel {
      * Creates new form Solicitud
      */
     private DefaultComboBoxModel comboBoxModelCrearSolicitudIDUS;
-    public CrearSolicitud(Controlador controlador) {
+    private String idEmpleado;
+    public CrearSolicitud(Controlador controlador, String idEmpleado) {
+        
+        this.idEmpleado = idEmpleado;
+        comboBoxModelCrearSolicitudIDUS = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarSolicitud(comboBoxModelCrearSolicitudIDUS);
         initComponents();
     }
 
@@ -93,6 +101,11 @@ public class CrearSolicitud extends javax.swing.JPanel {
         jScrollPane1.setViewportView(campoDescripcion);
 
         botonCrearSolicitud.setText("Crear");
+        botonCrearSolicitud.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonCrearSolicitudMouseClicked(evt);
+            }
+        });
         botonCrearSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearSolicitudActionPerformed(evt);
@@ -194,6 +207,25 @@ public class CrearSolicitud extends javax.swing.JPanel {
     private void campoFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoFechaActionPerformed
+
+    private void botonCrearSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearSolicitudMouseClicked
+        
+        if(comboUsuario.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario");
+        }
+        else{
+            String nSolicitud = campoNumSolicitud.getText();
+            String date = "2023-01-11";
+            String id_usuario = (String)comboUsuario.getSelectedItem();
+            String titulo_libro = campoTitulo.getText();
+            String ISBN = campoISBN.getText();
+            String descripcion = campoDescripcion.getText();
+            Date fecha = new Date();
+            
+            Solicitud laSolicitud = new Solicitud(nSolicitud, titulo_libro, fecha, descripcion, ISBN, idEmpleado, id_usuario);
+            
+        }
+    }//GEN-LAST:event_botonCrearSolicitudMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -178,20 +178,18 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        this.dispose();
-        main_frame.setVisible(true);
-        /*
-        actualizarControladorLogin(controlador);
+                
         String idEmString = jTextField_id_usuario.getText();
         String pass = String.valueOf(jPasswordField_pass_usuario.getPassword());
         if(controlador.validarPasswordEmpleado(idEmString, pass)){
             actualizarControladorLogin(controlador);
+            this.dispose();
             main_frame.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "Usuario o clave invalido");
         }
-        */
+        
         
     }//GEN-LAST:event_jButton2MouseClicked
 

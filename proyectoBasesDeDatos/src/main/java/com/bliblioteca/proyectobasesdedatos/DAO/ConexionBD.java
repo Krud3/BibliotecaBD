@@ -14,9 +14,9 @@ import java.sql.SQLException;
  */
 public class ConexionBD {
     private Connection connection;
-    private final String url = "jdbc:postgresql://localhost:5432/BIBLIOTECA";
+    private final String url = "jdbc:postgresql://localhost:5432/bd_proyecto_biblioteca";
     private final String username = "postgres";
-    private final String password = "123456";
+    private final String password = "19940522a";
 
     public void openConnection() {
         try {
@@ -25,6 +25,8 @@ public class ConexionBD {
 
             // Establece la conexión con la base de datos
             connection = DriverManager.getConnection(url, username, password);
+            
+            
 
         } catch (ClassNotFoundException e) {
             System.err.println(ERROR_CARGA_CONTROLADOR_JDBC + e.getMessage());

@@ -19,6 +19,7 @@ public class BuscarPrestamo extends javax.swing.JPanel {
      */
     private DefaultComboBoxModel comboBoxModelBuscarPrestamo;
     public BuscarPrestamo(Controlador controlador) {
+        comboBoxModelBuscarPrestamo = new DefaultComboBoxModel();
         initComponents();
     }
 

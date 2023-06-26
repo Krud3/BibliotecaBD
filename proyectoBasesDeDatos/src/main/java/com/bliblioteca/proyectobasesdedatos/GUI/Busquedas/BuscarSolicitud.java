@@ -21,6 +21,8 @@ public class BuscarSolicitud extends javax.swing.JPanel {
     private DefaultComboBoxModel comboBoxModelBuscarSolicitud;
     private DefaultTableModel tableModelBuscarSolicitud;
     public BuscarSolicitud(Controlador controlador) {
+        tableModelBuscarSolicitud= new DefaultTableModel();
+        comboBoxModelBuscarSolicitud = new DefaultComboBoxModel();
         initComponents();
     }
 

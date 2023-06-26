@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -182,18 +183,24 @@ public class Controlador {
         return result;
     }
     public void llenarComboBoxAgregarSolicitud(DefaultComboBoxModel model){
-        Set<String> id_usuario = new HashSet<>();
+        Stack<String> id_usuario = new Stack<>();
         
         ArrayList<Usuario> losUsuarios = DAOUsuario.obtenerTodosLosUsuarios();
-        
-        for(Usuario elUsuario : losUsuarios){
-            id_usuario.add(elUsuario.getIdUsuario());
+        //ArrayList<String> losUsuarios = DAOUsuario.obtenerTodosLosUsuariosSTR();
+        //System.out.println("hola"+losUsuarios);
+        for(int i = 0; i < losUsuarios.size(); i++){
+            id_usuario.push(losUsuarios.get(i).getIdUsuario());
+            System.out.println("Controlador"+losUsuarios.get(i).getIdUsuario());
         }
         model.addElement("Seleccione un id de usuario");
         
-        for(String value : id_usuario){
-            model.addElement(value);
+        while(!id_usuario.isEmpty()){
+            String id = id_usuario.pop();
+            model.addElement(id);
         }
+            
+            
+        
         
     }
     

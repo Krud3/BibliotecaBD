@@ -9,49 +9,70 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Autor {
-    private static String codigoAutor;
-    private static String primerNombreAutor;
-    private static String segundoNombreAutor;
-    private static String primerApelldoAutor;
-    private static String segundoApelldoAutor;
+    private  String codigoAutor;
+    private  String primerNombreAutor;
+    private  String segundoNombreAutor;
+    private  String primerApelldoAutor;
+    private  String segundoApelldoAutor;
 
-    public static String getCodigoAutor() {
+    public Autor(String codigoAutor, String primerNombreAutor, String segundoNombreAutor, String primerApelldoAutor, String segundoApelldoAutor) {
+        this.codigoAutor = codigoAutor;
+        this.primerNombreAutor = primerNombreAutor;
+        this.segundoNombreAutor = segundoNombreAutor;
+        this.primerApelldoAutor = primerApelldoAutor;
+        this.segundoApelldoAutor = segundoApelldoAutor;
+    }
+    
+    public Autor() {
+        this.codigoAutor = "";
+        this.primerNombreAutor = "";
+        this.segundoNombreAutor = "";
+        this.primerApelldoAutor = "";
+        this.segundoApelldoAutor = "";
+    }
+
+    public void setCodigoAutor(String codigoAutor) {
+        this.codigoAutor = codigoAutor;
+    }
+
+    public void setPrimerNombreAutor(String primerNombreAutor) {
+        this.primerNombreAutor = primerNombreAutor;
+    }
+
+    public void setSegundoNombreAutor(String segundoNombreAutor) {
+        this.segundoNombreAutor = segundoNombreAutor;
+    }
+
+    public void setPrimerApelldoAutor(String primerApelldoAutor) {
+        this.primerApelldoAutor = primerApelldoAutor;
+    }
+
+    public void setSegundoApelldoAutor(String segundoApelldoAutor) {
+        this.segundoApelldoAutor = segundoApelldoAutor;
+    }
+
+    public  String getCodigoAutor() {
         return codigoAutor;
     }
 
-    public static void setCodigoAutor(String codigoAutor) {
-        Autor.codigoAutor = codigoAutor;
-    }
 
-    public static String getPrimerNombreAutor() {
+    public  String getPrimerNombreAutor() {
         return primerNombreAutor;
     }
 
-    public static void setPrimerNombreAutor(String primerNombreAutor) {
-        Autor.primerNombreAutor = primerNombreAutor;
-    }
 
-    public static String getSegundoNombreAutor() {
+    public  String getSegundoNombreAutor() {
         return segundoNombreAutor;
     }
 
-    public static void setSegundoNombreAutor(String segundoNombreAutor) {
-        Autor.segundoNombreAutor = segundoNombreAutor;
-    }
 
-    public static String getPrimerApellidoAutor() {
+    public  String getPrimerApellidoAutor() {
         return primerApelldoAutor;
     }
 
-    public static void setPrimerApellidoAutor(String primerApelldoAutor) {
-        Autor.primerApelldoAutor = primerApelldoAutor;
-    }
 
-    public static String getSegundoApellidoAutor() {
+    public  String getSegundoApellidoAutor() {
         return segundoApelldoAutor;
     }
 
-    public static void setSegundoApellidoAutor(String segundoApelldoAutor) {
-        Autor.segundoApelldoAutor = segundoApelldoAutor;
-    }
 }

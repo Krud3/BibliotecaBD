@@ -19,6 +19,8 @@ public class CrearMulta extends javax.swing.JPanel {
     private DefaultComboBoxModel comboBoxModelCrearMultaIdUs, comboBoxModelCrearMultaISBN;
     
     public CrearMulta(Controlador controlador) {
+        comboBoxModelCrearMultaIdUs = new DefaultComboBoxModel();
+        comboBoxModelCrearMultaISBN = new DefaultComboBoxModel();
         initComponents();
     }
 

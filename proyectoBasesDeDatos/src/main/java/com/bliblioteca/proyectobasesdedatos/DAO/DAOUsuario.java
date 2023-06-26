@@ -15,8 +15,8 @@ import java.util.ArrayList;
  */
 public class DAOUsuario {
     
-    public static ArrayList<Usuario> obtenerTodosLosUsuarios() {
-        ArrayList usuarios = new ArrayList<>();
+    public static ArrayList<String> obtenerTodosLosUsuariosSTR() {
+        ArrayList<String> usuarios = new ArrayList<>();
         String sql_consulta = "SELECT * FROM usuario GROUP BY id_usuario";
 
         // Obtener la conexión
@@ -29,22 +29,28 @@ public class DAOUsuario {
 
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
-
+                Usuario usuario = new Usuario();
+                String id_usu = "";
                 while (resultSet.next()) {
-                    Usuario usuario = new Usuario();
+                    
 
                     // Obtener los valores de las columnas y asignarlos al objeto Usuario
                     usuario.setIdUsuario(resultSet.getString("id_usuario"));
+                    id_usu = resultSet.getString("id_usuario");
                     usuario.setPasswordUsuario(resultSet.getString("password_usuario"));
                     usuario.setNombreUsuario(resultSet.getString("nombre_usuario"));
                     usuario.setTelUsuario(resultSet.getString("tel_usuario"));
                     usuario.setDirUsuario(resultSet.getString("dir_usuario"));
                     usuario.setEmailUsuario(resultSet.getString("email_usuario"));
 
-                    usuarios.add(usuario);
+                    usuarios.add(id_usu);
+                    for(int i = 0; i < usuarios.size(); i++){
+                        System.out.println(usuarios.get(i));
+                    //System.out.println("DAO: "+usuarios.get(i).getIdUsuario()+" "+usuarios.get(i).getNombreUsuario());
+                    }
 
                 }
-
+                
                 resultSet.close();
             } catch (SQLException e) {
                 System.err.println(ERROR_DE_CONSULTA + e.getMessage());
@@ -53,7 +59,53 @@ public class DAOUsuario {
                 conexion.closeConnection();
             }
         }
+        
+        return usuarios;
+    }
+    public static ArrayList<Usuario> obtenerTodosLosUsuarios() {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM usuario GROUP BY id_usuario";
 
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+                
+                String id_usu = "";
+                while (resultSet.next()) {
+                    
+                    Usuario usuario = new Usuario();
+                    // Obtener los valores de las columnas y asignarlos al objeto Usuario
+                    usuario.setIdUsuario(resultSet.getString("id_usuario"));
+                    id_usu = resultSet.getString("id_usuario");
+                    usuario.setPasswordUsuario(resultSet.getString("password_usuario"));
+                    usuario.setNombreUsuario(resultSet.getString("nombre_usuario"));
+                    usuario.setTelUsuario(resultSet.getString("tel_usuario"));
+                    usuario.setDirUsuario(resultSet.getString("dir_usuario"));
+                    usuario.setEmailUsuario(resultSet.getString("email_usuario"));
+
+                    usuarios.add(usuario);
+                    for(int i = 0; i < usuarios.size(); i++){
+                    System.out.println("DAO: "+usuarios.get(i).getIdUsuario()+" "+usuarios.get(i).getNombreUsuario());
+                    }
+
+                }
+                
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        
         return usuarios;
     }
     

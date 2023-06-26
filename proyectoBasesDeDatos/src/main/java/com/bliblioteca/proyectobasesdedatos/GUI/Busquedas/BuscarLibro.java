@@ -19,6 +19,7 @@ public class BuscarLibro extends javax.swing.JPanel {
      */
     private DefaultTableModel tableModelBuscarLibro;
     public BuscarLibro(Controlador controlador) {
+        tableModelBuscarLibro = new DefaultTableModel();
         initComponents();
     }
 

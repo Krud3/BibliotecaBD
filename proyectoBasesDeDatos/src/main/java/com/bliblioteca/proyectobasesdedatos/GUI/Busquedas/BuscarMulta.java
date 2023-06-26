@@ -21,6 +21,9 @@ public class BuscarMulta extends javax.swing.JPanel {
     private DefaultComboBoxModel modelComboBoxBuscarMulta;
     private DefaultTableModel tableModelBuscarMulta;
     public BuscarMulta(Controlador controlador) {
+        
+        tableModelBuscarMulta = new DefaultTableModel();
+        modelComboBoxBuscarMulta = new DefaultComboBoxModel();
         initComponents();
     }
 

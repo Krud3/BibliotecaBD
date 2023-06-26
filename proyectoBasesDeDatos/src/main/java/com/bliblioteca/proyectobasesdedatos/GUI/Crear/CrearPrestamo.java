@@ -18,6 +18,9 @@ public class CrearPrestamo extends javax.swing.JPanel {
      */
     private DefaultComboBoxModel comboBoxModelCrearPrestamo, comboBoxModelCrearPrestamoISBN;
     public CrearPrestamo(Controlador controlador) {
+        
+        comboBoxModelCrearPrestamo = new DefaultComboBoxModel();
+        comboBoxModelCrearPrestamoISBN = new DefaultComboBoxModel();
         initComponents();
     }
 

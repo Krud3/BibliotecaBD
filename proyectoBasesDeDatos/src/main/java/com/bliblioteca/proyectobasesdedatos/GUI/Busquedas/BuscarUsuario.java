@@ -21,6 +21,8 @@ public class BuscarUsuario extends javax.swing.JPanel {
     private DefaultComboBoxModel comboBoxModelBuscarUsuario;
     private DefaultTableModel tableModelBuscarUsuario;
     public BuscarUsuario(Controlador controlador) {
+        tableModelBuscarUsuario = new DefaultTableModel();  
+        comboBoxModelBuscarUsuario = new DefaultComboBoxModel();
         initComponents();
     }
 
