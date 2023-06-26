@@ -29,7 +29,9 @@ public class DAOMulta {
                 statement.setDate(3, (Date) multa.getFecha());
                 statement.setString(4, multa.getDescripcion());
                 statement.setString(5, multa.getISBN());
-                statement.setString(6, multa.getIdUsuario());
+                statement.setString(6, multa.getNumero());
+                statement.setString(7, multa.getIdUsuario());
+
 
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
@@ -68,6 +70,7 @@ public class DAOMulta {
                     multa.setFecha(resultSet.getDate("fecha"));
                     multa.setDescripcion(resultSet.getString("descripcion"));
                     multa.setISBN(resultSet.getString("ISBN"));
+                    multa.setNumero(resultSet.getString("numero"));
                     multa.setIdUsuario(resultSet.getString("id_usuario"));
                 }
 
@@ -105,6 +108,7 @@ public class DAOMulta {
                     multa.setFecha(resultSet.getDate("fecha"));
                     multa.setDescripcion(resultSet.getString("descripcion"));
                     multa.setISBN(resultSet.getString("ISBN"));
+                    multa.setNumero(resultSet.getString("numero"));
                     multa.setIdUsuario(resultSet.getString("id_usuario"));
 
                     multas.add(multa);
@@ -140,15 +144,19 @@ public class DAOMulta {
                 Date nuevaFecha = (Date) multaModificada.getFecha();
                 String nuevaDescripcion = multaModificada.getDescripcion();
                 String nuevoISBN = multaModificada.getISBN();
+                String nuevoNum = multaModificada.getNumero();
                 String nuevoIdUsuario = multaModificada.getIdUsuario();
 
-                // Establecer los valores de los parámetros en la sentencia SQL
-                statement.setInt(1, nuevoValor);
-                statement.setDate(2, nuevaFecha);
-                statement.setString(3, nuevaDescripcion);
-                statement.setString(4, nuevoISBN);
-                statement.setString(5, nuevoIdUsuario);
-                statement.setString(6, numeroMulta);
+                
+                statement.setString(1, numeroMulta);
+                statement.setInt(2, nuevoValor);
+                statement.setDate(3, nuevaFecha);
+                statement.setString(4, nuevaDescripcion);
+                statement.setString(5, nuevoISBN);
+                statement.setString(6, nuevoNum);
+                statement.setString(7, nuevoIdUsuario);
+                
+
 
                 // Ejecutar la actualización
                 int filasActualizadas = statement.executeUpdate();

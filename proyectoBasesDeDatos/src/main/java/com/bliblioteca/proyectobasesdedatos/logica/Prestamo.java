@@ -17,6 +17,15 @@ public class Prestamo {
     private static String idUsuario;
     private static String idEmpleado;
     private static String ISBN;
+    private static String numero;
+
+    public static String getNumero() {
+        return numero;
+    }
+
+    public static void setNumero(String numero) {
+        Prestamo.numero = numero;
+    }
 
     public static String getnPrestamo() {
         return nPrestamo;

@@ -29,6 +29,7 @@ public class DAOPrestamo {
                 statement.setString(4, prestamo.getIdUsuario());
                 statement.setString(5, prestamo.getIdEmpleado());
                 statement.setString(6, prestamo.getISBN());
+                statement.setString(6, prestamo.getNumero());
 
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
@@ -68,6 +69,7 @@ public class DAOPrestamo {
                     prestamo.setIdUsuario(resultSet.getString("id_usuario"));
                     prestamo.setIdEmpleado(resultSet.getString("id_empleado"));
                     prestamo.setISBN(resultSet.getString("ISBN"));
+                    prestamo.setNumero(resultSet.getString("numero"));
 
                 }
 
@@ -108,6 +110,7 @@ public class DAOPrestamo {
                     prestamo.setIdUsuario(resultSet.getString("id_usuario"));
                     prestamo.setIdEmpleado(resultSet.getString("id_empleado"));
                     prestamo.setISBN(resultSet.getString("ISBN"));
+                    prestamo.setNumero(resultSet.getString("numero"));
 
                     prestamos.add(prestamo);
                 }
@@ -143,14 +146,16 @@ public class DAOPrestamo {
                 String nuevoIdUsuario = prestamoModificado.getIdUsuario();
                 String nuevoIdEmpleado = prestamoModificado.getIdEmpleado();
                 String nuevoISBN = prestamoModificado.getISBN();
+                String nuevoNumero = prestamoModificado.getNumero();
 
                 // Establecer los valores de los parámetros en la sentencia SQL
-                statement.setDate(1, nuevoFechaR);
-                statement.setDate(2, nuevaFechaD);
-                statement.setString(3, nuevoIdUsuario);
-                statement.setString(4, nuevoIdEmpleado);
-                statement.setString(5, nuevoISBN);
-                statement.setString(6, numeroPrestamo);
+                statement.setString(1, numeroPrestamo);
+                statement.setDate(2, nuevoFechaR);
+                statement.setDate(3, nuevaFechaD);
+                statement.setString(4, nuevoIdUsuario);
+                statement.setString(5, nuevoIdEmpleado);
+                statement.setString(6, nuevoISBN);
+                statement.setString(7, nuevoNumero);
 
                 // Ejecutar la actualización
                 int filasActualizadas = statement.executeUpdate();

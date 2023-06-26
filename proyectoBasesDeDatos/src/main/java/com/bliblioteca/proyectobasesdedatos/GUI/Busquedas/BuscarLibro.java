@@ -6,6 +6,7 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +17,7 @@ public class BuscarLibro extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private DefaultTableModel tableModelBuscarLibro;
     public BuscarLibro(Controlador controlador) {
         initComponents();
     }
@@ -55,17 +57,7 @@ public class BuscarLibro extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(tableModelBuscarLibro);
         jScrollPane1.setViewportView(jTable1);
 
         botonBuscarLibro.setText("Buscar");
@@ -84,7 +76,7 @@ public class BuscarLibro extends javax.swing.JPanel {
 
         jLabel3.setText("Nombre del Campo:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ISBN", "codigo_area", "codigo_editorial", "titulo", "anio_publicacion" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

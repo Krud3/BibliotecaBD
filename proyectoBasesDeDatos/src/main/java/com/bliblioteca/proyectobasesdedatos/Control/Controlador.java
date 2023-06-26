@@ -6,10 +6,13 @@ package com.bliblioteca.proyectobasesdedatos.Control;
 
 import com.bliblioteca.proyectobasesdedatos.DAO.*;
 import com.bliblioteca.proyectobasesdedatos.logica.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +23,153 @@ public class Controlador {
     
     public Controlador(){
     
+    }
+    public void llenarTablaBuscarLibro(String valor, String campo, DefaultTableModel table){
+        Object[] filas = new Object[8];
+        table.setRowCount(0);
+        
+        ArrayList<Libro> losLibros = DAOLibro.obtenerLibroPorCualquierCampo(valor, campo);
+        for(Libro elLibro : losLibros){
+            filas[0] = elLibro.getISBN();
+            filas[1] = elLibro.getCodArea();
+            filas[2] = elLibro.getCodigoEditorial();
+            filas[3] = elLibro.getIdEmpleado();
+            filas[4] = elLibro.getTituloLibro();
+            filas[5] = elLibro.getAnioPublicacion();
+            filas[6] = elLibro.getNumeroPaginas();
+            filas[7] = elLibro.getIdioma();
+            table.addRow(filas);
+        }
+    }
+    public void llenarTablaBuscarMulta(DefaultTableModel table){
+        Object[] filas = new Object[7];
+        table.setRowCount(0);
+                
+        ArrayList<Multa> losLibros = DAOMulta.obtenerTodasLasMultas();
+        for(Multa elLibro : losLibros){
+            filas[0] = elLibro.getnMulta();
+            filas[1] = elLibro.getValor();
+            long millis = elLibro.getFecha().getTime();
+            Date fecha = new Date(millis);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaString = sdf.format(fecha);
+            filas[2] = fechaString;
+            filas[3] = elLibro.getDescripcion();
+            filas[4] = elLibro.getISBN();
+            filas[5] = elLibro.getNumero();
+            filas[6] = elLibro.getIdUsuario();
+           
+            table.addRow(filas);
+        }
+    }
+    public void llenarTablaBuscarPrestamo(DefaultTableModel table){
+        Object[] filas = new Object[7];
+        table.setRowCount(0);
+                
+        ArrayList<Prestamo> losLibros = DAOPrestamo.obtenerTodosLosPrestamos();
+        for(Prestamo elLibro : losLibros){
+            filas[0] = elLibro.getnPrestamo();
+            
+            long millis  = elLibro.getFechaR().getTime();
+            Date fecha = new Date(millis);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaStringR = sdf.format(fecha);
+            filas[1] = fechaStringR;
+            long millis2 = elLibro.getFechaD().getTime();
+            Date fecha2 = new Date(millis2);            
+            String fechaStringD = sdf.format(fecha2);
+            filas[2] = fechaStringD;
+            filas[3] = elLibro.getIdUsuario();
+            filas[4] = elLibro.getIdEmpleado();
+            filas[5] = elLibro.getISBN();
+            filas[6] = elLibro.getNumero();
+           
+            table.addRow(filas);
+        }
+    }
+    public void llenarTablaBuscarSolicitud(DefaultTableModel table){
+        Object[] filas = new Object[7];
+        table.setRowCount(0);
+                
+        ArrayList<Solicitud> losLibros = DAOSolicitud.obtenerTodasLasSolicitudes();
+        for(Solicitud elLibro : losLibros){
+            filas[0] = elLibro.getNumeroSolicitud();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            filas[1] = elLibro.getTituloLibro();
+            long millis2 = elLibro.getFecha().getTime();
+            Date fecha2 = new Date(millis2);            
+            String fechaStringD = sdf.format(fecha2);
+            filas[2] = fechaStringD;
+            filas[3] = elLibro.getDescripcion();
+            filas[4] = elLibro.getISBNSolicitud();
+            filas[5] = elLibro.getIdEmpleado();
+            filas[6] = elLibro.getIdUsuario();
+           
+            table.addRow(filas);
+        }
+    }
+    public void llenarTablaBuscarUsuario(DefaultTableModel table){
+        Object[] filas = new Object[5];
+        table.setRowCount(0);
+                
+        ArrayList<Usuario> losLibros = DAOUsuario.obtenerTodosLosUsuarios();
+        for(Usuario elLibro : losLibros){
+            filas[0] = elLibro.getIdUsuario();
+            filas[1] = elLibro.getNombreUsuario();
+            filas[2] = elLibro.getTelUsuario();
+            filas[3] = elLibro.getDirUsuario();
+            filas[4] = elLibro.getEmailUsuario();
+           
+            table.addRow(filas);
+        }
+    }
+    public void llenarComboBoxBuscarUsuario(DefaultComboBoxModel model){
+        Set<String> id_multa = new HashSet<>();
+        ArrayList<Usuario> lasMultas = DAOUsuario.obtenerTodosLosUsuarios();
+        for(Usuario laMulta : lasMultas){
+            id_multa.add(laMulta.getIdUsuario());
+        }
+        model.addElement("Seleccione un ID usuario");
+        
+        for(String value : id_multa){
+            model.addElement(value);
+        }
+    }
+    public void llenarComboBoxBuscarSolicitud(DefaultComboBoxModel model){
+        Set<String> id_multa = new HashSet<>();
+        ArrayList<Solicitud> lasMultas = DAOSolicitud.obtenerTodasLasSolicitudes();
+        for(Solicitud laMulta : lasMultas){
+            id_multa.add(laMulta.getNumeroSolicitud());
+        }
+        model.addElement("Seleccione un N solicitud");
+        
+        for(String value : id_multa){
+            model.addElement(value);
+        }
+    }
+    public void llenarComboBoxBuscarMulta(DefaultComboBoxModel model){
+        Set<String> id_multa = new HashSet<>();
+        ArrayList<Multa> lasMultas = DAOMulta.obtenerTodasLasMultas();
+        for(Multa laMulta : lasMultas){
+            id_multa.add(laMulta.getnMulta());
+        }
+        model.addElement("Seleccione un N multa");
+        
+        for(String value : id_multa){
+            model.addElement(value);
+        }
+    }
+    public void llenarComboBoxBuscarPrestamo(DefaultComboBoxModel model){
+        Set<String> id_multa = new HashSet<>();
+        ArrayList<Prestamo> lasMultas = DAOPrestamo.obtenerTodosLosPrestamos();
+        for(Prestamo laMulta : lasMultas){
+            id_multa.add(laMulta.getnPrestamo());
+        }
+        model.addElement("Seleccione un N prestamo");
+        
+        for(String value : id_multa){
+            model.addElement(value);
+        }
     }
     public boolean validarPasswordEmpleado(String idEmpleado, String pass){
         boolean result = false;
@@ -52,13 +202,13 @@ public class Controlador {
         Set<String> id_empleados = new HashSet<>();
         
         ArrayList<Usuario> losUsuarios = DAOUsuario.obtenerTodosLosUsuarios();
-        ArrayList<Empleado> losEmpleados = DAOEmpleado.obtenerTodosLosEmpleados();
+        ArrayList<Ejemplar> losEmpleados = DAOEjemplar.obtenerTodosLosEjemplares();
         
         for(Usuario elUsuario : losUsuarios){
             id_usuario.add(elUsuario.getIdUsuario());
         }
-        for(Empleado elEmpleado : losEmpleados){
-            id_empleados.add(elEmpleado.getIdEmpleado());
+        for(Ejemplar elEmpleado : losEmpleados){
+            id_empleados.add(elEmpleado.getISBN());
         }
         
         if(val){
@@ -68,7 +218,7 @@ public class Controlador {
             }
         }
         else{
-            model.addElement("Seleccione un id de empleados");
+            model.addElement("Seleccione un ISBN");
             for(String value : id_empleados){
                 
                 model.addElement(value);
@@ -143,7 +293,22 @@ public class Controlador {
             }
         } 
     }
+    public void agregarEstudiante(Usuario usuario, String universidad, String carrera){
+        String id_usuario = usuario.getIdUsuario();
+        Estudiante estudiante = new Estudiante();
+        estudiante.setIdUsuario(id_usuario);
+        estudiante.setUniversidadEstudiante(universidad);
+        estudiante.setCarreraEstudiante(carrera);
+        DAOEstudiante.guardarEstudiante(estudiante);
+    }
     
+    public void agregarProfesor(Usuario usuario, String titulo, String dependencia){
+        String id_usuario = usuario.getIdUsuario();
+        Profesor estudiante = new Profesor();
+        estudiante.setIdUsuario(id_usuario);
+        estudiante.setDependencia(dependencia);
+        DAOProfesor.guardarProfesor(estudiante);
+    }
     public <V> void agregarObjeto(V objeto){
         
         if(objeto == null){

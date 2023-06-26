@@ -16,6 +16,15 @@ public class Multa {
     private static Date fecha;
     private static String descripcion;
     private static String ISBN;
+    private static String numero;
+
+    public static String getNumero() {
+        return numero;
+    }
+
+    public static void setNumero(String numero) {
+        Multa.numero = numero;
+    }
     private static String idUsuario;
 
     public static String getnMulta() {

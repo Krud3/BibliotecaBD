@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -15,6 +16,8 @@ public class CrearMulta extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private DefaultComboBoxModel comboBoxModelCrearMultaIdUs, comboBoxModelCrearMultaISBN;
+    
     public CrearMulta(Controlador controlador) {
         initComponents();
     }
@@ -33,8 +36,6 @@ public class CrearMulta extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         campoNumMulta = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        campoIDUsuario = new javax.swing.JTextField();
-        campoISBN = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         campoFecha = new javax.swing.JTextField();
@@ -43,6 +44,8 @@ public class CrearMulta extends javax.swing.JPanel {
         campoDescripcion = new javax.swing.JTextArea();
         botonCrearMulta = new javax.swing.JButton();
         campoValorMulta = new javax.swing.JTextField();
+        jComboBox_id_usuario = new javax.swing.JComboBox<>();
+        jComboBox_isbn = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -60,12 +63,6 @@ public class CrearMulta extends javax.swing.JPanel {
         });
 
         jLabel4.setText("ID Usuario:");
-
-        campoISBN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoISBNActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("ISBN del libro:");
 
@@ -96,6 +93,10 @@ public class CrearMulta extends javax.swing.JPanel {
             }
         });
 
+        jComboBox_id_usuario.setModel(comboBoxModelCrearMultaIdUs);
+
+        jComboBox_isbn.setModel(comboBoxModelCrearMultaISBN);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,13 +122,13 @@ public class CrearMulta extends javax.swing.JPanel {
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(campoNumMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(campoISBN, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(campoIDUsuario)
                                     .addComponent(campoValorMulta)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                        .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboBox_id_usuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox_isbn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(botonCrearMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -154,13 +155,13 @@ public class CrearMulta extends javax.swing.JPanel {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(campoValorMulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(campoIDUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBox_id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jComboBox_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -174,10 +175,6 @@ public class CrearMulta extends javax.swing.JPanel {
     private void campoNumMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumMultaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoNumMultaActionPerformed
-
-    private void campoISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoISBNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoISBNActionPerformed
 
     private void botonCrearMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearMultaActionPerformed
         // TODO add your handling code here:
@@ -196,10 +193,10 @@ public class CrearMulta extends javax.swing.JPanel {
     private javax.swing.JButton botonCrearMulta;
     private javax.swing.JTextArea campoDescripcion;
     private javax.swing.JTextField campoFecha;
-    private javax.swing.JTextField campoIDUsuario;
-    private javax.swing.JTextField campoISBN;
     private javax.swing.JTextField campoNumMulta;
     private javax.swing.JTextField campoValorMulta;
+    private javax.swing.JComboBox<String> jComboBox_id_usuario;
+    private javax.swing.JComboBox<String> jComboBox_isbn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

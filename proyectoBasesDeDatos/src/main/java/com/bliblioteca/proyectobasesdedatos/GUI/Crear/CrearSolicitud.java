@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -15,6 +16,7 @@ public class CrearSolicitud extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private DefaultComboBoxModel comboBoxModelCrearSolicitudIDUS;
     public CrearSolicitud(Controlador controlador) {
         initComponents();
     }
@@ -49,7 +51,7 @@ public class CrearSolicitud extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 12)); // NOI18N
         jLabel1.setText("Crear Solicitud");
 
-        comboUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboUsuario.setModel(comboBoxModelCrearSolicitudIDUS);
         comboUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboUsuarioActionPerformed(evt);

@@ -37,8 +37,6 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="campoISBN" max="32767" attributes="0"/>
-                          <Component id="campoIDUsuario" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -50,6 +48,8 @@
                               <Component id="campoNumPrestamo" min="-2" pref="106" max="-2" attributes="0"/>
                           </Group>
                           <Component id="campoFechaDevolucion" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBox_id_usuarios" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBox_isbn" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -85,13 +85,13 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="campoIDUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBox_id_usuarios" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="campoISBN" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBox_isbn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
               <Component id="botonCrearPrestamo" min="-2" pref="34" max="-2" attributes="0"/>
@@ -118,13 +118,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="ID Usuario:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="campoIDUsuario">
-    </Component>
-    <Component class="javax.swing.JTextField" name="campoISBN">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoISBNActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -157,6 +150,26 @@
     <Component class="javax.swing.JTextField" name="campoNumPrestamo">
     </Component>
     <Component class="javax.swing.JTextField" name="campoFechaDevolucion">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox_id_usuarios">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="comboBoxModelCrearPrestamo" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox_isbn">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="comboBoxModelCrearPrestamoISBN" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

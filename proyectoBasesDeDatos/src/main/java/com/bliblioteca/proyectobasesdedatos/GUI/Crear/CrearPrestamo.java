@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -15,6 +16,7 @@ public class CrearPrestamo extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private DefaultComboBoxModel comboBoxModelCrearPrestamo, comboBoxModelCrearPrestamoISBN;
     public CrearPrestamo(Controlador controlador) {
         initComponents();
     }
@@ -31,8 +33,6 @@ public class CrearPrestamo extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        campoIDUsuario = new javax.swing.JTextField();
-        campoISBN = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         campoFechaPrestamo = new javax.swing.JTextField();
@@ -40,6 +40,8 @@ public class CrearPrestamo extends javax.swing.JPanel {
         botonCrearPrestamo = new javax.swing.JButton();
         campoNumPrestamo = new javax.swing.JTextField();
         campoFechaDevolucion = new javax.swing.JTextField();
+        jComboBox_id_usuarios = new javax.swing.JComboBox<>();
+        jComboBox_isbn = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -49,12 +51,6 @@ public class CrearPrestamo extends javax.swing.JPanel {
         jLabel2.setText("Fecha de devolución:");
 
         jLabel4.setText("ID Usuario:");
-
-        campoISBN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoISBNActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("ISBN del libro:");
 
@@ -75,6 +71,10 @@ public class CrearPrestamo extends javax.swing.JPanel {
             }
         });
 
+        jComboBox_id_usuarios.setModel(comboBoxModelCrearPrestamo);
+
+        jComboBox_isbn.setModel(comboBoxModelCrearPrestamoISBN);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,8 +93,6 @@ public class CrearPrestamo extends javax.swing.JPanel {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoISBN)
-                            .addComponent(campoIDUsuario)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
@@ -103,7 +101,9 @@ public class CrearPrestamo extends javax.swing.JPanel {
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(campoNumPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(campoFechaDevolucion))))
+                            .addComponent(campoFechaDevolucion)
+                            .addComponent(jComboBox_id_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox_isbn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
@@ -128,21 +128,17 @@ public class CrearPrestamo extends javax.swing.JPanel {
                     .addComponent(campoFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoIDUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBox_id_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jComboBox_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(90, 90, 90)
                 .addComponent(botonCrearPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void campoISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoISBNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoISBNActionPerformed
 
     private void botonCrearPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearPrestamoActionPerformed
         // TODO add your handling code here:
@@ -157,9 +153,9 @@ public class CrearPrestamo extends javax.swing.JPanel {
     private javax.swing.JButton botonCrearPrestamo;
     private javax.swing.JTextField campoFechaDevolucion;
     private javax.swing.JTextField campoFechaPrestamo;
-    private javax.swing.JTextField campoIDUsuario;
-    private javax.swing.JTextField campoISBN;
     private javax.swing.JTextField campoNumPrestamo;
+    private javax.swing.JComboBox<String> jComboBox_id_usuarios;
+    private javax.swing.JComboBox<String> jComboBox_isbn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
