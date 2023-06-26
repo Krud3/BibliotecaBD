@@ -220,7 +220,7 @@ public class DAOUsuario {
         return existe;
     }
 
-    public Usuario obtenerUsuarioPorID(String idUsuario) {
+     public Usuario obtenerUsuarioPorID(String idUsuario) {
         Usuario usuario = new Usuario();
         String sql_consulta = "SELECT * FROM usuario WHERE id_usuario = ?";
 
