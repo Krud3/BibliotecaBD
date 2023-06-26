@@ -220,7 +220,7 @@ public class DAOLibro {
 
                 if (filasActualizadas > 0) {
                     isUpdated = true;
-                   // System.out.println("El Libro con ISBN " + ISBN + " ha sido actualizada correctamente.");
+                    System.out.println("El Libro con ISBN " + ISBN + " ha sido actualizada correctamente.");
                 } else {
                     System.out.println("No se encontró el Libro con ISBN " + ISBN + " en la base de datos.");
                 }
@@ -256,7 +256,7 @@ public class DAOLibro {
 
                 if (filasEliminadas > 0) {
                     isDeleted = true;
-                    //System.out.println("El libro con ISBN " + ISBN + " ha sido eliminada correctamente.");
+                    System.out.println("El libro con ISBN " + ISBN + " ha sido eliminada correctamente.");
                 } else {
                     System.out.println("No se encontró el libro con ISBN " + ISBN + " en la base de datos.");
                 }
