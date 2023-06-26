@@ -259,8 +259,6 @@ public class DAOUsuario {
 
         return usuario;
     }
-
-    
     
     public static boolean eliminarUsuario(String Id_usiario) {
         boolean isDeleted = false;
@@ -298,4 +296,39 @@ public class DAOUsuario {
         return isDeleted;
     }
 
+    // si es profesor es false si es estudiante es true
+    public Boolean verificarTipoUsuario(String idUsuario){
+        Usuario usuario = new Usuario();
+        Boolean tipoUsuario = false;
+
+        String sql_consulta_usuario_Estudiante = "SELECT * FROM usuario, estudiante WHERE usuario.id_usuario = estudiante.id_usuario" +
+                "and usuario.id_usuario = ? ";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta_usuario_Estudiante)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                statement.setString(1, idUsuario);
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    tipoUsuario = true;
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+
+        return tipoUsuario;
+    }
 }
