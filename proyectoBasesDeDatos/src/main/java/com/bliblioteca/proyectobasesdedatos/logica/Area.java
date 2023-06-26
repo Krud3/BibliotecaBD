@@ -45,4 +45,5 @@ public class Area {
     public static void setNombreAreaHija(String nombreAreaHija) {
         Area.nombreAreaHija = nombreAreaHija;
     }
+    
 }

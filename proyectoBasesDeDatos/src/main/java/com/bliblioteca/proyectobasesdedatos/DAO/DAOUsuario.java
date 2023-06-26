@@ -15,6 +15,100 @@ import java.util.ArrayList;
  */
 public class DAOUsuario {
     
+    public static ArrayList<Usuario> obtenerTodosLosUsuarios() {
+        ArrayList usuarios = new ArrayList<>();
+        String sql_consulta = "SELECT * FROM usuario GROUP BY id_usuario";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Usuario usuario = new Usuario();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Usuario
+                    usuario.setIdUsuario(resultSet.getString("id_usuario"));
+                    usuario.setPasswordUsuario(resultSet.getString("password_usuario"));
+                    usuario.setNombreUsuario(resultSet.getString("nombre_usuario"));
+                    usuario.setTelUsuario(resultSet.getString("tel_usuario"));
+                    usuario.setDirUsuario(resultSet.getString("dir_usuario"));
+                    usuario.setEmailUsuario(resultSet.getString("email_usuario"));
+
+                    usuarios.add(usuario);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+
+        return usuarios;
+    }
+    
+ 
+    public static boolean actualizarUsuario(Usuario usuarioModificado) {
+        boolean isUpdated = false;
+
+        // Sentencia SQL para actualizar el estudiante
+                                                    
+        String sql_actualizar = "UPDATE usuario SET id_usuario = ?, password_usuario = ?, nombre_usuario= ?, tel_usuario= ?, dir_usuario= ?, email_usuario= ?";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_actualizar)) {
+                // Obtener los nuevos valores del estudiante que se actualizarán
+                String id_usuario = usuarioModificado.getIdUsuario();
+                String pass = usuarioModificado.getPasswordUsuario();
+                String nombre = usuarioModificado.getNombreUsuario();
+                String tel = usuarioModificado.getTelUsuario();
+                String dir = usuarioModificado.getDirUsuario();
+                String email = usuarioModificado.getEmailUsuario();
+
+
+                // Establecer los valores de los parámetros en la sentencia SQL
+                statement.setString(1,id_usuario);
+                statement.setString(2,pass);
+                statement.setString(3,nombre);
+                statement.setString(4, tel);
+                statement.setString(5,dir);
+                statement.setString(6,email);
+
+
+                // Ejecutar la actualización
+                int filasActualizadas = statement.executeUpdate();
+
+                if (filasActualizadas > 0) {
+                    isUpdated = true;
+                    // System.out.println("El Estudiante con Id_usiario " + Id_usuario + " ha sido actualizado correctamente.");
+                } else {
+                    System.out.println("No se encontró el Estdudiante con Id_usiario "  + id_usuario+ " en la base de datos.");
+                }
+            } catch (SQLException e) {
+                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+
+        return isUpdated;
+    }
     public static int guardarUsuario(Usuario usuario){
         String sql_guardar;
         sql_guardar="INSERT INTO " +
@@ -166,9 +260,13 @@ public class DAOUsuario {
         return usuario;
     }
 
-    public ArrayList<Usuario> obtenerTodosLosUsuarios() {
-        ArrayList usuarios = new ArrayList<>();
-        String sql_consulta = "SELECT * FROM usuario GROUP BY id_usuario";
+    
+    
+    public static boolean eliminarUsuario(String Id_usiario) {
+        boolean isDeleted = false;
+
+        // Sentencia SQL para eliminar el estudiante
+        String sql_eliminar = "DELETE FROM usuario WHERE id_usiario= ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -176,36 +274,28 @@ public class DAOUsuario {
         Connection connection = conexion.getConnection();
 
         if (connection != null) {
-            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_eliminar)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                statement.setString(1, Id_usiario);
 
-                // Ejecutar la consulta
-                ResultSet resultSet = statement.executeQuery();
+                // Ejecutar la eliminación
+                int filasEliminadas = statement.executeUpdate();
 
-                while (resultSet.next()) {
-                    Usuario usuario = new Usuario();
-
-                    // Obtener los valores de las columnas y asignarlos al objeto Usuario
-                    usuario.setIdUsuario(resultSet.getString("id_usuario"));
-                    usuario.setPasswordUsuario(resultSet.getString("password_usuario"));
-                    usuario.setNombreUsuario(resultSet.getString("nombre_usuario"));
-                    usuario.setTelUsuario(resultSet.getString("tel_usuario"));
-                    usuario.setDirUsuario(resultSet.getString("dir_usuario"));
-                    usuario.setEmailUsuario(resultSet.getString("email_usuario"));
-
-                    usuarios.add(usuario);
-
+                if (filasEliminadas > 0) {
+                    isDeleted = true;
+                    //System.out.println("El estudiante con Id_usiario " + Id_usiario + " ha sido eliminado correctamente.");
+                } else {
+                    System.out.println("No se encontró el usuario con Id_usiario " + Id_usiario + " en la base de datos.");
                 }
-
-                resultSet.close();
             } catch (SQLException e) {
-                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+                System.err.println(ERROR_ELIMINACION + e.getMessage());
             } finally {
                 // Cerrar la conexión
                 conexion.closeConnection();
             }
         }
 
-        return usuarios;
+        return isDeleted;
     }
 
 }

@@ -163,7 +163,43 @@ public class DAODescarga {
         return isUpdated;
     }
     
-    public static boolean eliminarDescarga(String ISBN) {
+    public static boolean eliminarDescarga(String id_usuario) {
+        boolean isDeleted = false;
+
+        // Sentencia SQL para eliminar el descarga
+        String sql_eliminar = "DELETE FROM descarga WHERE id_usuario = ?";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_eliminar)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                statement.setString(1, id_usuario);
+
+                // Ejecutar la eliminación
+                int filasEliminadas = statement.executeUpdate();
+
+                if (filasEliminadas > 0) {
+                    isDeleted = true;
+                    //System.out.println("La descarga con ISBN " + ISBN + " ha sido eliminada correctamente.");
+                } else {
+                    System.out.println("No se encontró el descarga con ISBN " + id_usuario + " en la base de datos.");
+                }
+            } catch (SQLException e) {
+                System.err.println(ERROR_ELIMINACION + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+
+        return isDeleted;
+    }
+    
+    public static boolean eliminarDescargaISBN(String ISBN) {
         boolean isDeleted = false;
 
         // Sentencia SQL para eliminar el descarga

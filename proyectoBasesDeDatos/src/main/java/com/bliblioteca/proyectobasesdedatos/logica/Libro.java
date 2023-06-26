@@ -9,7 +9,7 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Libro {
-     private static String ISBN;
+    private static String ISBN;
     private static String codArea;
     private static String codigoEditorial;
     private static String idEmpleado;
