@@ -11,7 +11,7 @@ import java.util.Date;
  * @author juanm
  */
 public class Descarga {
-     private static String ISBN;
+    private static String ISBN;
     private static String idUsuario;
     private static String ipComputadoraDescarga;
     private static Date fechaDescarga;
