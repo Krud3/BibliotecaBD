@@ -4,16 +4,18 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+
 /**
  *
  * @author juan.quevedo
  */
-public class Prestamo extends javax.swing.JPanel {
+public class CrearPrestamo extends javax.swing.JPanel {
 
     /**
      * Creates new form Solicitud
      */
-    public Prestamo() {
+    public CrearPrestamo(Controlador controlador) {
         initComponents();
     }
 

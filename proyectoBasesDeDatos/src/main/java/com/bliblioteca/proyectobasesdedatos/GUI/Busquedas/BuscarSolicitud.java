@@ -4,6 +4,7 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 
 /**
@@ -15,7 +16,7 @@ public class BuscarSolicitud extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    public BuscarSolicitud() {
+    public BuscarSolicitud(Controlador controlador) {
         initComponents();
     }
 

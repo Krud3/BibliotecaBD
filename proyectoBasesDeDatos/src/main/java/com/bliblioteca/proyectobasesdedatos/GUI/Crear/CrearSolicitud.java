@@ -4,16 +4,18 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+
 /**
  *
  * @author juan.quevedo
  */
-public class Multa extends javax.swing.JPanel {
+public class CrearSolicitud extends javax.swing.JPanel {
 
     /**
      * Creates new form Solicitud
      */
-    public Multa() {
+    public CrearSolicitud(Controlador controlador) {
         initComponents();
     }
 
@@ -27,11 +29,12 @@ public class Multa extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        comboUsuario = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        campoNumMulta = new javax.swing.JTextField();
+        campoNumSolicitud = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        campoIDUsuario = new javax.swing.JTextField();
+        campoTitulo = new javax.swing.JTextField();
         campoISBN = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -39,25 +42,31 @@ public class Multa extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         campoDescripcion = new javax.swing.JTextArea();
-        botonCrearMulta = new javax.swing.JButton();
-        campoValorMulta = new javax.swing.JTextField();
+        botonCrearSolicitud = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 12)); // NOI18N
-        jLabel1.setText("Crear Multa");
+        jLabel1.setText("Crear Solicitud");
 
-        jLabel2.setText("Valor Multa:");
-
-        jLabel3.setText("Multa Nro:");
-
-        campoNumMulta.addActionListener(new java.awt.event.ActionListener() {
+        comboUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoNumMultaActionPerformed(evt);
+                comboUsuarioActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("ID Usuario:");
+        jLabel2.setText("Seleccione un usuario:");
+
+        jLabel3.setText("Solicitud Nro:");
+
+        campoNumSolicitud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoNumSolicitudActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Título del libro:");
 
         campoISBN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,16 +90,10 @@ public class Multa extends javax.swing.JPanel {
         campoDescripcion.setRows(5);
         jScrollPane1.setViewportView(campoDescripcion);
 
-        botonCrearMulta.setText("Crear");
-        botonCrearMulta.addActionListener(new java.awt.event.ActionListener() {
+        botonCrearSolicitud.setText("Crear");
+        botonCrearSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCrearMultaActionPerformed(evt);
-            }
-        });
-
-        campoValorMulta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoValorMultaActionPerformed(evt);
+                botonCrearSolicitudActionPerformed(evt);
             }
         });
 
@@ -113,22 +116,23 @@ public class Multa extends javax.swing.JPanel {
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(campoISBN)
+                                        .addComponent(comboUsuario, 0, 194, Short.MAX_VALUE)
+                                        .addComponent(campoTitulo))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(campoNumMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(campoISBN, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(campoIDUsuario)
-                                    .addComponent(campoValorMulta)
+                                        .addGap(20, 20, 20)
+                                        .addComponent(campoNumSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                                         .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(botonCrearMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(botonCrearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(39, 39, 39))))
         );
         layout.setVerticalGroup(
@@ -139,7 +143,7 @@ public class Multa extends javax.swing.JPanel {
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(campoNumMulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(campoNumSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,12 +153,12 @@ public class Multa extends javax.swing.JPanel {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(campoValorMulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(campoIDUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,40 +168,40 @@ public class Multa extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
-                .addComponent(botonCrearMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonCrearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoNumMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumMultaActionPerformed
+    private void comboUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoNumMultaActionPerformed
+    }//GEN-LAST:event_comboUsuarioActionPerformed
+
+    private void campoNumSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumSolicitudActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoNumSolicitudActionPerformed
 
     private void campoISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoISBNActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoISBNActionPerformed
 
-    private void botonCrearMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearMultaActionPerformed
+    private void botonCrearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearSolicitudActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_botonCrearMultaActionPerformed
+    }//GEN-LAST:event_botonCrearSolicitudActionPerformed
 
     private void campoFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoFechaActionPerformed
 
-    private void campoValorMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoValorMultaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoValorMultaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonCrearMulta;
+    private javax.swing.JButton botonCrearSolicitud;
     private javax.swing.JTextArea campoDescripcion;
     private javax.swing.JTextField campoFecha;
-    private javax.swing.JTextField campoIDUsuario;
     private javax.swing.JTextField campoISBN;
-    private javax.swing.JTextField campoNumMulta;
-    private javax.swing.JTextField campoValorMulta;
+    private javax.swing.JTextField campoNumSolicitud;
+    private javax.swing.JTextField campoTitulo;
+    private javax.swing.JComboBox<String> comboUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

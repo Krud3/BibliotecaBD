@@ -17,6 +17,20 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class Controlador {
     
+    
+    public Controlador(){
+    
+    }
+    public boolean validarPasswordEmpleado(String idEmpleado, String pass){
+        boolean result = false;
+        DAOEmpleado daoEmpleado = new DAOEmpleado();
+        Empleado empleado = daoEmpleado.obtenerEmpleadoPorID(idEmpleado);
+        String password = empleado.getPasswordEmpleado();
+        if (pass.equals(password)){
+            result = true;
+        }
+        return result;
+    }
     public void llenarComboBoxAgregarSolicitud(DefaultComboBoxModel model){
         Set<String> id_usuario = new HashSet<>();
         

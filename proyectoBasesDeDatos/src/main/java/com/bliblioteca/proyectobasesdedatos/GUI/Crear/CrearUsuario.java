@@ -4,16 +4,18 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+
 /**
  *
  * @author juan.quevedo
  */
-public class Usuario extends javax.swing.JPanel {
+public class CrearUsuario extends javax.swing.JPanel {
 
     /**
      * Creates new form Solicitud
      */
-    public Usuario() {
+    public CrearUsuario(Controlador controlador) {
         initComponents();
     }
 

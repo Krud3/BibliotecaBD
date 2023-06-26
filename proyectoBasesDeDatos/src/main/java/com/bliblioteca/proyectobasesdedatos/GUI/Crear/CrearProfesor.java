@@ -8,12 +8,12 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
  *
  * @author juan.quevedo
  */
-public class Profesor extends javax.swing.JPanel {
+public class CrearProfesor extends javax.swing.JPanel {
 
     /**
      * Creates new form Solicitud
      */
-    public Profesor() {
+    public CrearProfesor() {
         initComponents();
     }
 

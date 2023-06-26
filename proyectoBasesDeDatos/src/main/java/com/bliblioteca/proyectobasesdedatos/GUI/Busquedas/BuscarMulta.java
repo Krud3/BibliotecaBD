@@ -4,6 +4,7 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 
 /**
@@ -15,7 +16,7 @@ public class BuscarMulta extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    public BuscarMulta() {
+    public BuscarMulta(Controlador controlador) {
         initComponents();
     }
 

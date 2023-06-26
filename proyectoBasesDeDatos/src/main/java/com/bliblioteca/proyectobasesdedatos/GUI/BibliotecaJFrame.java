@@ -4,19 +4,60 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarLibro;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarMulta;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarPrestamo;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarSolicitud;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarUsuario;
+import com.bliblioteca.proyectobasesdedatos.GUI.Crear.CrearLibro;
+import com.bliblioteca.proyectobasesdedatos.GUI.Crear.CrearMulta;
+import com.bliblioteca.proyectobasesdedatos.GUI.Crear.CrearPrestamo;
+import com.bliblioteca.proyectobasesdedatos.GUI.Crear.CrearSolicitud;
+import com.bliblioteca.proyectobasesdedatos.GUI.Crear.CrearUsuario;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 /**
  *
  * @author juan.quevedo
  */
 public class BibliotecaJFrame extends javax.swing.JFrame {
 
+    private static JPanel panel_buscar_libro,panel_buscar_multa,buscar_prestamo,buscar_solicitud,buscar_usuario,
+            panel_crear_usuario, panel_crear_libro,panel_crear_multa,panel_crear_prestamo,panel_crear_solicitud;
     /**
      * Creates new form BibliotecaJFrame
      */
-    public BibliotecaJFrame() {
+    public BibliotecaJFrame(Controlador controlador) {
+        panel_buscar_libro = new BuscarLibro(controlador);
+        panel_buscar_multa = new BuscarMulta(controlador);
+        buscar_prestamo = new BuscarPrestamo(controlador);
+        buscar_solicitud = new BuscarSolicitud(controlador);
+        buscar_usuario= new BuscarUsuario(controlador);
+        panel_crear_usuario= new CrearUsuario(controlador);
+        panel_crear_libro = new CrearLibro(controlador);
+        panel_crear_multa = new CrearMulta(controlador);
+        panel_crear_prestamo = new CrearPrestamo(controlador);
+        panel_crear_solicitud = new CrearSolicitud(controlador);
         initComponents();
+        this.setLocationRelativeTo(null);
+        execute();
     }
 
+    public void ShowPanel(JPanel p){
+        p.setSize(460, 430);
+        p.setLocation(0, 0);        
+        contenido.removeAll();
+        contenido.add(p, BorderLayout.CENTER);
+        contenido.revalidate();
+        contenido.repaint();
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,6 +69,9 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
 
         fondo = new javax.swing.JPanel();
         menu = new javax.swing.JPanel();
+        panelMenu = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        menus = new javax.swing.JPanel();
         contenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -35,15 +79,44 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
 
         fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        panelMenu.setBackground(new java.awt.Color(115, 120, 230));
+        panelMenu.setPreferredSize(new java.awt.Dimension(250, 384));
+
+        jScrollPane1.setBorder(null);
+
+        menus.setLayout(new javax.swing.BoxLayout(menus, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(menus);
+
+        javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
+        panelMenu.setLayout(panelMenuLayout);
+        panelMenuLayout.setHorizontalGroup(
+            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+        );
+        panelMenuLayout.setVerticalGroup(
+            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 260, Short.MAX_VALUE)
+            .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(menuLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 430, Short.MAX_VALUE)
+            .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(menuLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         fondo.add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 430));
@@ -75,44 +148,111 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BibliotecaJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BibliotecaJFrame().setVisible(true);
+    private void execute() {
+        ImageIcon iconUsuario = new ImageIcon(getClass().getResource("/images/user.png"));
+        ImageIcon iconSolicitud = new ImageIcon(getClass().getResource("/images/solicitud.png"));
+        ImageIcon iconPrestamo = new ImageIcon(getClass().getResource("/images/prestamo.png"));
+        ImageIcon iconMulta = new ImageIcon(getClass().getResource("/images/multa.png"));
+        ImageIcon iconLibro = new ImageIcon(getClass().getResource("/images/libro.png"));
+        ImageIcon iconSubMenu = new ImageIcon(getClass().getResource("/images/subMenu.png"));
+        //  create submenu Usuario
+        MenuItem agregarUsuario = new MenuItem(iconSubMenu, "Agregar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_crear_usuario);
             }
         });
+        
+        MenuItem buscarEditarUsuario = new MenuItem(iconSubMenu, "Buscar/Editar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(buscar_usuario);
+            }
+        });
+        // menus de libro
+        MenuItem agregarLibro = new MenuItem(iconSubMenu, "Agregar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_crear_libro);
+            }
+        });
+        
+        MenuItem buscarEditarLibro = new MenuItem(iconSubMenu, "Buscar/Editar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_buscar_libro);
+            }
+        });
+        //menus de multa
+        MenuItem agregarMulta = new MenuItem(iconSubMenu, "Agregar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_crear_multa);
+            }
+        });
+        
+        MenuItem buscarEditarMulta = new MenuItem(iconSubMenu, "Buscar/Editar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_buscar_multa);
+            }
+        });
+        
+        //menus de prestamo
+        MenuItem agregarPrestamo = new MenuItem(iconSubMenu, "Agregar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_crear_prestamo);
+            }
+        });
+        
+        MenuItem buscarEditarPrestamo = new MenuItem(iconSubMenu, "Buscar/Editar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(buscar_prestamo);
+            }
+        });
+        
+        //menus de solicitud
+        MenuItem agregarSolicitud = new MenuItem(iconSubMenu, "Agregar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(panel_crear_solicitud);
+            }
+        });
+        
+        MenuItem buscarEditarSolicitud = new MenuItem(iconSubMenu, "Buscar/Editar", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ShowPanel(buscar_solicitud);
+            }
+        });
+
+        MenuItem menuSolicitud = new MenuItem(iconSolicitud, "Solicitud", null, agregarSolicitud, buscarEditarSolicitud);        
+        MenuItem menuPrestamo = new MenuItem(iconPrestamo, "Prestamo", null, agregarPrestamo, buscarEditarPrestamo);        
+        MenuItem menuMulta = new MenuItem(iconMulta, "Multa", null, agregarMulta, buscarEditarMulta);        
+        MenuItem menuLibro = new MenuItem(iconLibro, "Libro", null, agregarLibro, buscarEditarLibro);        
+        MenuItem menuUsuario = new MenuItem(iconUsuario, "Usuario", null, agregarUsuario, buscarEditarUsuario);
+        addMenu(menuSolicitud, menuPrestamo, menuMulta,menuLibro,menuUsuario);
+    }
+
+    private void addMenu(MenuItem... menu) {
+        for (int i = 0; i < menu.length; i++) {
+            menus.add(menu[i]);
+            ArrayList<MenuItem> subMenu = menu[i].getSubMenu();
+            for (MenuItem m : subMenu) {
+                addMenu(m);
+            }
+        }
+        menus.revalidate();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contenido;
     private javax.swing.JPanel fondo;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel menu;
+    private javax.swing.JPanel menus;
+    private javax.swing.JPanel panelMenu;
     // End of variables declaration//GEN-END:variables
 }

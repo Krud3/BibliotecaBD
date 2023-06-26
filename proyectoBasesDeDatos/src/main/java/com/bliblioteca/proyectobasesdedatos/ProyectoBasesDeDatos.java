@@ -4,6 +4,7 @@
 
 package com.bliblioteca.proyectobasesdedatos;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.DAO.DAOArea;
 import com.bliblioteca.proyectobasesdedatos.DAO.DAOLibro;
 import com.bliblioteca.proyectobasesdedatos.logica.Area;
@@ -11,6 +12,10 @@ import com.bliblioteca.proyectobasesdedatos.logica.Ejemplar;
 import com.bliblioteca.proyectobasesdedatos.logica.Libro;
 
 import static com.bliblioteca.proyectobasesdedatos.DAO.DAOEjemplar.obtenerEjemplarPorID;
+import com.bliblioteca.proyectobasesdedatos.*;
+import com.bliblioteca.proyectobasesdedatos.GUI.Login;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -20,8 +25,17 @@ public class ProyectoBasesDeDatos {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
-
-       Libro miLibroLunaDePluton = new Libro();
+        Controlador controlador = new Controlador();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new Login(controlador);
+                frame.setVisible(true);
+                
+                
+            }
+        });
+       //Libro miLibroLunaDePluton = new Libro();
 /*
        miLibroLunaDePluton.setISBN("1111111111");
        miLibroLunaDePluton.setCodArea("ARE0002");
@@ -34,6 +48,6 @@ public class ProyectoBasesDeDatos {
   */
         //DAOLibro.actualizarLibro(miLibroLunaDePluton);
 
-        DAOLibro.eliminarLibro("1111111111");
+       // DAOLibro.eliminarLibro("1111111111");
     }
 }
