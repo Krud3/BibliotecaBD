@@ -12,8 +12,8 @@ public class DAOMulta {
 
     public static int guardarMulta(Multa multa){
         String sql_guardar;
-        sql_guardar="INSERT INTO multa (n_multa, valor, fecha, descripcion, ISBN, numero, id_usuario)" +
-                "VALUES (?, ?, ?, ?, ? ,? ,?)";
+        sql_guardar="INSERT INTO multa (n_multa, valor, fecha, descripcion, ISBN,  id_usuario)" +
+                "VALUES (?, ?, ?, ?, ? ,? )";
 
         int filasAfectadas = 0;
 
@@ -29,8 +29,7 @@ public class DAOMulta {
                 statement.setDate(3, (Date) multa.getFecha());
                 statement.setString(4, multa.getDescripcion());
                 statement.setString(5, multa.getISBN());
-                statement.setString(6, multa.getNumero());
-                statement.setString(7, multa.getIdUsuario());
+                statement.setString(6, multa.getIdUsuario());
 
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
@@ -69,7 +68,6 @@ public class DAOMulta {
                     multa.setFecha(resultSet.getDate("fecha"));
                     multa.setDescripcion(resultSet.getString("descripcion"));
                     multa.setISBN(resultSet.getString("ISBN"));
-                    multa.setNumero(resultSet.getString("numero"));
                     multa.setIdUsuario(resultSet.getString("id_usuario"));
                 }
 
@@ -107,7 +105,6 @@ public class DAOMulta {
                     multa.setFecha(resultSet.getDate("fecha"));
                     multa.setDescripcion(resultSet.getString("descripcion"));
                     multa.setISBN(resultSet.getString("ISBN"));
-                    multa.setNumero(resultSet.getString("numero"));
                     multa.setIdUsuario(resultSet.getString("id_usuario"));
 
                     multas.add(multa);
@@ -128,7 +125,7 @@ public class DAOMulta {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar la multa
-        String sql_actualizar = "UPDATE multa SET valor = ?, fecha = ?, descripcion = ?, ISBN = ?, numero = ? , id_usuario =?  WHERE n_multa = ?";
+        String sql_actualizar = "UPDATE multa SET valor = ?, fecha = ?, descripcion = ?, ISBN = ?, id_usuario =?  WHERE n_multa = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -143,7 +140,6 @@ public class DAOMulta {
                 Date nuevaFecha = (Date) multaModificada.getFecha();
                 String nuevaDescripcion = multaModificada.getDescripcion();
                 String nuevoISBN = multaModificada.getISBN();
-                String nuevoNumero = multaModificada.getNumero();
                 String nuevoIdUsuario = multaModificada.getIdUsuario();
 
                 // Establecer los valores de los parámetros en la sentencia SQL
@@ -151,9 +147,8 @@ public class DAOMulta {
                 statement.setDate(2, nuevaFecha);
                 statement.setString(3, nuevaDescripcion);
                 statement.setString(4, nuevoISBN);
-                statement.setString(5, nuevoNumero);
-                statement.setString(6, nuevoIdUsuario);
-                statement.setString(7, numeroMulta);
+                statement.setString(5, nuevoIdUsuario);
+                statement.setString(6, numeroMulta);
 
                 // Ejecutar la actualización
                 int filasActualizadas = statement.executeUpdate();

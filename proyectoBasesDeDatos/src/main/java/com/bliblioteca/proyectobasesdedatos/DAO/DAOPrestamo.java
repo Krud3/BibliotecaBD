@@ -11,7 +11,7 @@ public class DAOPrestamo {
 
     public static int guardarPrestamo(Prestamo prestamo){
         String sql_guardar;
-        sql_guardar="INSERT INTO prestamo (n_prestamo, fecha_R, fecha_D, id_usuario, id_empleado, ISBN, numero)" +
+        sql_guardar="INSERT INTO prestamo (n_prestamo, fecha_R, fecha_D, id_usuario, id_empleado, ISBN)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         int filasAfectadas = 0;
@@ -29,7 +29,6 @@ public class DAOPrestamo {
                 statement.setString(4, prestamo.getIdUsuario());
                 statement.setString(5, prestamo.getIdEmpleado());
                 statement.setString(6, prestamo.getISBN());
-                statement.setString(7, prestamo.getNumero());
 
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();
@@ -69,7 +68,7 @@ public class DAOPrestamo {
                     prestamo.setIdUsuario(resultSet.getString("id_usuario"));
                     prestamo.setIdEmpleado(resultSet.getString("id_empleado"));
                     prestamo.setISBN(resultSet.getString("ISBN"));
-                    prestamo.setNumero(resultSet.getString("numero"));
+
                 }
 
                 resultSet.close();
@@ -109,7 +108,6 @@ public class DAOPrestamo {
                     prestamo.setIdUsuario(resultSet.getString("id_usuario"));
                     prestamo.setIdEmpleado(resultSet.getString("id_empleado"));
                     prestamo.setISBN(resultSet.getString("ISBN"));
-                    prestamo.setNumero(resultSet.getString("numero"));
 
                     prestamos.add(prestamo);
                 }
@@ -129,7 +127,7 @@ public class DAOPrestamo {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar el área
-        String sql_actualizar = "UPDATE prestamo SET fecha_R = ?, fecha_D = ?, id_usuario = ?, id_empleado = ?, ISBN = ?, numero = ? WHERE n_prestamo = ?";
+        String sql_actualizar = "UPDATE prestamo SET fecha_R = ?, fecha_D = ?, id_usuario = ?, id_empleado = ?, ISBN = ? WHERE n_prestamo = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -145,7 +143,6 @@ public class DAOPrestamo {
                 String nuevoIdUsuario = prestamoModificado.getIdUsuario();
                 String nuevoIdEmpleado = prestamoModificado.getIdEmpleado();
                 String nuevoISBN = prestamoModificado.getISBN();
-                String nuevoNumero = prestamoModificado.getNumero();
 
                 // Establecer los valores de los parámetros en la sentencia SQL
                 statement.setDate(1, nuevoFechaR);
@@ -153,8 +150,7 @@ public class DAOPrestamo {
                 statement.setString(3, nuevoIdUsuario);
                 statement.setString(4, nuevoIdEmpleado);
                 statement.setString(5, nuevoISBN);
-                statement.setString(6, nuevoNumero);
-                statement.setString(7, numeroPrestamo);
+                statement.setString(6, numeroPrestamo);
 
                 // Ejecutar la actualización
                 int filasActualizadas = statement.executeUpdate();
