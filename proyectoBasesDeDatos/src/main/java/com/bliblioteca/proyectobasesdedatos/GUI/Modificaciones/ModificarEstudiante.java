@@ -120,7 +120,21 @@ public class ModificarEstudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_campoModificarCarreraActionPerformed
 
     private void botonModificarEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarEstudianteActionPerformed
-        // TODO add your handling code here:
+        if(campoUniversidad.getText().equals("")|| campoCarrera.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos para continuar");
+        }
+        else{
+            String carrera = campoModificarCarrera.getText();
+            String universidad = campoModificarUniversidad.getText();
+            controlador.agregarEstudiante(usuario, universidad, carrera);
+            controlador.agregarObjeto(usuario);
+            JOptionPane.showMessageDialog(null, "Estudiante agregado con exito");
+            botonGuardarEstudiante.setEnabled(false);
+            campoModificarUniversidad.setEnabled(false);
+            campoModificarUniversidad.setEditable(false);
+            campoModificarCarrera.setEditable(false);
+            campoModificarCarrera.setEnabled(false);
+        }
     }//GEN-LAST:event_botonModificarEstudianteActionPerformed
 
 

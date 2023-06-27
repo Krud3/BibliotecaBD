@@ -250,7 +250,7 @@ public class CrearUsuario extends javax.swing.JPanel {
         if(campoIDUsuario.getText().equals("")||campoNombreUsuario.getText().equals("")|| campoTel.getText().equals("")||campoDir.getText().equals("")||campoEmail.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Por favor llene todos los campos para poder crear el usuario");
         }
-        else if((!jRadioButton1.isSelected()|| !jRadioButton2.isSelected())||(jRadioButton1.isSelected()&& jRadioButton2.isSelected())){
+        else if((!jRadioButton1.isSelected() && !jRadioButton2.isSelected())){
             JOptionPane.showMessageDialog(null, "Por favor seleccione un tipo de usuario");
         }
         else{

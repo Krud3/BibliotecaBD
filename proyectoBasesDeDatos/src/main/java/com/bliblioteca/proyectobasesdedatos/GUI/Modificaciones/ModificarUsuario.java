@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 
 /**
  *
@@ -180,19 +181,57 @@ public class ModificarUsuario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoModificarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarTelefonoActionPerformed
-        // TODO add your handling code here:
+        String size = campoModificarTelefono.getText();
+        if(size.length()>20){
+            campoModificarTelefono.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 20 caracteres");
+        }
     }//GEN-LAST:event_campoModificarTelefonoActionPerformed
 
     private void botonModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarUsuarioActionPerformed
-        // TODO add your handling code here:
+        if(campoModificarIDUsuario.getText().equals("")||campoModificarNombreUsuario.getText().equals("")|| campoModificarTelefono.getText().equals("")||campoModificarDireccion.getText().equals("")||campoModificarEmail.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos para poder modificar el usuario");
+        }
+        else if((!jRadioButton1.isSelected() && !jRadioButton2.isSelected())){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un tipo de usuario");
+        }
+        else{
+            Usuario usuario = new Usuario(campoModificarIDUsuario.getText(), "123456", campoModificarNombreUsuario.getText(), campoModificarTelefono.getText(), campoModificarDireccion.getText(), campoModificarEmail.getText());
+            if(jRadioButton1.isSelected()){
+                panelEstudiante = new ModificarEstudiante(controlador, usuario);
+                panelEstudiante.setSize(460, 430);
+                panelEstudiante.setLocation(0, 0);
+                this.removeAll();
+                this.add(panelEstudiante, BorderLayout.CENTER);
+                this.revalidate();
+                this.repaint();
+            }
+            else{
+                panelProfesor = new ModificarProfesor(controlador, usuario);
+                panelProfesor.setSize(460, 430);
+                panelProfesor.setLocation(0, 0);
+                this.removeAll();
+                this.add(panelProfesor, BorderLayout.CENTER);
+                this.revalidate();
+                this.repaint();
+            }
+        }
     }//GEN-LAST:event_botonModificarUsuarioActionPerformed
 
     private void campoModificarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarDireccionActionPerformed
-        // TODO add your handling code here:
+        String size = campoModificarDireccion.getText();
+        if(size.length()>100){
+            campoModificarDireccion.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
     }//GEN-LAST:event_campoModificarDireccionActionPerformed
 
     private void campoModificarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarEmailActionPerformed
-        // TODO add your handling code here:
+        String size = campoModificarEmail.getText();
+        if(size.length()>100){
+            campoModificarEmail.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
     }//GEN-LAST:event_campoModificarEmailActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -204,7 +243,11 @@ public class ModificarUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void campoModificarIDUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarIDUsuarioActionPerformed
-        // TODO add your handling code here:
+        String size = campoModificarIDUsuario.getText();
+        if(size.length()>10){
+            campoModificarIDUsuario.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
     }//GEN-LAST:event_campoModificarIDUsuarioActionPerformed
 
 
