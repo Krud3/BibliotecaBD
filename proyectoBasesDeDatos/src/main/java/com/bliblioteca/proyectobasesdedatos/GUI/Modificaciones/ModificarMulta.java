@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -15,6 +16,7 @@ public class ModificarMulta extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    DefaultComboBoxModel comboBoxModelCrearMultaIdUs,comboBoxModelCrearMultaISBN;
     public ModificarMulta() {
         initComponents();
     }
