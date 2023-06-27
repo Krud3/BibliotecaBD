@@ -4,7 +4,10 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Multa;
+
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -170,12 +173,57 @@ public class ModificarMulta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private DefaultComboBoxModel comboBoxModelCrearMultaIdUs, comboBoxModelCrearMultaISBN;
+    private Controlador controlador;
+
+    public ModificarMulta(Controlador controlador) {
+        this.controlador = controlador;
+        comboBoxModelCrearMultaIdUs = new DefaultComboBoxModel();
+        comboBoxModelCrearMultaISBN = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaIdUs, true);
+        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaISBN, false);
+        initComponents();
+
+
+    }
     private void campoModificarNumMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarNumMultaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoModificarNumMultaActionPerformed
 
     private void botonModificarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarMultaActionPerformed
-        // TODO add your handling code here:
+        if(jComboBox_id_usuario.getSelectedIndex() == 0 || jComboBox_isbn.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario y/o ISBN");
+        }
+        else{
+            if(!(campoModificarNumMulta.getText().equals("")||campoModificarFechaMulta.getText().equals("")||campoModificarDescripcion.getText().equals(""))){
+                String nMulta = campoModificarNumMulta.getText();
+                String date = campoModificarFechaMulta.getText();
+                String descripcion = campoModificarDescripcion.getText();
+                if(controlador.esEntero(campoModificarValorMulta.getText())){
+                    int valor = Integer.parseInt(campoModificarValorMulta.getText());
+                    String idUsuario = (String)jComboBox_id_usuario.getSelectedItem();
+                    String ISBN = (String) jComboBox_isbn.getSelectedItem();
+                    Date fecha;
+                    try{
+                        fecha = controlador.convertirStringADate(date);
+                        String numero = controlador.obtenerNEjemplarByISBNIdUsu(ISBN, idUsuario);
+                        Multa multa = new Multa(nMulta, valor, fecha, descripcion, ISBN, numero, idUsuario);
+                        controlador.agregarObjeto(multa);
+                        JOptionPane.showMessageDialog(null, "Multa modificada con exito");
+                    }
+                    catch(ParseException e){
+                        JOptionPane.showMessageDialog(null, "Formato de fecha no valido 'DD-MM-YYYY'");
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "El valor para la multa debe ser un entero");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Asegurse de llenar todos los campos");
+            }
+
+        }
     }//GEN-LAST:event_botonModificarMultaActionPerformed
 
     private void campoModificarFechaMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarFechaMultaActionPerformed

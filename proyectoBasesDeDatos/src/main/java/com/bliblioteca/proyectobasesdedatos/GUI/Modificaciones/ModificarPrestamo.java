@@ -4,7 +4,11 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Ejemplar;
+import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -142,8 +146,53 @@ public class ModificarPrestamo extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private DefaultComboBoxModel comboBoxModelCrearPrestamo, comboBoxModelCrearPrestamoISBN;
+    private String idEmpleado;
+    private Controlador controlador;
+    public ModificarPrestamo(Controlador controlador, String idEmpleado) {
+        this.controlador = controlador;
+        this.idEmpleado = idEmpleado;
+        comboBoxModelCrearPrestamo = new DefaultComboBoxModel();
+        comboBoxModelCrearPrestamoISBN = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamo, true);
+        controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamoISBN, false);
+        initComponents();
+
+
+    }
     private void botonModificarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarPrestamoActionPerformed
-        // TODO add your handling code here:
+        if(jComboBoxUsuario.getSelectedIndex() == 0 || jComboBoxISBN.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario y/o ISBN");
+        }
+        else{
+            String numPrestamo = campoModificarNumPrestamo.getText();
+            String date = campoModificarFechaPrestamo.getText();
+            String id_usuario = (String)jComboBoxUsuario.getSelectedItem();
+            String ISBN = (String)jComboBoxISBN.getSelectedItem();
+            Date fecha;
+            try{
+                fecha = controlador.convertirStringADate(date);
+                Stack<Ejemplar> disponibles = controlador.obtenerEjemplaresDisponibles(ISBN);
+                if(disponibles.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "No hay ejemplares disponibles para el prestamo");
+                }
+                else{
+                    String numero = controlador.prestarUltimoEjemplar(disponibles).getNumero();
+                    Prestamo prestamo = new Prestamo(numPrestamo, fecha, null, id_usuario, idEmpleado, ISBN, numero);
+                    System.out.println("llegue aca");
+                    controlador.agregarObjeto(prestamo);
+                    JOptionPane.showMessageDialog(null, "Prestamo modificado con exito");
+                }
+
+
+            }
+            catch(ParseException e){
+                JOptionPane.showMessageDialog(null, "Formato de fecha no valido");
+            }
+
+
+
+        }
     }//GEN-LAST:event_botonModificarPrestamoActionPerformed
 
     private void campoModificarFechaPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarFechaPrestamoActionPerformed

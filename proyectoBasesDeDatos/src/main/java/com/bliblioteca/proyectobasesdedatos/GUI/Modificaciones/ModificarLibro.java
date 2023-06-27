@@ -4,7 +4,9 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Libro;
 
 /**
  *
@@ -177,12 +179,52 @@ public class ModificarLibro extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private DefaultComboBoxModel jCbModelCodEditorial,jcbModelCodArea;
+    private String idEempleado;
+    private Controlador controlador;
+    public ModificarLibro(Controlador controlador, String idEmpleado) {
+        this.idEempleado = idEmpleado;
+        this.controlador = controlador;
+        jCbModelCodEditorial = new DefaultComboBoxModel();
+        jcbModelCodArea = new DefaultComboBoxModel();
+        this.controlador.llenarComboBoxAgregarLibro(jcbModelCodArea, true);
+        this.controlador.llenarComboBoxAgregarLibro(jCbModelCodEditorial, false);
+        initComponents();
+    }
+
+
     private void campoModificarISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarISBNActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoModificarISBNActionPerformed
 
     private void botonModificarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarLibroActionPerformed
-        // TODO add your handling code here:
+        if(jcbModelCodArea.getSelectedIndex()==0 || jCbModelCodEditorial.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccionar un campo para cod area y/o cod editorial");
+        }
+        else{
+            if(campoModificarTituloLibro.getText().equals("")||campoModificarISBN.getText().equals("") || campoModificarNumPaginas.getText().equals("")||campoModificarIdioma.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+            }
+            else{
+                String ISBN =campoModificarISBN.getText();
+                String codArea = (String) jcbModelCodArea.getSelectedItem();
+                String codEditorial = (String) jCbModelCodEditorial.getSelectedItem();
+                String id_empleado = this.idEempleado;
+                String tituloLibro = campoModificarTituloLibro.getText();
+                if(controlador.esEntero(campoModificarNumPaginas.getText()) &&controlador.esEntero(campoModificarNumPaginas.getText())){
+                    int nPaginas = Integer.parseInt((String) campoModificarNumPaginas.getText());
+                    int anioPubli = Integer.parseInt((String) campoModificarAnioPublicacion.getText());
+                    String idioma = campoModificarIdioma.getText();
+                    Libro elLibro = new Libro(ISBN, codArea, codEditorial, id_empleado, tituloLibro, anioPubli, nPaginas, idioma);
+                    controlador.agregarObjeto(elLibro);
+                    JOptionPane.showMessageDialog(null, "Libro modificado con exito");
+
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Numero pagianas y anio deben ser enteros");
+                }
+            }
+        }
     }//GEN-LAST:event_botonModificarLibroActionPerformed
 
     private void campoModificarTituloLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarTituloLibroActionPerformed
