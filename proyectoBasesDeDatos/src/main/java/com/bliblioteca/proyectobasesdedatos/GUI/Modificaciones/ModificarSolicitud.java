@@ -4,7 +4,9 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
 
 /**
  *
@@ -172,13 +174,50 @@ public class ModificarSolicitud extends javax.swing.JPanel {
                 .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
+    private DefaultComboBoxModel comboBoxModelCrearSolicitudIDUS;
+    private String idEmpleado;
+    private Controlador controlador;
+    public ModificarSolicitud(Controlador controlador, String idEmpleado) {
+        this.controlador = controlador;
+        this.idEmpleado = idEmpleado;
+        comboBoxModelCrearSolicitudIDUS = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarSolicitud(comboBoxModelCrearSolicitudIDUS);
+        initComponents();
+    }
 
+    campoModificarNumSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            CampoModificarNumSolicitudKeyReleased(evt);
+        }
+    });
+
+    campoModificarTituloSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            CampoModificarTituloSolicitudKeyReleased(evt);
+        }
+    });
+
+    campoModificarDescripcioSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            CampoModificarDescripcioSolicitudKeyReleased(evt);
+        }
+    });
+
+    campoModificarISBNSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            CampoModificarISBNSolicitudKeyReleased(evt);
+        }
+    });
     private void comboModificarUsuarioSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboModificarUsuarioSolicitudActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboModificarUsuarioSolicitudActionPerformed
 
     private void campoModificarNumSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarNumSolicitudActionPerformed
-        // TODO add your handling code here:
+        String size = campoModificarNumSolicitud.getText();
+        if(size.length()>10){
+            campoModificarNumSolicitud.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
     }//GEN-LAST:event_campoModificarNumSolicitudActionPerformed
 
     private void campoModificarISBNSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarISBNSolicitudActionPerformed
@@ -186,13 +225,68 @@ public class ModificarSolicitud extends javax.swing.JPanel {
     }//GEN-LAST:event_campoModificarISBNSolicitudActionPerformed
 
     private void botonModificarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarSolicitudActionPerformed
-        // TODO add your handling code here:
+        if(comboModificarUsuarioSolicitud.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario");
+        }
+        else{
+            String nSolicitud = campoModificarNumSolicitud.getText();
+            String date = campoModificarFechaSolicitud.getText();
+            String id_usuario = (String)comboModificarUsuarioSolicitud.getSelectedItem();
+            String titulo_libro = campoModificarTituloSolicitud.getText();
+            String ISBN = campoModificarISBNSolicitud.getText();
+            String descripcion = campoModificarDescripcioSolicitud.getText();
+            Date fecha;
+            try{
+                fecha = controlador.convertirStringADate(date);
+                Solicitud laSolicitud = new Solicitud(nSolicitud, titulo_libro, fecha, descripcion, ISBN, idEmpleado, id_usuario);
+                controlador.agregarObjeto(laSolicitud);
+                JOptionPane.showMessageDialog(null, "Solicitud modificada con exito");
+            }
+            catch(ParseException e){
+                JOptionPane.showMessageDialog(null, "Formato de fecha no valido");
+            }
+
+
+
+        }
     }//GEN-LAST:event_botonModificarSolicitudActionPerformed
 
     private void campoModificarFechaSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarFechaSolicitudActionPerformed
-        // TODO add your handling code here:
+        campoModificarFechaSolicitud.setText("");
+        campoModificarFechaSolicitud.setBackground(Color.BLACK);
     }//GEN-LAST:event_campoModificarFechaSolicitudActionPerformed
 
+    private void CampoModificarNumSolicitudKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNumSolicitudKeyReleased
+        String size = campoNumSolicitud.getText();
+        if(size.length()>10){
+            campoNumSolicitud.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
+    }//GEN-LAST:event_campoNumSolicitudKeyReleased
+
+    private void CampoModificarTituloSolicitudKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTituloKeyReleased
+        String size = campoModificarTituloSolicitud.getText();
+        if(size.length()>500){
+            campoModificarTituloSolicitud.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 500 caracteres");
+        }
+    }//GEN-LAST:event_campoTituloKeyReleased
+
+    private void CampoModificarISBNSolicitudKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoISBNKeyReleased
+        String size = campoModificarISBNSolicitud.getText();
+        if(size.length()>13){
+            campoModificarISBNSolicitud.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 13 caracteres");
+        }
+    }//GEN-LAST:event_campoISBNKeyReleased
+
+    private void CampoModificarDescripcioSolicitudKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoDescripcionKeyReleased
+        String size = campoModificarDescripcioSolicitud.getText();
+        if(size.length()>500){
+            campoModificarDescripcioSolicitud.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 500 caracteres");
+        }
+    }//GEN-LAST:event_campoDescripcionKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonModificarSolicitud;
