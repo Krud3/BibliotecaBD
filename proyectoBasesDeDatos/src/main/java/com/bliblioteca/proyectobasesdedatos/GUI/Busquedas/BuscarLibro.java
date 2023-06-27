@@ -6,6 +6,9 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Libro;
+import com.bliblioteca.proyectobasesdedatos.logica.Multa;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,7 +21,11 @@ public class BuscarLibro extends javax.swing.JPanel {
      * Creates new form Solicitud
      */
     private DefaultTableModel tableModelBuscarLibro;
+    private Controlador controlador;
     public BuscarLibro(Controlador controlador) {
+        this.controlador = controlador;
+        tableModelBuscarLibro = new DefaultTableModel();
+        controlador.llenarTablall(tableModelBuscarLibro);
         initComponents();
     }
 
@@ -42,6 +49,7 @@ public class BuscarLibro extends javax.swing.JPanel {
         botonEliminarLibro = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -61,6 +69,11 @@ public class BuscarLibro extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         botonBuscarLibro.setText("Buscar");
+        botonBuscarLibro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonBuscarLibroMouseClicked(evt);
+            }
+        });
         botonBuscarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarLibroActionPerformed(evt);
@@ -68,6 +81,11 @@ public class BuscarLibro extends javax.swing.JPanel {
         });
 
         botonEliminarLibro.setText("Eliminar");
+        botonEliminarLibro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEliminarLibroMouseClicked(evt);
+            }
+        });
         botonEliminarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarLibroActionPerformed(evt);
@@ -78,6 +96,13 @@ public class BuscarLibro extends javax.swing.JPanel {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ISBN", "codigo_area", "codigo_editorial", "titulo", "anio_publicacion" }));
 
+        jButton1.setText("Mostrar todos");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,27 +112,27 @@ public class BuscarLibro extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(197, 197, 197)
-                                .addComponent(botonBuscarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2)
+                                .addGap(35, 35, 35)
+                                .addComponent(campoISBNLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(35, 35, 35)
-                                        .addComponent(campoISBNLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(botonEditarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(132, 132, 132)
                             .addComponent(botonEliminarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(158, 158, 158)
+                        .addComponent(botonBuscarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -128,7 +153,9 @@ public class BuscarLibro extends javax.swing.JPanel {
                         .addGap(17, 17, 17)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(botonBuscarLibro)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonBuscarLibro)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
@@ -151,6 +178,41 @@ public class BuscarLibro extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonEliminarLibroActionPerformed
 
+    private void botonBuscarLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarLibroMouseClicked
+        String valorCampo = campoISBNLibro.getText();
+        String nombreCampo = (String) jComboBox1.getSelectedItem();
+        controlador.llenarTablaBuscarLibro(valorCampo, valorCampo, tableModelBuscarLibro);
+    }//GEN-LAST:event_botonBuscarLibroMouseClicked
+
+    private void botonEliminarLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarLibroMouseClicked
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada == 1) {
+            int columnas = jTable1.getColumnCount();
+            Object[] valores = new Object[columnas];
+
+            for (int columna = 0; columna < columnas; columna++) {
+                valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
+            }
+
+            
+            Libro solicitudAEliminar = new Libro();
+            solicitudAEliminar.setISBN((String)valores[0]);
+            try{
+                controlador.eliminarObjeto(solicitudAEliminar);
+            }
+            catch(UnsupportedOperationException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
+        }
+    }//GEN-LAST:event_botonEliminarLibroMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        controlador.llenarTablall(tableModelBuscarLibro);
+    }//GEN-LAST:event_jButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscarLibro;
@@ -158,6 +220,7 @@ public class BuscarLibro extends javax.swing.JPanel {
     private javax.swing.JButton botonEliminarLibro;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField campoISBNLibro;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

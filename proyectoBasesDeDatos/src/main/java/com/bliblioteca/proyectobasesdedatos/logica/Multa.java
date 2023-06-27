@@ -11,67 +11,93 @@ import java.util.Date;
  * @author juanm
  */
 public class Multa {
-    private static String nMulta;
-    private static int valor;
-    private static Date fecha;
-    private static String descripcion;
-    private static String ISBN;
-    private static String numero;
+    private  String nMulta;
+    private  int valor;
+    private  Date fecha;
+    private  String descripcion;
+    private  String ISBN;
+    private  String numero;
 
-    public static String getNumero() {
+    public Multa(String nMulta, int valor, Date fecha, String descripcion, String ISBN, String numero, String idUsuario) {
+        this.nMulta = nMulta;
+        this.valor = valor;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.ISBN = ISBN;
+        this.numero = numero;
+        this.idUsuario = idUsuario;
+    }
+    
+    public Multa() {
+        this.nMulta = "";
+        this.valor = -1;
+        this.fecha = null;
+        this.descripcion = "";
+        this.ISBN = "";
+        this.numero = "";
+        this.idUsuario = "";
+    }
+
+    public void setnMulta(String nMulta) {
+        this.nMulta = nMulta;
+    }
+
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public  String getNumero() {
         return numero;
     }
 
-    public static void setNumero(String numero) {
-        Multa.numero = numero;
-    }
-    private static String idUsuario;
+    private  String idUsuario;
 
-    public static String getnMulta() {
+    public  String getnMulta() {
         return nMulta;
     }
 
-    public static void setnMulta(String nMulta) {
-        Multa.nMulta = nMulta;
-    }
-
-    public static int getValor() {
+    public  int getValor() {
         return valor;
     }
 
-    public static void setValor(int valor) {
-        Multa.valor = valor;
-    }
 
-    public static Date getFecha() {
+    public  Date getFecha() {
         return fecha;
     }
 
-    public static void setFecha(Date fecha) {
-        Multa.fecha = fecha;
-    }
 
-    public static String getDescripcion() {
+    public  String getDescripcion() {
         return descripcion;
     }
 
-    public static void setDescripcion(String descripcion) {
-        Multa.descripcion = descripcion;
-    }
 
-    public static String getISBN() {
+    public  String getISBN() {
         return ISBN;
     }
 
-    public static void setISBN(String ISBN) {
-        Multa.ISBN = ISBN;
-    }
 
-    public static String getIdUsuario() {
+    public  String getIdUsuario() {
         return idUsuario;
     }
 
-    public static void setIdUsuario(String idUsuario) {
-        Multa.idUsuario = idUsuario;
-    }
 }

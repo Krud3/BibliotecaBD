@@ -130,7 +130,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="campoFechaPrestamo">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&quot;DD-MM-YYYY&quot;"/>
+      </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="campoFechaPrestamoMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoFechaPrestamoActionPerformed"/>
       </Events>
     </Component>
@@ -144,10 +151,14 @@
         <Property name="text" type="java.lang.String" value="Crear"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botonCrearPrestamoMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCrearPrestamoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="campoNumPrestamo">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="campoNumPrestamoKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="campoFechaDevolucion">
     </Component>

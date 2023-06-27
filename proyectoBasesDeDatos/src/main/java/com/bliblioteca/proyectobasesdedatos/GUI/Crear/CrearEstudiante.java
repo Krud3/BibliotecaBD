@@ -5,7 +5,9 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.logica.Estudiante;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,8 +18,14 @@ public class CrearEstudiante extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private Controlador controlador;
+    private Usuario usuario;
     public CrearEstudiante(Controlador controlador, Usuario usuario) {
+        this.controlador = controlador;
+        this.usuario = usuario;
+        
         initComponents();
+        labelIdUsuario.setText(usuario.getIdUsuario());
     }
 
     /**
@@ -53,13 +61,29 @@ public class CrearEstudiante extends javax.swing.JPanel {
                 campoCarreraActionPerformed(evt);
             }
         });
+        campoCarrera.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoCarreraKeyReleased(evt);
+            }
+        });
 
         jLabel5.setText("Carrera:");
 
         botonGuardarEstudiante.setText("Guardar");
+        botonGuardarEstudiante.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonGuardarEstudianteMouseClicked(evt);
+            }
+        });
         botonGuardarEstudiante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarEstudianteActionPerformed(evt);
+            }
+        });
+
+        campoUniversidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoUniversidadKeyReleased(evt);
             }
         });
 
@@ -123,6 +147,40 @@ public class CrearEstudiante extends javax.swing.JPanel {
     private void botonGuardarEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarEstudianteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonGuardarEstudianteActionPerformed
+
+    private void botonGuardarEstudianteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarEstudianteMouseClicked
+        if(campoUniversidad.getText().equals("")|| campoCarrera.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos para continuar");
+        }
+        else{
+            String carrera = campoCarrera.getText();
+            String universidad =campoUniversidad.getText();
+            controlador.agregarEstudiante(usuario, universidad, carrera);
+            controlador.agregarObjeto(usuario);
+            JOptionPane.showMessageDialog(null, "Estudiante agregado con exito");
+            botonGuardarEstudiante.setEnabled(false);
+            campoUniversidad.setEnabled(false);
+            campoUniversidad.setEditable(false);
+            campoCarrera.setEditable(false);
+            campoCarrera.setEnabled(false);
+        }
+    }//GEN-LAST:event_botonGuardarEstudianteMouseClicked
+
+    private void campoUniversidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoUniversidadKeyReleased
+        String size = campoUniversidad.getText();
+        if(size.length()>100){
+            campoUniversidad.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoUniversidadKeyReleased
+
+    private void campoCarreraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoCarreraKeyReleased
+        String size = campoCarrera.getText();
+        if(size.length()>100){
+            campoCarrera.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoCarreraKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

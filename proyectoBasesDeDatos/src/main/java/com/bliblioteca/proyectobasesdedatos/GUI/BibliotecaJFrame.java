@@ -30,20 +30,23 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
 
     private static JPanel panel_buscar_libro,panel_buscar_multa,buscar_prestamo,buscar_solicitud,buscar_usuario,
             panel_crear_usuario, panel_crear_libro,panel_crear_multa,panel_crear_prestamo,panel_crear_solicitud;
+    
+    private String idEmpleado;
     /**
      * Creates new form BibliotecaJFrame
      */
-    public BibliotecaJFrame(Controlador controlador) {
+    public BibliotecaJFrame(Controlador controlador, String idEmpleado) {
+        this.idEmpleado = idEmpleado;
         panel_buscar_libro = new BuscarLibro(controlador);
         panel_buscar_multa = new BuscarMulta(controlador);
         buscar_prestamo = new BuscarPrestamo(controlador);
         buscar_solicitud = new BuscarSolicitud(controlador);
         buscar_usuario= new BuscarUsuario(controlador);
         panel_crear_usuario= new CrearUsuario(controlador);
-        panel_crear_libro = new CrearLibro(controlador);
+        panel_crear_libro = new CrearLibro(controlador, idEmpleado);
         panel_crear_multa = new CrearMulta(controlador);
-        panel_crear_prestamo = new CrearPrestamo(controlador);
-        panel_crear_solicitud = new CrearSolicitud(controlador);
+        panel_crear_prestamo = new CrearPrestamo(controlador,idEmpleado);
+        panel_crear_solicitud = new CrearSolicitud(controlador, idEmpleado);
         initComponents();
         this.setLocationRelativeTo(null);
         execute();

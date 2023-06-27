@@ -5,7 +5,12 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
+import java.awt.Color;
+import java.text.ParseException;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +22,13 @@ public class CrearSolicitud extends javax.swing.JPanel {
      * Creates new form Solicitud
      */
     private DefaultComboBoxModel comboBoxModelCrearSolicitudIDUS;
-    public CrearSolicitud(Controlador controlador) {
+    private String idEmpleado;
+    private Controlador controlador;
+    public CrearSolicitud(Controlador controlador, String idEmpleado) {
+        this.controlador = controlador;
+        this.idEmpleado = idEmpleado;
+        comboBoxModelCrearSolicitudIDUS = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarSolicitud(comboBoxModelCrearSolicitudIDUS);
         initComponents();
     }
 
@@ -67,12 +78,28 @@ public class CrearSolicitud extends javax.swing.JPanel {
                 campoNumSolicitudActionPerformed(evt);
             }
         });
+        campoNumSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoNumSolicitudKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("Título del libro:");
+
+        campoTitulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTituloKeyReleased(evt);
+            }
+        });
 
         campoISBN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoISBNActionPerformed(evt);
+            }
+        });
+        campoISBN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoISBNKeyReleased(evt);
             }
         });
 
@@ -80,6 +107,13 @@ public class CrearSolicitud extends javax.swing.JPanel {
 
         jLabel6.setText("Fecha:");
 
+        campoFecha.setForeground(new java.awt.Color(204, 204, 204));
+        campoFecha.setText("\"DD-MM-YYYY\"");
+        campoFecha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoFechaMouseClicked(evt);
+            }
+        });
         campoFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoFechaActionPerformed(evt);
@@ -90,9 +124,19 @@ public class CrearSolicitud extends javax.swing.JPanel {
 
         campoDescripcion.setColumns(20);
         campoDescripcion.setRows(5);
+        campoDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoDescripcionKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(campoDescripcion);
 
         botonCrearSolicitud.setText("Crear");
+        botonCrearSolicitud.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonCrearSolicitudMouseClicked(evt);
+            }
+        });
         botonCrearSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearSolicitudActionPerformed(evt);
@@ -194,6 +238,71 @@ public class CrearSolicitud extends javax.swing.JPanel {
     private void campoFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoFechaActionPerformed
+
+    private void botonCrearSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearSolicitudMouseClicked
+        
+        if(comboUsuario.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario");
+        }
+        else{
+            String nSolicitud = campoNumSolicitud.getText();
+            String date = campoFecha.getText();
+            String id_usuario = (String)comboUsuario.getSelectedItem();
+            String titulo_libro = campoTitulo.getText();
+            String ISBN = campoISBN.getText();
+            String descripcion = campoDescripcion.getText();
+            Date fecha;
+            try{
+                fecha = controlador.convertirStringADate(date);
+                Solicitud laSolicitud = new Solicitud(nSolicitud, titulo_libro, fecha, descripcion, ISBN, idEmpleado, id_usuario);
+                controlador.agregarObjeto(laSolicitud);
+                JOptionPane.showMessageDialog(null, "Solicitud agregada con exito");
+            }
+            catch(ParseException e){
+                JOptionPane.showMessageDialog(null, "Formato de fecha no valido");
+            }
+            
+            
+            
+        }
+    }//GEN-LAST:event_botonCrearSolicitudMouseClicked
+
+    private void campoFechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoFechaMouseClicked
+        campoFecha.setText("");
+        campoFecha.setBackground(Color.BLACK);
+    }//GEN-LAST:event_campoFechaMouseClicked
+
+    private void campoNumSolicitudKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNumSolicitudKeyReleased
+        String size = campoNumSolicitud.getText();
+        if(size.length()>10){
+            campoNumSolicitud.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
+    }//GEN-LAST:event_campoNumSolicitudKeyReleased
+
+    private void campoTituloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTituloKeyReleased
+        String size = campoTitulo.getText();
+        if(size.length()>500){
+            campoTitulo.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 500 caracteres");
+        }
+    }//GEN-LAST:event_campoTituloKeyReleased
+
+    private void campoISBNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoISBNKeyReleased
+        String size = campoISBN.getText();
+        if(size.length()>13){
+            campoISBN.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 13 caracteres");
+        }
+    }//GEN-LAST:event_campoISBNKeyReleased
+
+    private void campoDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoDescripcionKeyReleased
+        String size = campoDescripcion.getText();
+        if(size.length()>500){
+            campoDescripcion.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 500 caracteres");
+        }
+    }//GEN-LAST:event_campoDescripcionKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

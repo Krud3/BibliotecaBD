@@ -5,7 +5,16 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.DAO.DAOEjemplar;
+import com.bliblioteca.proyectobasesdedatos.logica.Ejemplar;
+import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
+import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
+import java.awt.Color;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Stack;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +26,18 @@ public class CrearPrestamo extends javax.swing.JPanel {
      * Creates new form Solicitud
      */
     private DefaultComboBoxModel comboBoxModelCrearPrestamo, comboBoxModelCrearPrestamoISBN;
-    public CrearPrestamo(Controlador controlador) {
+    private String idEmpleado;
+    private Controlador controlador;
+    public CrearPrestamo(Controlador controlador, String idEmpleado) {
+        this.controlador = controlador;
+        this.idEmpleado = idEmpleado;
+        comboBoxModelCrearPrestamo = new DefaultComboBoxModel();
+        comboBoxModelCrearPrestamoISBN = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamo, true);
+        controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamoISBN, true);
         initComponents();
+        
+        
     }
 
     /**
@@ -56,6 +75,13 @@ public class CrearPrestamo extends javax.swing.JPanel {
 
         jLabel6.setText("Fecha:");
 
+        campoFechaPrestamo.setForeground(new java.awt.Color(204, 204, 204));
+        campoFechaPrestamo.setText("\"DD-MM-YYYY\"");
+        campoFechaPrestamo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoFechaPrestamoMouseClicked(evt);
+            }
+        });
         campoFechaPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoFechaPrestamoActionPerformed(evt);
@@ -65,9 +91,20 @@ public class CrearPrestamo extends javax.swing.JPanel {
         jLabel7.setText("Prestamo Nro:");
 
         botonCrearPrestamo.setText("Crear");
+        botonCrearPrestamo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonCrearPrestamoMouseClicked(evt);
+            }
+        });
         botonCrearPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearPrestamoActionPerformed(evt);
+            }
+        });
+
+        campoNumPrestamo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoNumPrestamoKeyReleased(evt);
             }
         });
 
@@ -147,6 +184,53 @@ public class CrearPrestamo extends javax.swing.JPanel {
     private void campoFechaPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaPrestamoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoFechaPrestamoActionPerformed
+
+    private void campoFechaPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoFechaPrestamoMouseClicked
+        campoFechaPrestamo.setText("");
+        campoFechaPrestamo.setBackground(Color.BLACK);
+    }//GEN-LAST:event_campoFechaPrestamoMouseClicked
+
+    private void botonCrearPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearPrestamoMouseClicked
+        if(jComboBox_id_usuarios.getSelectedIndex() == 0 || jComboBox_isbn.getSelectedIndex() ==0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario y/o ISBN");
+        }
+        else{
+            String numPrestamo = campoNumPrestamo.getText();
+            String date = campoFechaPrestamo.getText();
+            String id_usuario = (String)jComboBox_id_usuarios.getSelectedItem();
+            String ISBN = (String)jComboBox_isbn.getSelectedItem();
+            Date fecha;
+            try{
+                fecha = controlador.convertirStringADate(date);
+                Stack<Ejemplar> disponibles = controlador.obtenerEjemplaresDisponibles(ISBN);
+                if(disponibles.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "No hay ejemplares disponibles para el prestamo");
+                }
+                else{
+                    String numero = controlador.prestarUltimoEjemplar(disponibles).getNumero();
+                    Prestamo prestamo = new Prestamo(numPrestamo, fecha, null, id_usuario, idEmpleado, ISBN, numero);
+                    controlador.agregarObjeto(prestamo);
+                    JOptionPane.showMessageDialog(null, "Prestamo agregado con exito");
+                }
+                 
+                
+            }
+            catch(ParseException e){
+                JOptionPane.showMessageDialog(null, "Formato de fecha no valido");
+            }
+            
+            
+            
+        }
+    }//GEN-LAST:event_botonCrearPrestamoMouseClicked
+
+    private void campoNumPrestamoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNumPrestamoKeyReleased
+        String size = campoNumPrestamo.getText();
+        if(size.length()>10){
+            campoNumPrestamo.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
+    }//GEN-LAST:event_campoNumPrestamoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

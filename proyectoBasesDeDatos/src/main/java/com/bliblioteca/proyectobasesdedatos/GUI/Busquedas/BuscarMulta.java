@@ -6,7 +6,10 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Multa;
+import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +23,13 @@ public class BuscarMulta extends javax.swing.JPanel {
      */
     private DefaultComboBoxModel modelComboBoxBuscarMulta;
     private DefaultTableModel tableModelBuscarMulta;
+    private Controlador controlador;
     public BuscarMulta(Controlador controlador) {
+        this.controlador = controlador;
+        tableModelBuscarMulta = new DefaultTableModel();
+        modelComboBoxBuscarMulta = new DefaultComboBoxModel();
+        controlador.llenarComboBoxBuscarMulta(modelComboBoxBuscarMulta);
+        controlador.llenarTablaBuscarMulta(tableModelBuscarMulta);
         initComponents();
     }
 
@@ -42,6 +51,7 @@ public class BuscarMulta extends javax.swing.JPanel {
         botonBuscarMulta = new javax.swing.JButton();
         botonEliminarMulta = new javax.swing.JButton();
         jComboBoxIdMulta = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -61,6 +71,11 @@ public class BuscarMulta extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         botonBuscarMulta.setText("Buscar");
+        botonBuscarMulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonBuscarMultaMouseClicked(evt);
+            }
+        });
         botonBuscarMulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarMultaActionPerformed(evt);
@@ -68,6 +83,11 @@ public class BuscarMulta extends javax.swing.JPanel {
         });
 
         botonEliminarMulta.setText("Eliminar");
+        botonEliminarMulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEliminarMultaMouseClicked(evt);
+            }
+        });
         botonEliminarMulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarMultaActionPerformed(evt);
@@ -75,6 +95,18 @@ public class BuscarMulta extends javax.swing.JPanel {
         });
 
         jComboBoxIdMulta.setModel(modelComboBoxBuscarMulta);
+
+        jButton1.setText("Mostrar todos");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -95,16 +127,24 @@ public class BuscarMulta extends javax.swing.JPanel {
                                 .addComponent(jComboBoxIdMulta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(botonBuscarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonBuscarMulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)
+                        .addGap(20, 20, 20)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonBuscarMulta)
@@ -131,12 +171,67 @@ public class BuscarMulta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonEliminarMultaActionPerformed
 
+    private void botonBuscarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarMultaMouseClicked
+        if(jComboBoxIdMulta.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un numero de multa");
+        }
+        else{
+            String numPrestamo = (String) jComboBoxIdMulta.getSelectedItem();
+            Multa solicitudEncontrada = controlador.buscarMulta(numPrestamo);
+            Object[] filas = new Object[7];
+            tableModelBuscarMulta.setRowCount(0);
+            filas[0] = solicitudEncontrada.getnMulta();
+            filas[1] = solicitudEncontrada.getValor();
+            filas[2] = solicitudEncontrada.getFecha();
+            filas[3] = solicitudEncontrada.getDescripcion();
+            filas[4] = solicitudEncontrada.getISBN();
+            filas[5] = solicitudEncontrada.getNumero();
+            filas[6] = solicitudEncontrada.getIdUsuario();
+            tableModelBuscarMulta.addRow(filas);
+            
+        }
+    }//GEN-LAST:event_botonBuscarMultaMouseClicked
+
+    private void botonEliminarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarMultaMouseClicked
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada == 1) {
+            int columnas = jTable1.getColumnCount();
+            Object[] valores = new Object[columnas];
+
+            for (int columna = 0; columna < columnas; columna++) {
+                valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
+            }
+
+            
+            Multa solicitudAEliminar = new Multa();
+            solicitudAEliminar.setnMulta((String)valores[0]);
+            try{
+                controlador.eliminarObjeto(solicitudAEliminar);
+            }
+            catch(UnsupportedOperationException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
+        }
+    }//GEN-LAST:event_botonEliminarMultaMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        controlador.llenarTablaBuscarMulta(tableModelBuscarMulta);
+    }//GEN-LAST:event_jButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscarMulta;
     private javax.swing.JButton botonEditarMulta;
     private javax.swing.JButton botonEliminarMulta;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxIdMulta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

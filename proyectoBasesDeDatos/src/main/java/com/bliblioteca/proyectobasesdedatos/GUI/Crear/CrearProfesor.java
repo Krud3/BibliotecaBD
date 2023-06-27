@@ -6,6 +6,7 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,8 +17,14 @@ public class CrearProfesor extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private Usuario usuario;
+    private Controlador controlador;
     public CrearProfesor(Controlador controlador, Usuario usuario) {
+        this.usuario = usuario;
+        this.controlador = controlador;
         initComponents();
+        
+        labelIdUsuario.setText(usuario.getIdUsuario());
     }
 
     /**
@@ -53,13 +60,29 @@ public class CrearProfesor extends javax.swing.JPanel {
                 campoDependenciaActionPerformed(evt);
             }
         });
+        campoDependencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoDependenciaKeyReleased(evt);
+            }
+        });
 
         jLabel5.setText("Dependencia:");
 
         botonGuardarProfesor.setText("Guardar");
+        botonGuardarProfesor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonGuardarProfesorMouseClicked(evt);
+            }
+        });
         botonGuardarProfesor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarProfesorActionPerformed(evt);
+            }
+        });
+
+        campoTitulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTituloKeyReleased(evt);
             }
         });
 
@@ -123,6 +146,40 @@ public class CrearProfesor extends javax.swing.JPanel {
     private void botonGuardarProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarProfesorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonGuardarProfesorActionPerformed
+
+    private void botonGuardarProfesorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarProfesorMouseClicked
+        if(campoTitulo.getText().equals("")|| campoDependencia.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos para continuar");
+        }
+        else{
+            String titutlo = campoTitulo.getText();
+            String dependencia =campoDependencia.getText();
+            controlador.agregarProfesor(usuario, titutlo, dependencia);
+            controlador.agregarObjeto(usuario);
+            JOptionPane.showMessageDialog(null, "Profesor agregado con exito");
+            botonGuardarProfesor.setEnabled(false);
+            campoDependencia.setEnabled(false);
+            campoDependencia.setEditable(false);
+            campoTitulo.setEditable(false);
+            campoTitulo.setEnabled(false);
+        }
+    }//GEN-LAST:event_botonGuardarProfesorMouseClicked
+
+    private void campoTituloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTituloKeyReleased
+        String size = campoTitulo.getText();
+        if(size.length()>100){
+            campoTitulo.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoTituloKeyReleased
+
+    private void campoDependenciaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoDependenciaKeyReleased
+        String size = campoDependencia.getText();
+        if(size.length()>100){
+            campoDependencia.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoDependenciaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

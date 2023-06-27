@@ -9,22 +9,34 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Escrito {
-    private static String ISBN;
-    private static String codigoAutor;
+    private  String ISBN;
+    private  String codigoAutor;
 
-    public static String getISBN() {
+    public Escrito(String ISBN, String codigoAutor) {
+        this.ISBN = ISBN;
+        this.codigoAutor = codigoAutor;
+    }
+    
+    public Escrito() {
+        this.ISBN = "";
+        this.codigoAutor = "";
+    }
+    
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setCodigoAutor(String codigoAutor) {
+        this.codigoAutor = codigoAutor;
+    }
+
+    public  String getISBN() {
         return ISBN;
     }
 
-    public static void setISBN(String ISBN) {
-        Escrito.ISBN = ISBN;
-    }
 
-    public static String getCodigoAutor() {
+    public  String getCodigoAutor() {
         return codigoAutor;
     }
 
-    public static void setCodigoAutor(String codigoAutor) {
-        Escrito.codigoAutor = codigoAutor;
-    }
 }

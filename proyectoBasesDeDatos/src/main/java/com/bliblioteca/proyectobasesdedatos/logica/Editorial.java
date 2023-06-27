@@ -9,40 +9,58 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Editorial {
-     private static String codigoEditorial;
-    private static String nombreEditorial;
-    private static String paginaWebEditorial;
-    private static String paisEditorial;
+     private  String codigoEditorial;
+    private  String nombreEditorial;
+    private  String paginaWebEditorial;
+    private  String paisEditorial;
 
-    public static String getCodigoEditorial() {
+    public Editorial(String codigoEditorial, String nombreEditorial, String paginaWebEditorial, String paisEditorial) {
+        this.codigoEditorial = codigoEditorial;
+        this.nombreEditorial = nombreEditorial;
+        this.paginaWebEditorial = paginaWebEditorial;
+        this.paisEditorial = paisEditorial;
+    }
+    
+    public Editorial() {
+        this.codigoEditorial = "";
+        this.nombreEditorial = "";
+        this.paginaWebEditorial = "";
+        this.paisEditorial = "";
+    }
+
+    public void setCodigoEditorial(String codigoEditorial) {
+        this.codigoEditorial = codigoEditorial;
+    }
+
+    public void setNombreEditorial(String nombreEditorial) {
+        this.nombreEditorial = nombreEditorial;
+    }
+
+    public void setPaginaWebEditorial(String paginaWebEditorial) {
+        this.paginaWebEditorial = paginaWebEditorial;
+    }
+
+    public void setPaisEditorial(String paisEditorial) {
+        this.paisEditorial = paisEditorial;
+    }
+
+    public  String getCodigoEditorial() {
         return codigoEditorial;
     }
 
-    public static void setCodigoEditorial(String codigoEditorial) {
-        Editorial.codigoEditorial = codigoEditorial;
-    }
 
-    public static String getNombreEditorial() {
+    public  String getNombreEditorial() {
         return nombreEditorial;
     }
 
-    public static void setNombreEditorial(String nombreEditorial) {
-        Editorial.nombreEditorial = nombreEditorial;
-    }
 
-    public static String getPaginaWebEditorial() {
+    public  String getPaginaWebEditorial() {
         return paginaWebEditorial;
     }
 
-    public static void setPaginaWebEditorial(String paginaWebEditorial) {
-        Editorial.paginaWebEditorial = paginaWebEditorial;
-    }
 
-    public static String getPaisEditorial() {
+    public  String getPaisEditorial() {
         return paisEditorial;
     }
 
-    public static void setPaisEditorial(String paisEditorial) {
-        Editorial.paisEditorial = paisEditorial;
-    }
 }

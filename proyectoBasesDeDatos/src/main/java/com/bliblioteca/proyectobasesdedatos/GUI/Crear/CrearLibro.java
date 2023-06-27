@@ -5,6 +5,10 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.logica.Libro;
+import java.awt.Color;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,7 +19,16 @@ public class CrearLibro extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    public CrearLibro(Controlador controlador) {
+    private DefaultComboBoxModel jCbModelCodEditorial,jcbModelCodArea;
+    private String idEempleado;
+    private Controlador controlador;
+    public CrearLibro(Controlador controlador, String idEmpleado) {
+        this.idEempleado = idEmpleado;
+        this.controlador = controlador;
+        jCbModelCodEditorial = new DefaultComboBoxModel();
+        jcbModelCodArea = new DefaultComboBoxModel();
+        this.controlador.llenarComboBoxAgregarLibro(jcbModelCodArea, true);
+        this.controlador.llenarComboBoxAgregarLibro(jCbModelCodEditorial, false);
         initComponents();
     }
 
@@ -40,10 +53,10 @@ public class CrearLibro extends javax.swing.JPanel {
         campoNumPaginas = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         campoIdioma = new javax.swing.JTextField();
-        campoCodArea = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        campoCodEditorial = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -54,9 +67,26 @@ public class CrearLibro extends javax.swing.JPanel {
 
         jLabel4.setText("Año de publicación:");
 
+        campoAnioPublicacion.setForeground(new java.awt.Color(204, 204, 204));
+        campoAnioPublicacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                campoAnioPublicacionMousePressed(evt);
+            }
+        });
+        campoAnioPublicacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoAnioPublicacionKeyReleased(evt);
+            }
+        });
+
         campoISBN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoISBNActionPerformed(evt);
+            }
+        });
+        campoISBN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoISBNKeyReleased(evt);
             }
         });
 
@@ -65,6 +95,11 @@ public class CrearLibro extends javax.swing.JPanel {
         jLabel7.setText("Idioma:");
 
         botonCrearLibro.setText("Crear");
+        botonCrearLibro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonCrearLibroMouseClicked(evt);
+            }
+        });
         botonCrearLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearLibroActionPerformed(evt);
@@ -74,6 +109,11 @@ public class CrearLibro extends javax.swing.JPanel {
         campoTituloLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoTituloLibroActionPerformed(evt);
+            }
+        });
+        campoTituloLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTituloLibroKeyReleased(evt);
             }
         });
 
@@ -90,22 +130,19 @@ public class CrearLibro extends javax.swing.JPanel {
                 campoIdiomaActionPerformed(evt);
             }
         });
-
-        campoCodArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCodAreaActionPerformed(evt);
+        campoIdioma.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoIdiomaKeyReleased(evt);
             }
         });
 
         jLabel9.setText("Código de Área:");
 
-        campoCodEditorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCodEditorialActionPerformed(evt);
-            }
-        });
-
         jLabel10.setText("Código de Editorial:");
+
+        jComboBox1.setModel(jcbModelCodArea);
+
+        jComboBox2.setModel(jCbModelCodEditorial);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -134,8 +171,8 @@ public class CrearLibro extends javax.swing.JPanel {
                             .addComponent(campoTituloLibro)
                             .addComponent(campoNumPaginas, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                             .addComponent(campoIdioma, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(campoCodArea, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(campoCodEditorial, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
@@ -150,19 +187,19 @@ public class CrearLibro extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(campoAnioPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoAnioPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoCodArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoCodEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel10)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoNumPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,24 +234,79 @@ public class CrearLibro extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoIdiomaActionPerformed
 
-    private void campoCodAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodAreaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoCodAreaActionPerformed
+    private void campoTituloLibroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTituloLibroKeyReleased
+        String size = campoTituloLibro.getText();
+        if(size.length()>100){
+            campoTituloLibro.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoTituloLibroKeyReleased
 
-    private void campoCodEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodEditorialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoCodEditorialActionPerformed
+    private void campoAnioPublicacionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoAnioPublicacionKeyReleased
+        
+    }//GEN-LAST:event_campoAnioPublicacionKeyReleased
+
+    private void campoISBNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoISBNKeyReleased
+        String size = campoISBN.getText();
+        if(size.length()>13){
+            campoISBN.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 13 caracteres");
+        }
+    }//GEN-LAST:event_campoISBNKeyReleased
+
+    private void campoIdiomaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoIdiomaKeyReleased
+        String size = campoIdioma.getText();
+        if(size.length()>20){
+            campoIdioma.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 20 caracteres");
+        }
+    }//GEN-LAST:event_campoIdiomaKeyReleased
+
+    private void botonCrearLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearLibroMouseClicked
+        if(jComboBox1.getSelectedIndex()==0 || jComboBox2.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccionar un campo para cod area y/o cod editorial");
+        }
+        else{
+            if(campoTituloLibro.getText().equals("")||campoISBN.getText().equals("") || campoNumPaginas.getText().equals("")||campoIdioma.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+            }
+            else{
+                String ISBN =campoISBN.getText();
+                String codArea = (String) jComboBox1.getSelectedItem();
+                String codEditorial = (String) jComboBox2.getSelectedItem();
+                String id_empleado = this.idEempleado;
+                String tituloLibro = campoTituloLibro.getText();
+                if(controlador.esEntero(campoNumPaginas.getText()) &&controlador.esEntero(campoAnioPublicacion.getText())){
+                    int nPaginas = Integer.parseInt((String) campoNumPaginas.getText());
+                    int anioPubli = Integer.parseInt((String) campoAnioPublicacion.getText());
+                    String idioma = campoIdioma.getText();
+                    Libro elLibro = new Libro(ISBN, codArea, codEditorial, id_empleado, tituloLibro, anioPubli, nPaginas, idioma);
+                    controlador.agregarObjeto(elLibro);
+                    JOptionPane.showMessageDialog(null, "Libro agregado con exito");
+                    
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Numero pagianas y anio deben ser enteros");
+                }
+            }
+        }
+    }//GEN-LAST:event_botonCrearLibroMouseClicked
+
+    private void campoAnioPublicacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoAnioPublicacionMousePressed
+        campoAnioPublicacion.setText("");
+        campoAnioPublicacion.setBackground(Color.BLACK);
+    }//GEN-LAST:event_campoAnioPublicacionMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCrearLibro;
     private javax.swing.JTextField campoAnioPublicacion;
-    private javax.swing.JTextField campoCodArea;
-    private javax.swing.JTextField campoCodEditorial;
     private javax.swing.JTextField campoISBN;
     private javax.swing.JTextField campoIdioma;
     private javax.swing.JTextField campoNumPaginas;
     private javax.swing.JTextField campoTituloLibro;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

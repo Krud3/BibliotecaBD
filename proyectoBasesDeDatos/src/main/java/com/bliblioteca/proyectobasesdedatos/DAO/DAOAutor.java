@@ -67,8 +67,8 @@ public class DAOAutor {
                     autor.setCodigoAutor(resultSet.getString("codigo_autor"));
                     autor.setPrimerNombreAutor(resultSet.getString("primer_nombre"));
                     autor.setSegundoNombreAutor(resultSet.getString("segundo_nombre"));
-                    autor.setPrimerApellidoAutor(resultSet.getString("primer_apellido"));
-                    autor.setSegundoApellidoAutor(resultSet.getString("segundo_apellido"));
+                    autor.setPrimerApelldoAutor(resultSet.getString("primer_apellido"));
+                    autor.setSegundoApelldoAutor(resultSet.getString("segundo_apellido"));
                 }
 
                 resultSet.close();
@@ -106,8 +106,8 @@ public class DAOAutor {
                     autor.setCodigoAutor(resultSet.getString("codigo_autor"));
                     autor.setPrimerNombreAutor(resultSet.getString("primer_nombre"));
                     autor.setSegundoNombreAutor(resultSet.getString("segundo_nombre"));
-                    autor.setPrimerApellidoAutor(resultSet.getString("primer_apellido"));
-                    autor.setSegundoApellidoAutor(resultSet.getString("segundo_apellido"));
+                    autor.setPrimerApelldoAutor(resultSet.getString("primer_apellido"));
+                    autor.setSegundoApelldoAutor(resultSet.getString("segundo_apellido"));
 
                     autores.add(autor);
                 }

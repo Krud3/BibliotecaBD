@@ -9,67 +9,91 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Ejemplar {
-     private static String ISBN;
-    private static String numero;
-    private static String nCajon;
-    private static String nPasillo;
-    private static String nomSala;
-    private static String estante;
-    private static String estado;
+     private  String ISBN;
+    private  String numero;
+    private  String nCajon;
+    private  String nPasillo;
+    private  String nomSala;
+    private  String estante;
+    private  String estado;
 
-    public static String getISBN() {
+    public Ejemplar(String ISBN, String numero, String nCajon, String nPasillo, String nomSala, String estante, String estado) {
+        this.ISBN = ISBN;
+        this.numero = numero;
+        this.nCajon = nCajon;
+        this.nPasillo = nPasillo;
+        this.nomSala = nomSala;
+        this.estante = estante;
+        this.estado = estado;
+    }
+    
+    public Ejemplar() {
+        this.ISBN = "";
+        this.numero = "";
+        this.nCajon = "";
+        this.nPasillo = "";
+        this.nomSala = "";
+        this.estante = "";
+        this.estado = "";
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public void setnCajon(String nCajon) {
+        this.nCajon = nCajon;
+    }
+
+    public void setnPasillo(String nPasillo) {
+        this.nPasillo = nPasillo;
+    }
+
+    public void setNomSala(String nomSala) {
+        this.nomSala = nomSala;
+    }
+
+    public void setEstante(String estante) {
+        this.estante = estante;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public  String getISBN() {
         return ISBN;
     }
 
-    public static void setISBN(String ISBN) {
-        Ejemplar.ISBN = ISBN;
-    }
-
-    public static String getNumero() {
+    public  String getNumero() {
         return numero;
     }
 
-    public static void setNumero(String numero) {
-        Ejemplar.numero = numero;
-    }
-
-    public static String getnCajon() {
+    public  String getnCajon() {
         return nCajon;
     }
 
-    public static void setnCajon(String nCajon) {
-        Ejemplar.nCajon = nCajon;
-    }
-
-    public static String getnPasillo() {
+    public  String getnPasillo() {
         return nPasillo;
     }
 
-    public static void setnPasillo(String nPasillo) {
-        Ejemplar.nPasillo = nPasillo;
-    }
 
-    public static String getNomSala() {
+    public  String getNomSala() {
         return nomSala;
     }
 
-    public static void setNomSala(String nomSala) {
-        Ejemplar.nomSala = nomSala;
-    }
 
-    public static String getEstante() {
+    public  String getEstante() {
         return estante;
     }
 
-    public static void setEstante(String estante) {
-        Ejemplar.estante = estante;
-    }
 
-    public static String getEstado() {
+    public  String getEstado() {
         return estado;
     }
 
-    public static void setEstado(String estado) {
-        Ejemplar.estado = estado;
-    }
 }

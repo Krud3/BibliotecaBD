@@ -25,7 +25,7 @@ public class DAOPrestamo {
                 // Establecer los valores de los parámetros en la sentencia SQL
                 statement.setString(1, prestamo.getnPrestamo());
                 statement.setDate(2, (Date) prestamo.getFechaR());
-                statement.setDate(3, (Date) prestamo.getFechaD());
+                statement.setNull(3, java.sql.Types.DATE);
                 statement.setString(4, prestamo.getIdUsuario());
                 statement.setString(5, prestamo.getIdEmpleado());
                 statement.setString(6, prestamo.getISBN());

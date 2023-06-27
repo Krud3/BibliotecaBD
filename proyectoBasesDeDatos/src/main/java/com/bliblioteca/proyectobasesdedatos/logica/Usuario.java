@@ -10,59 +10,83 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Usuario {
-     private static String idUsuario;
-    private static String passwordUsuario;
-    private static String nombreUsuario;
-    private static String telUsuario;
-    private static String dirUsuario;
-    private static String emailUsuario;
+    private  String idUsuario;
+    private  String passwordUsuario;
+    private  String nombreUsuario;
+    private  String telUsuario;
+    private  String dirUsuario;
+    private  String emailUsuario;
+
+    public Usuario(String idUsuario, String passwordUsuario, String nombreUsuario, String telUsuario, String dirUsuario, String emailUsuario) {
+        this.idUsuario = idUsuario;
+        this.passwordUsuario = passwordUsuario;
+        this.nombreUsuario = nombreUsuario;
+        this.telUsuario = telUsuario;
+        this.dirUsuario = dirUsuario;
+        this.emailUsuario = emailUsuario;
+    }
+    
+    public Usuario() {
+        this.idUsuario = "";
+        this.passwordUsuario = "";
+        this.nombreUsuario = "";
+        this.telUsuario = "";
+        this.dirUsuario = "";
+        this.emailUsuario = "";
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public void setPasswordUsuario(String passwordUsuario) {
+        this.passwordUsuario = passwordUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public void setTelUsuario(String telUsuario) {
+        this.telUsuario = telUsuario;
+    }
+
+    public void setDirUsuario(String dirUsuario) {
+        this.dirUsuario = dirUsuario;
+    }
+
+    public void setEmailUsuario(String emailUsuario) {
+        this.emailUsuario = emailUsuario;
+    }
 
 
-    public static String getIdUsuario() {
+    public  String getIdUsuario() {
         return idUsuario;
     }
 
-    public static void setIdUsuario(String idUsuario) {
-        Usuario.idUsuario = idUsuario;
-    }
-
-    public static String getPasswordUsuario() {
+    public  String getPasswordUsuario() {
         return passwordUsuario;
     }
 
-    public static void setPasswordUsuario(String passwordUsuario) {
-        Usuario.passwordUsuario = passwordUsuario;
-    }
 
-    public static String getNombreUsuario() {
+    public  String getNombreUsuario() {
         return nombreUsuario;
     }
 
-    public static void setNombreUsuario(String nombreUsuario) {
-        Usuario.nombreUsuario = nombreUsuario;
-    }
 
-    public static String getTelUsuario() {
+    public  String getTelUsuario() {
         return telUsuario;
     }
 
-    public static void setTelUsuario(String telUsuario) {
-        Usuario.telUsuario = telUsuario;
-    }
 
-    public static String getDirUsuario() {
+
+    public  String getDirUsuario() {
         return dirUsuario;
     }
 
-    public static void setDirUsuario(String dirUsuario) {
-        Usuario.dirUsuario = dirUsuario;
-    }
 
-    public static String getEmailUsuario() {
+    public  String getEmailUsuario() {
         return emailUsuario;
     }
 
-    public static void setEmailUsuario(String emailUsuario) {
-        Usuario.emailUsuario = emailUsuario;
-    }
 }

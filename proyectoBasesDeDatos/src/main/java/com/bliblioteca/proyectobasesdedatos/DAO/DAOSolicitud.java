@@ -9,6 +9,7 @@ import static com.bliblioteca.proyectobasesdedatos.Util.Constantes.*;
 
 public class DAOSolicitud {
 
+    
     public static int guardarSolicitud(Solicitud solicitud){
         String sql_guardar;
         sql_guardar="INSERT INTO solicitud (n_solicitud, titulo_libro, fecha, descripcion, ISBN_solicitud, id_empleado, id_usuario)" +

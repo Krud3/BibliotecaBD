@@ -9,40 +9,56 @@ package com.bliblioteca.proyectobasesdedatos.logica;
  * @author juanm
  */
 public class Empleado {
-    private static String idEmpleado;
-    private static String passwordEmpleado;
-    private static String nombreEmpleado;
-    private static String cargoEmpleado;
+    private  String idEmpleado;
+    private  String passwordEmpleado;
+    private  String nombreEmpleado;
+    private  String cargoEmpleado;
 
-    public static String getIdEmpleado() {
+    public Empleado(String idEmpleado, String passwordEmpleado, String nombreEmpleado) {
+        this.idEmpleado = idEmpleado;
+        this.passwordEmpleado = passwordEmpleado;
+        this.nombreEmpleado = nombreEmpleado;
+    }
+    
+    public Empleado() {
+        this.idEmpleado = "";
+        this.passwordEmpleado = "";
+        this.nombreEmpleado = "";
+    }
+
+    public void setIdEmpleado(String idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
+
+    public void setPasswordEmpleado(String passwordEmpleado) {
+        this.passwordEmpleado = passwordEmpleado;
+    }
+
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
+    }
+
+    public void setCargoEmpleado(String cargoEmpleado) {
+        this.cargoEmpleado = cargoEmpleado;
+    }
+
+    public  String getIdEmpleado() {
         return idEmpleado;
     }
 
-    public static void setIdEmpleado(String idEmpleado) {
-        Empleado.idEmpleado = idEmpleado;
-    }
 
-    public static String getPasswordEmpleado() {
+    public  String getPasswordEmpleado() {
         return passwordEmpleado;
     }
 
-    public static void setPasswordEmpleado(String passwordEmpleado) {
-        Empleado.passwordEmpleado = passwordEmpleado;
-    }
 
-    public static String getNombreEmpleado() {
+    public  String getNombreEmpleado() {
         return nombreEmpleado;
     }
 
-    public static void setNombreEmpleado(String nombreEmpleado) {
-        Empleado.nombreEmpleado = nombreEmpleado;
-    }
 
-    public static String getCargoEmpleado() {
+    public  String getCargoEmpleado() {
         return cargoEmpleado;
     }
 
-    public static void setCargoEmpleado(String cargoEmpleado) {
-        Empleado.cargoEmpleado = cargoEmpleado;
-    }
 }

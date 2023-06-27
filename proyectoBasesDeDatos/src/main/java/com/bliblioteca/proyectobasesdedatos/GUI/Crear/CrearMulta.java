@@ -5,7 +5,13 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.logica.Multa;
+import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
+import java.awt.Color;
+import java.text.ParseException;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,9 +23,17 @@ public class CrearMulta extends javax.swing.JPanel {
      * Creates new form Solicitud
      */
     private DefaultComboBoxModel comboBoxModelCrearMultaIdUs, comboBoxModelCrearMultaISBN;
+    private Controlador controlador;
     
     public CrearMulta(Controlador controlador) {
+        this.controlador = controlador;
+        comboBoxModelCrearMultaIdUs = new DefaultComboBoxModel();
+        comboBoxModelCrearMultaISBN = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaIdUs, true);
+        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaISBN, false);
         initComponents();
+        
+        
     }
 
     /**
@@ -61,6 +75,11 @@ public class CrearMulta extends javax.swing.JPanel {
                 campoNumMultaActionPerformed(evt);
             }
         });
+        campoNumMulta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoNumMultaKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("ID Usuario:");
 
@@ -68,6 +87,13 @@ public class CrearMulta extends javax.swing.JPanel {
 
         jLabel6.setText("Fecha:");
 
+        campoFecha.setForeground(new java.awt.Color(204, 204, 204));
+        campoFecha.setText("\"DD-MM-YYYY\"");
+        campoFecha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                campoFechaMousePressed(evt);
+            }
+        });
         campoFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoFechaActionPerformed(evt);
@@ -78,9 +104,19 @@ public class CrearMulta extends javax.swing.JPanel {
 
         campoDescripcion.setColumns(20);
         campoDescripcion.setRows(5);
+        campoDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoDescripcionKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(campoDescripcion);
 
         botonCrearMulta.setText("Crear");
+        botonCrearMulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonCrearMultaMouseClicked(evt);
+            }
+        });
         botonCrearMulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearMultaActionPerformed(evt);
@@ -187,6 +223,63 @@ public class CrearMulta extends javax.swing.JPanel {
     private void campoValorMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoValorMultaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoValorMultaActionPerformed
+
+    private void campoFechaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoFechaMousePressed
+        campoFecha.setText("");
+        campoFecha.setBackground(Color.BLACK);
+    }//GEN-LAST:event_campoFechaMousePressed
+
+    private void botonCrearMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearMultaMouseClicked
+        if(jComboBox_id_usuario.getSelectedIndex() == 0 || jComboBox_isbn.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario y/o ISBN");
+        }
+        else{
+            if(!(campoNumMulta.getText().equals("")||campoFecha.getText().equals("")||campoDescripcion.getText().equals(""))){
+                String nMulta = campoNumMulta.getText();
+                String date = campoFecha.getText();
+                String descripcion = campoDescripcion.getText();
+                if(controlador.esEntero(campoValorMulta.getText())){
+                    int valor = Integer.parseInt(campoValorMulta.getText());
+                    String idUsuario = (String)jComboBox_id_usuario.getSelectedItem();
+                    String ISBN = (String) jComboBox_isbn.getSelectedItem();
+                    Date fecha;
+                    try{
+                        fecha = controlador.convertirStringADate(date);
+                        String numero = controlador.obtenerNEjemplarByISBNIdUsu(ISBN, idUsuario);
+                        Multa multa = new Multa(nMulta, valor, fecha, descripcion, ISBN, numero, idUsuario);
+                        controlador.agregarObjeto(multa);
+                        JOptionPane.showMessageDialog(null, "Multa agregada con exito");
+                    }
+                    catch(ParseException e){
+                        JOptionPane.showMessageDialog(null, "Formato de fecha no valido 'DD-MM-YYYY'");
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "El valor para la multa debe ser un entero");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Asegurse de llenar todos los campos");
+            }
+  
+        }
+    }//GEN-LAST:event_botonCrearMultaMouseClicked
+
+    private void campoNumMultaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNumMultaKeyReleased
+        String size = campoNumMulta.getText();
+        if(size.length()>10){
+            campoNumMulta.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
+    }//GEN-LAST:event_campoNumMultaKeyReleased
+
+    private void campoDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoDescripcionKeyReleased
+        String size = campoDescripcion.getText();
+        if(size.length()>100){
+            campoDescripcion.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoDescripcionKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

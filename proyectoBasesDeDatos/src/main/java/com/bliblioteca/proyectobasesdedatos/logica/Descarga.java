@@ -11,49 +11,68 @@ import java.util.Date;
  * @author juanm
  */
 public class Descarga {
-    private static String ISBN;
-    private static String idUsuario;
-    private static String ipComputadoraDescarga;
-    private static Date fechaDescarga;
-    private static String horarioDescarga;
+    private  String ISBN;
+    private  String idUsuario;
+    private  String ipComputadoraDescarga;
+    private  Date fechaDescarga;
+    private  String horarioDescarga;
 
-    public static String getISBN() {
+    public Descarga(String ISBN, String idUsuario, String ipComputadoraDescarga, Date fechaDescarga, String horarioDescarga) {
+        this.ISBN = ISBN;
+        this.idUsuario = idUsuario;
+        this.ipComputadoraDescarga = ipComputadoraDescarga;
+        this.fechaDescarga = fechaDescarga;
+        this.horarioDescarga = horarioDescarga;
+    }
+    
+    public Descarga() {
+        this.ISBN = "";
+        this.idUsuario = "";
+        this.ipComputadoraDescarga = "";
+        this.fechaDescarga = null;
+        this.horarioDescarga = "";
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public void setIpComputadoraDescarga(String ipComputadoraDescarga) {
+        this.ipComputadoraDescarga = ipComputadoraDescarga;
+    }
+
+    public void setFechaDescarga(Date fechaDescarga) {
+        this.fechaDescarga = fechaDescarga;
+    }
+
+    public void setHorarioDescarga(String horarioDescarga) {
+        this.horarioDescarga = horarioDescarga;
+    }
+
+    public  String getISBN() {
         return ISBN;
     }
 
-    public static void setISBN(String ISBN) {
-        Descarga.ISBN = ISBN;
-    }
-
-    public static String getIdUsuario() {
+    public  String getIdUsuario() {
         return idUsuario;
     }
 
-    public static void setIdUsuario(String idUsuario) {
-        Descarga.idUsuario = idUsuario;
-    }
 
-    public static String getIpComputadoraDescarga() {
+    public  String getIpComputadoraDescarga() {
         return ipComputadoraDescarga;
     }
 
-    public static void setIpComputadoraDescarga(String ipComputadoraDescarga) {
-        Descarga.ipComputadoraDescarga = ipComputadoraDescarga;
-    }
 
-    public static Date getFechaDescarga() {
+    public  Date getFechaDescarga() {
         return fechaDescarga;
     }
 
-    public static void setFechaDescarga(Date fechaDescarga) {
-        Descarga.fechaDescarga = fechaDescarga;
-    }
-
-    public static String getHorarioDescarga() {
+    public  String getHorarioDescarga() {
         return horarioDescarga;
     }
 
-    public static void setHorarioDescarga(String horarioDescarga) {
-        Descarga.horarioDescarga = horarioDescarga;
-    }
 }

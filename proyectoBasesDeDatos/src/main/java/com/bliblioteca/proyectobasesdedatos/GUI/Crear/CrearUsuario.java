@@ -5,6 +5,10 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
+import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -15,7 +19,11 @@ public class CrearUsuario extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
+    private JPanel panelEstudiante, panelProfesor;
+    private Controlador controlador;
+    
     public CrearUsuario(Controlador controlador) {
+        this.controlador= controlador;
         initComponents();
     }
 
@@ -58,19 +66,40 @@ public class CrearUsuario extends javax.swing.JPanel {
                 campoIDUsuarioActionPerformed(evt);
             }
         });
+        campoIDUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoIDUsuarioKeyReleased(evt);
+            }
+        });
 
         campoTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoTelActionPerformed(evt);
             }
         });
+        campoTel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTelKeyReleased(evt);
+            }
+        });
 
         jLabel5.setText("Teléfono:");
 
         botonCrearUsuario.setText("Crear");
+        botonCrearUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonCrearUsuarioMouseClicked(evt);
+            }
+        });
         botonCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearUsuarioActionPerformed(evt);
+            }
+        });
+
+        campoNombreUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoNombreUsuarioKeyReleased(evt);
             }
         });
 
@@ -79,12 +108,22 @@ public class CrearUsuario extends javax.swing.JPanel {
                 campoDirActionPerformed(evt);
             }
         });
+        campoDir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoDirKeyReleased(evt);
+            }
+        });
 
         jLabel8.setText("Dirección:");
 
         campoEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoEmailActionPerformed(evt);
+            }
+        });
+        campoEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoEmailKeyReleased(evt);
             }
         });
 
@@ -206,6 +245,76 @@ public class CrearUsuario extends javax.swing.JPanel {
     private void campoIDUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoIDUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoIDUsuarioActionPerformed
+
+    private void botonCrearUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCrearUsuarioMouseClicked
+        if(campoIDUsuario.getText().equals("")||campoNombreUsuario.getText().equals("")|| campoTel.getText().equals("")||campoDir.getText().equals("")||campoEmail.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos para poder crear el usuario");
+        }
+        else if((!jRadioButton1.isSelected()|| !jRadioButton2.isSelected())||(jRadioButton1.isSelected()&& jRadioButton2.isSelected())){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un tipo de usuario");
+        }
+        else{
+                 Usuario usuario = new Usuario(campoIDUsuario.getText(), "123456", campoNombreUsuario.getText(), campoTel.getText(), campoDir.getText(), campoEmail.getText());
+                 if(jRadioButton1.isSelected()){
+                        panelEstudiante = new CrearEstudiante(controlador, usuario);
+                        panelEstudiante.setSize(460, 430);
+                        panelEstudiante.setLocation(0, 0);        
+                        this.removeAll();
+                        this.add(panelEstudiante, BorderLayout.CENTER);
+                        this.revalidate();
+                        this.repaint();
+                 }
+                 else{
+                        panelProfesor = new CrearProfesor(controlador, usuario);
+                        panelProfesor.setSize(460, 430);
+                        panelProfesor.setLocation(0, 0);        
+                        this.removeAll();
+                        this.add(panelProfesor, BorderLayout.CENTER);
+                        this.revalidate();
+                        this.repaint();
+                 }
+        }
+    }//GEN-LAST:event_botonCrearUsuarioMouseClicked
+
+    private void campoIDUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoIDUsuarioKeyReleased
+        String size = campoIDUsuario.getText();
+        if(size.length()>10){
+            campoIDUsuario.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
+        }
+    }//GEN-LAST:event_campoIDUsuarioKeyReleased
+
+    private void campoNombreUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNombreUsuarioKeyReleased
+        String size = campoNombreUsuario.getText();
+        if(size.length()>50){
+            campoNombreUsuario.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 50 caracteres");
+        }
+    }//GEN-LAST:event_campoNombreUsuarioKeyReleased
+
+    private void campoTelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTelKeyReleased
+        String size = campoTel.getText();
+        if(size.length()>20){
+            campoTel.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 20 caracteres");
+        }
+    }//GEN-LAST:event_campoTelKeyReleased
+
+    private void campoDirKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoDirKeyReleased
+        String size = campoDir.getText();
+        if(size.length()>100){
+            campoDir.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoDirKeyReleased
+
+    private void campoEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoEmailKeyReleased
+        String size = campoEmail.getText();
+        if(size.length()>100){
+            campoEmail.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoEmailKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

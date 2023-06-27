@@ -6,7 +6,11 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
+import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,7 +22,14 @@ public class BuscarPrestamo extends javax.swing.JPanel {
      * Creates new form Solicitud
      */
     private DefaultComboBoxModel comboBoxModelBuscarPrestamo;
+    private DefaultTableModel tableModel;
+    private Controlador controlador;
     public BuscarPrestamo(Controlador controlador) {
+        this.controlador =controlador;
+        comboBoxModelBuscarPrestamo = new DefaultComboBoxModel();
+        tableModel = new DefaultTableModel();
+        controlador.llenarComboBoxBuscarPrestamo(comboBoxModelBuscarPrestamo);
+        controlador.llenarTablaBuscarPrestamo(tableModel);
         initComponents();
     }
 
@@ -40,6 +51,7 @@ public class BuscarPrestamo extends javax.swing.JPanel {
         botonBuscarPrestamo = new javax.swing.JButton();
         botonEliminarPrestamo = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -55,20 +67,15 @@ public class BuscarPrestamo extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(tableModel);
         jScrollPane1.setViewportView(jTable1);
 
         botonBuscarPrestamo.setText("Buscar");
+        botonBuscarPrestamo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonBuscarPrestamoMouseClicked(evt);
+            }
+        });
         botonBuscarPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarPrestamoActionPerformed(evt);
@@ -76,6 +83,11 @@ public class BuscarPrestamo extends javax.swing.JPanel {
         });
 
         botonEliminarPrestamo.setText("Eliminar");
+        botonEliminarPrestamo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEliminarPrestamoMouseClicked(evt);
+            }
+        });
         botonEliminarPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarPrestamoActionPerformed(evt);
@@ -83,6 +95,13 @@ public class BuscarPrestamo extends javax.swing.JPanel {
         });
 
         jComboBox1.setModel(comboBoxModelBuscarPrestamo);
+
+        jButton1.setText("Mostrar todos");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -103,16 +122,24 @@ public class BuscarPrestamo extends javax.swing.JPanel {
                                 .addComponent(jComboBox1, 0, 126, Short.MAX_VALUE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(botonBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)
+                        .addGap(16, 16, 16)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonBuscarPrestamo)
@@ -139,12 +166,64 @@ public class BuscarPrestamo extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonEliminarPrestamoActionPerformed
 
+    private void botonBuscarPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarPrestamoMouseClicked
+        if(jComboBox1.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un numero de solicitud");
+        }
+        else{
+            String numPrestamo = (String) jComboBox1.getSelectedItem();
+            Prestamo solicitudEncontrada = controlador.buscarPrestamo(numPrestamo);
+            Object[] filas = new Object[7];
+            tableModel.setRowCount(0);
+            filas[0] = solicitudEncontrada.getnPrestamo();
+            filas[1] = solicitudEncontrada.getFechaR();
+            filas[2] = solicitudEncontrada.getFechaD();
+            filas[3] = solicitudEncontrada.getIdUsuario();
+            filas[4] = solicitudEncontrada.getIdEmpleado();
+            filas[5] = solicitudEncontrada.getISBN();
+            filas[6] = solicitudEncontrada.getNumero();
+            tableModel.addRow(filas);
+            
+        }
+    }//GEN-LAST:event_botonBuscarPrestamoMouseClicked
+
+    private void botonEliminarPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarPrestamoMouseClicked
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada == 1) {
+            int columnas = jTable1.getColumnCount();
+            Object[] valores = new Object[columnas];
+
+            for (int columna = 0; columna < columnas; columna++) {
+                valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
+            }
+
+            
+            Prestamo solicitudAEliminar = new Prestamo();
+            solicitudAEliminar.setnPrestamo((String)valores[0]);
+            try{
+                controlador.eliminarObjeto(solicitudAEliminar);
+            }
+            catch(UnsupportedOperationException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
+        }
+    }//GEN-LAST:event_botonEliminarPrestamoMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        controlador.llenarTablaBuscarPrestamo(tableModel);
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscarPrestamo;
     private javax.swing.JButton botonEditarPrestamo;
     private javax.swing.JButton botonEliminarPrestamo;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

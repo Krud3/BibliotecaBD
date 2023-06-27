@@ -8,9 +8,11 @@ import com.bliblioteca.proyectobasesdedatos.DAO.*;
 import com.bliblioteca.proyectobasesdedatos.logica.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,6 +25,62 @@ public class Controlador {
     
     public Controlador(){
     
+    }
+    public boolean esEntero(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    public Stack<Ejemplar> obtenerEjemplaresDisponibles(String ISBN){
+        ArrayList<Ejemplar> ejemplares = DAOEjemplar.obtenerTodosLosEjemplares();;
+        Stack<Ejemplar> eje_disponibles = new Stack<>();
+        for(Ejemplar val : ejemplares){
+            if(val.getEstado().equals("DISPONIBLE")){
+                eje_disponibles.add(val);
+            }
+        }
+        return eje_disponibles;
+    }
+    public Ejemplar prestarUltimoEjemplar(Stack<Ejemplar> disponibles){
+        
+        if(disponibles.isEmpty()){
+            return null;
+        }
+        else{
+            Ejemplar aPrestar = disponibles.pop();
+            aPrestar.setEstado("PRESTADO");
+            DAOEjemplar.actualizarEjemplar(aPrestar);
+            return aPrestar;
+        }
+        
+    }
+    public Date convertirStringADate(String fechaString) throws ParseException {
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        formato.setLenient(false); // Para que sea estricto en el formato
+
+        java.util.Date fechaUtil = formato.parse(fechaString);
+        return new Date(fechaUtil.getTime());
+    }
+    
+    public void llenarTablall(DefaultTableModel table){
+        Object[] filas = new Object[8];
+        table.setRowCount(0);
+                
+        ArrayList<Libro> losLibros = DAOLibro.obtenerTodosLosLibros();
+        for(Libro elLibro : losLibros){
+            filas[0] = elLibro.getISBN();
+            filas[1] = elLibro.getCodArea();
+            filas[2] = elLibro.getCodigoEditorial();
+            filas[3] = elLibro.getIdEmpleado();
+            filas[4] = elLibro.getTituloLibro();
+            filas[5] = elLibro.getAnioPublicacion();
+            filas[6] = elLibro.getNumeroPaginas();
+            filas[7] = elLibro.getIdioma();
+            table.addRow(filas);
+        }
     }
     public void llenarTablaBuscarLibro(String valor, String campo, DefaultTableModel table){
         Object[] filas = new Object[8];
@@ -182,21 +240,50 @@ public class Controlador {
         return result;
     }
     public void llenarComboBoxAgregarSolicitud(DefaultComboBoxModel model){
-        Set<String> id_usuario = new HashSet<>();
+        Stack<String> id_usuario = new Stack<>();
         
         ArrayList<Usuario> losUsuarios = DAOUsuario.obtenerTodosLosUsuarios();
-        
-        for(Usuario elUsuario : losUsuarios){
-            id_usuario.add(elUsuario.getIdUsuario());
+        //ArrayList<String> losUsuarios = DAOUsuario.obtenerTodosLosUsuariosSTR();
+        //System.out.println("hola"+losUsuarios);
+        for(int i = 0; i < losUsuarios.size(); i++){
+            id_usuario.push(losUsuarios.get(i).getIdUsuario());
+            System.out.println("Controlador"+losUsuarios.get(i).getIdUsuario());
         }
         model.addElement("Seleccione un id de usuario");
         
-        for(String value : id_usuario){
-            model.addElement(value);
+        while(!id_usuario.isEmpty()){
+            String id = id_usuario.pop();
+            model.addElement(id);
+        }   
+    }
+    public void llenarComboBoxAgregarLibro(DefaultComboBoxModel model, boolean val){
+        Set<String> cod_areas = new HashSet<>();
+        Set<String> cod_editoriales = new HashSet<>();
+        
+        ArrayList<Area> lasAreas = DAOArea.obtenerTodasLasAreas();
+        ArrayList<Editorial> lasEditoriales = DAOEditorial.obtenerTodasLasEditoriales();
+        
+        for(Area elArea : lasAreas){
+            cod_areas.add(elArea.getCodigoArea());
+        }
+        for(Editorial elEditorial : lasEditoriales){
+            cod_editoriales.add(elEditorial.getCodigoEditorial());
         }
         
+        if(val){
+            model.addElement("Seleccione un codigo de area");
+            for(String value : cod_areas){
+                model.addElement(value);
+            }
+        }
+        else{
+            model.addElement("Seleccione un codigo de editorial");
+            for(String value : cod_editoriales){
+                
+                model.addElement(value);
+            }
+        } 
     }
-    
     public void llenarComboBoxAgregarPrestamo(DefaultComboBoxModel model, boolean val){
         Set<String> id_usuario = new HashSet<>();
         Set<String> id_empleados = new HashSet<>();
@@ -225,18 +312,37 @@ public class Controlador {
             }
         } 
     }
+    public String obtenerNEjemplarByISBNIdUsu(String ISBN, String idUsuario){
+        String result = "";
+        ArrayList<Prestamo> losPrestamos = DAOPrestamo.obtenerTodosLosPrestamos();
+        for(Prestamo elPrestamo : losPrestamos){
+            if(elPrestamo.getISBN().equals(ISBN) && elPrestamo.getIdUsuario().equals(idUsuario)){
+                result = elPrestamo.getNumero();
+            }
+        }
+        
+        return result;
+        
+    }
     public void llenarComboBoxAgregarMulta(DefaultComboBoxModel model, boolean val){
+        
         Set<String> id_usuario = new HashSet<>();
         Set<String> ISBN_ejemplar = new HashSet<>();
         
         ArrayList<Usuario> losUsuarios = DAOUsuario.obtenerTodosLosUsuarios();
-        ArrayList<Ejemplar> losEjemplares = DAOEjemplar.obtenerTodosLosEjemplares();
+        ArrayList<Prestamo> losPrestamos = DAOPrestamo.obtenerTodosLosPrestamos();
+        
         
         for(Usuario elUsuario : losUsuarios){
-            id_usuario.add(elUsuario.getIdUsuario());
-        }
-        for(Ejemplar elEjemplar : losEjemplares){
-            ISBN_ejemplar.add(elEjemplar.getISBN());
+            String idUsu = elUsuario.getIdUsuario();
+            for(Prestamo elPrestamo : losPrestamos){
+                String idUsuPrestamo = elPrestamo.getIdUsuario();
+                if(idUsu.equals(idUsuPrestamo) && (elPrestamo.getFechaD() == null ||elPrestamo.getFechaD().equals(""))){
+                    id_usuario.add(idUsu);
+                    ISBN_ejemplar.add(elPrestamo.getISBN());
+                }
+            }
+            
         }
         
         if(val){
@@ -534,6 +640,44 @@ public class Controlador {
         DAOLibro.eliminarLibro(libro.getISBN());
         
     }
+    public Multa buscarMulta (String idUsuario){
+        ArrayList<Multa> losUsuario = DAOMulta.obtenerTodasLasMultas();
+        for(Multa u : losUsuario){
+            if(u.getnMulta().equals(idUsuario)){
+                return u;
+            }
+        }
+        return null;
+    }
+    public Usuario buscarUsuario (String idUsuario){
+        ArrayList<Usuario> losUsuario = DAOUsuario.obtenerTodosLosUsuarios();
+        for(Usuario u : losUsuario){
+            if(u.getIdUsuario().equals(idUsuario)){
+                return u;
+            }
+        }
+        return null;
+    }
+    
+    public Solicitud buscarSolicitud (String idUsuario){
+        ArrayList<Solicitud> losUsuario = DAOSolicitud.obtenerTodasLasSolicitudes();
+        for(Solicitud u : losUsuario){
+            if(u.getNumeroSolicitud().equals(idUsuario)){
+                return u;
+            }
+        }
+        return null;
+    }
+    
+    public Prestamo buscarPrestamo (String idUsuario){
+        ArrayList<Prestamo> losUsuario = DAOPrestamo.obtenerTodosLosPrestamos();
+        for(Prestamo u : losUsuario){
+            if(u.getnPrestamo().equals(idUsuario)){
+                return u;
+            }
+        }
+        return null;
+    }
     public void eliminarUsuario(Usuario usuario){
     
                 ArrayList<Prestamo> losPrestamos = DAOPrestamo.obtenerTodosLosPrestamos();
@@ -594,5 +738,9 @@ public class Controlador {
                         
                     }
                 }
+    }
+    
+    public static ArrayList<Libro> obtenerLibroPorCualquierCampo(Object value, String nombreCampo){
+        return DAOLibro.obtenerLibroPorCualquierCampo(value, nombreCampo);
     }
 }

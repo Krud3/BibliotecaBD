@@ -5,8 +5,11 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.DAO.DAOUsuario;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +23,13 @@ public class BuscarUsuario extends javax.swing.JPanel {
      */
     private DefaultComboBoxModel comboBoxModelBuscarUsuario;
     private DefaultTableModel tableModelBuscarUsuario;
+    private Controlador controlador;
     public BuscarUsuario(Controlador controlador) {
+        this.controlador = controlador;
+        tableModelBuscarUsuario = new DefaultTableModel();  
+        comboBoxModelBuscarUsuario = new DefaultComboBoxModel();
+        controlador.llenarTablaBuscarUsuario(tableModelBuscarUsuario);
+        controlador.llenarComboBoxBuscarUsuario(comboBoxModelBuscarUsuario);
         initComponents();
     }
 
@@ -42,6 +51,7 @@ public class BuscarUsuario extends javax.swing.JPanel {
         botonBuscarUsuario = new javax.swing.JButton();
         botonEliminarUsuario = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -61,6 +71,11 @@ public class BuscarUsuario extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         botonBuscarUsuario.setText("Buscar");
+        botonBuscarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonBuscarUsuarioMouseClicked(evt);
+            }
+        });
         botonBuscarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarUsuarioActionPerformed(evt);
@@ -68,6 +83,11 @@ public class BuscarUsuario extends javax.swing.JPanel {
         });
 
         botonEliminarUsuario.setText("Eliminar");
+        botonEliminarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEliminarUsuarioMouseClicked(evt);
+            }
+        });
         botonEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarUsuarioActionPerformed(evt);
@@ -75,6 +95,13 @@ public class BuscarUsuario extends javax.swing.JPanel {
         });
 
         jComboBox1.setModel(comboBoxModelBuscarUsuario);
+
+        jButton1.setText("Mostrar todos");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -95,16 +122,24 @@ public class BuscarUsuario extends javax.swing.JPanel {
                                 .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(botonBuscarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonBuscarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)
+                        .addGap(15, 15, 15)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonBuscarUsuario)
@@ -131,12 +166,61 @@ public class BuscarUsuario extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonEliminarUsuarioActionPerformed
 
+    private void botonBuscarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarUsuarioMouseClicked
+        if(jComboBox1.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione un id usuario");
+        }
+        else{
+            String idUsuario = (String) jComboBox1.getSelectedItem();
+            Usuario usuarioEncontrado = controlador.buscarUsuario(idUsuario);
+            Object[] filas = new Object[5];
+            tableModelBuscarUsuario.setRowCount(0);
+            filas[0] = usuarioEncontrado.getIdUsuario();
+            filas[1] = usuarioEncontrado.getNombreUsuario();
+            filas[2] = usuarioEncontrado.getTelUsuario();
+            filas[3] = usuarioEncontrado.getDirUsuario();
+            filas[4] = usuarioEncontrado.getEmailUsuario();
+            tableModelBuscarUsuario.addRow(filas);
+            
+        }
+    }//GEN-LAST:event_botonBuscarUsuarioMouseClicked
+
+    private void botonEliminarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarUsuarioMouseClicked
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada == 1) {
+            int columnas = jTable1.getColumnCount();
+            Object[] valores = new Object[columnas];
+
+            for (int columna = 0; columna < columnas; columna++) {
+                valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
+            }
+
+            
+            Usuario usuarioAEliminar = new Usuario((String)valores[0], "", (String)valores[1],(String) valores[2], (String)valores[3], (String)valores[5]);
+            try{
+                controlador.eliminarObjeto(usuarioAEliminar);
+            }
+            catch(UnsupportedOperationException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
+        }
+        
+    }//GEN-LAST:event_botonEliminarUsuarioMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        controlador.llenarTablaBuscarUsuario(tableModelBuscarUsuario);
+    }//GEN-LAST:event_jButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscarUsuario;
     private javax.swing.JButton botonEditarUsuario;
     private javax.swing.JButton botonEliminarUsuario;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

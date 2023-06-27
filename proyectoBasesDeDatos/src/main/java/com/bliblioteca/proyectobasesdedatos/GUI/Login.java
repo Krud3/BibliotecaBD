@@ -20,16 +20,17 @@ public class Login extends javax.swing.JFrame {
      */
     private static JFrame main_frame;
     private static Controlador controlador;
+    private static String idEmpleado;
     public Login(Controlador controlador) {
-        
+        idEmpleado = "";
         initComponents();
         this.controlador =controlador;
-        main_frame = new BibliotecaJFrame(controlador);
+        main_frame = new BibliotecaJFrame(controlador, idEmpleado);
         this.setLocationRelativeTo(null);
     }
     public static void actualizarControladorLogin(Controlador controlador){
         Login.controlador = controlador;
-        main_frame = new BibliotecaJFrame(Login.controlador);
+        main_frame = new BibliotecaJFrame(Login.controlador, idEmpleado);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -178,20 +179,19 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        this.dispose();
-        main_frame.setVisible(true);
-        /*
-        actualizarControladorLogin(controlador);
+                
         String idEmString = jTextField_id_usuario.getText();
+        idEmpleado = idEmString;
         String pass = String.valueOf(jPasswordField_pass_usuario.getPassword());
         if(controlador.validarPasswordEmpleado(idEmString, pass)){
             actualizarControladorLogin(controlador);
+            this.dispose();
             main_frame.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(null, "Usuario o clave invalido");
         }
-        */
+        
         
     }//GEN-LAST:event_jButton2MouseClicked
 

@@ -107,6 +107,7 @@
     <Component class="javax.swing.JTextField" name="campoDependencia">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoDependenciaActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="campoDependenciaKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -119,10 +120,14 @@
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botonGuardarProfesorMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonGuardarProfesorActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="campoTitulo">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="campoTituloKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelIdUsuario">
       <Properties>
