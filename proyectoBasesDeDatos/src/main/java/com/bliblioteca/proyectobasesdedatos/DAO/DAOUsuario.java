@@ -92,7 +92,7 @@ public class DAOUsuario {
 
                     usuarios.add(usuario);
                     for(int i = 0; i < usuarios.size(); i++){
-                    System.out.println("DAO: "+usuarios.get(i).getIdUsuario()+" "+usuarios.get(i).getNombreUsuario());
+                    //System.out.println("DAO: "+usuarios.get(i).getIdUsuario()+" "+usuarios.get(i).getNombreUsuario());
                     }
 
                 }

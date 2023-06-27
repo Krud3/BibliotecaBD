@@ -38,10 +38,11 @@ public class Controlador {
         ArrayList<Ejemplar> ejemplares = DAOEjemplar.obtenerTodosLosEjemplares();;
         Stack<Ejemplar> eje_disponibles = new Stack<>();
         for(Ejemplar val : ejemplares){
-            if(val.getEstado().equals("DISPONIBLE")){
+            if(val.getEstado().equals("DISPONIBLE")&& val.getISBN().equals(ISBN)){
                 eje_disponibles.add(val);
             }
         }
+        
         return eje_disponibles;
     }
     public Ejemplar prestarUltimoEjemplar(Stack<Ejemplar> disponibles){
@@ -52,7 +53,9 @@ public class Controlador {
         else{
             Ejemplar aPrestar = disponibles.pop();
             aPrestar.setEstado("PRESTADO");
-            DAOEjemplar.actualizarEjemplar(aPrestar);
+            //DAOEjemplar.actualizarEjemplar(aPrestar);
+            DAOEjemplar.actualizarEstadoEjemplar(aPrestar.getISBN(), aPrestar.getNumero(), aPrestar.getEstado());
+            System.out.println(DAOEjemplar.obtenerEjemplarPorID(aPrestar.getISBN()).getEstado());
             return aPrestar;
         }
         
@@ -127,16 +130,16 @@ public class Controlador {
         ArrayList<Prestamo> losLibros = DAOPrestamo.obtenerTodosLosPrestamos();
         for(Prestamo elLibro : losLibros){
             filas[0] = elLibro.getnPrestamo();
-            
+            /*
             long millis  = elLibro.getFechaR().getTime();
             Date fecha = new Date(millis);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            String fechaStringR = sdf.format(fecha);
-            filas[1] = fechaStringR;
-            long millis2 = elLibro.getFechaD().getTime();
+            String fechaStringR = sdf.format(fecha);*/
+            filas[1] = elLibro.getFechaR();//fechaStringR;
+            /*long millis2 = elLibro.getFechaD().getTime();
             Date fecha2 = new Date(millis2);            
-            String fechaStringD = sdf.format(fecha2);
-            filas[2] = fechaStringD;
+            String fechaStringD = sdf.format(fecha2);*/
+            filas[2] = elLibro.getFechaD();//fechaStringD;
             filas[3] = elLibro.getIdUsuario();
             filas[4] = elLibro.getIdEmpleado();
             filas[5] = elLibro.getISBN();
@@ -247,7 +250,7 @@ public class Controlador {
         //System.out.println("hola"+losUsuarios);
         for(int i = 0; i < losUsuarios.size(); i++){
             id_usuario.push(losUsuarios.get(i).getIdUsuario());
-            System.out.println("Controlador"+losUsuarios.get(i).getIdUsuario());
+            
         }
         model.addElement("Seleccione un id de usuario");
         
@@ -432,6 +435,7 @@ public class Controlador {
                 break;
             case "Multa":
                 Multa multa = (Multa) objeto;
+                
                 DAOMulta.guardarMulta(multa);
                 break;
             case "Prestamo":
@@ -461,7 +465,8 @@ public class Controlador {
                 break;
             case "Libro":
                 Libro libro = (Libro) objeto;
-                eliminarLibro(libro);
+                DAOLibro.eliminarLibro(libro.getISBN());
+                //eliminarLibro(libro);
                 break;
             case "Multa":
                 Multa multa = (Multa) objeto;

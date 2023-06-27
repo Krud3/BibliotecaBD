@@ -12,8 +12,8 @@ public class DAOMulta {
 
     public static int guardarMulta(Multa multa){
         String sql_guardar;
-        sql_guardar="INSERT INTO multa (n_multa, valor, fecha, descripcion, ISBN,  id_usuario)" +
-                "VALUES (?, ?, ?, ?, ? ,? )";
+        sql_guardar="INSERT INTO multa (n_multa, valor, fecha, descripcion, ISBN, numero,  id_usuario)" +
+                "VALUES (?, ?, ?, ?, ?,? ,? )";
 
         int filasAfectadas = 0;
 

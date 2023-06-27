@@ -7,6 +7,9 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
+import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *

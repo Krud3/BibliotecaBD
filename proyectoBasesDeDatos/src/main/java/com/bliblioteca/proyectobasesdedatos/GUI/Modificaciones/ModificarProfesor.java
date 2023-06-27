@@ -7,6 +7,7 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -127,17 +128,7 @@ public class ModificarProfesor extends javax.swing.JPanel {
         labelIdUsuario.setText(usuario.getIdUsuario());
     }
 
-    campoModificarTituloProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            campoModificarTituloProfesorKeyListener(evt);
-        }
-    });
 
-    campoModificarDependenciaProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            campoModificarDependenciaProfesorKeyListener(evt);
-        }
-    });
 
     private void campoModificarDependenciaProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarDependenciaProfesorActionPerformed
         // TODO add your handling code here:

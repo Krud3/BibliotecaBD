@@ -30,6 +30,8 @@ public class BuscarPrestamo extends javax.swing.JPanel {
         tableModel = new DefaultTableModel();
         controlador.llenarComboBoxBuscarPrestamo(comboBoxModelBuscarPrestamo);
         controlador.llenarTablaBuscarPrestamo(tableModel);
+        Object[] columnas = {"N_PRESTAMO","FECHA_R", "FECHA_D","ID_USUARIO","ID_EMPLEADO","ISBN", "NUMERO"};
+        tableModel.setColumnIdentifiers(columnas);
         initComponents();
     }
 
@@ -108,7 +110,7 @@ public class BuscarPrestamo extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonEditarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,7 +128,7 @@ public class BuscarPrestamo extends javax.swing.JPanel {
                             .addComponent(botonBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +191,14 @@ public class BuscarPrestamo extends javax.swing.JPanel {
 
     private void botonEliminarPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarPrestamoMouseClicked
         int filaSeleccionada = jTable1.getSelectedRow();
-        if (filaSeleccionada == 1) {
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
+            
+        }
+        else if(jTable1.getSelectedRows().length >1){
+            JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
+        }
+        else{
             int columnas = jTable1.getColumnCount();
             Object[] valores = new Object[columnas];
 
@@ -206,9 +215,6 @@ public class BuscarPrestamo extends javax.swing.JPanel {
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
         }
     }//GEN-LAST:event_botonEliminarPrestamoMouseClicked
 

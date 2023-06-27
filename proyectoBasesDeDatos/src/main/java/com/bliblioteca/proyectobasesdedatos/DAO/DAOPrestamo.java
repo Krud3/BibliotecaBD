@@ -11,7 +11,7 @@ public class DAOPrestamo {
 
     public static int guardarPrestamo(Prestamo prestamo){
         String sql_guardar;
-        sql_guardar="INSERT INTO prestamo (n_prestamo, fecha_R, fecha_D, id_usuario, id_empleado, ISBN)" +
+        sql_guardar="INSERT INTO prestamo (n_prestamo, fecha_R, fecha_D, id_usuario, id_empleado, ISBN, numero)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         int filasAfectadas = 0;
@@ -29,7 +29,7 @@ public class DAOPrestamo {
                 statement.setString(4, prestamo.getIdUsuario());
                 statement.setString(5, prestamo.getIdEmpleado());
                 statement.setString(6, prestamo.getISBN());
-                statement.setString(6, prestamo.getNumero());
+                statement.setString(7, prestamo.getNumero());
 
                 // Ejecutar la sentencia SQL
                 filasAfectadas = statement.executeUpdate();

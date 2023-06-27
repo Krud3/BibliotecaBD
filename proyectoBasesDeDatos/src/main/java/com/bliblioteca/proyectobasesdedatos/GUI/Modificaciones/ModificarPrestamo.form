@@ -37,8 +37,6 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="campoModificarISBN" max="32767" attributes="0"/>
-                          <Component id="campoModificarIDUsuario" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -50,6 +48,8 @@
                               <Component id="campoModificarNumPrestamo" min="-2" pref="106" max="-2" attributes="0"/>
                           </Group>
                           <Component id="campoModificarFechaDevolucion" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBoxISBN" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBoxUsuario" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -85,15 +85,15 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="campoModificarIDUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="campoModificarISBN" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxISBN" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
               <Component id="botonModificarPrestamo" min="-2" pref="34" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
           </Group>
@@ -118,13 +118,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="ID Usuario:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="campoModificarIDUsuario">
-    </Component>
-    <Component class="javax.swing.JTextField" name="campoModificarISBN">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoModificarISBNActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -157,6 +150,26 @@
     <Component class="javax.swing.JTextField" name="campoModificarNumPrestamo">
     </Component>
     <Component class="javax.swing.JTextField" name="campoModificarFechaDevolucion">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxISBN">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="modelcomboboxisbn" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxUsuario">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="modelComboboxusuario" type="code"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

@@ -26,6 +26,9 @@ public class BuscarLibro extends javax.swing.JPanel {
         this.controlador = controlador;
         tableModelBuscarLibro = new DefaultTableModel();
         controlador.llenarTablall(tableModelBuscarLibro);
+        
+        Object[] columnas = {"ISBN","COD_AREA", "COD_EDITORIAL","ID_EMPLEADO","TITULO","PUBLICACION", "N_PAGINAS","IDIOMA"};
+        tableModelBuscarLibro.setColumnIdentifiers(columnas);
         initComponents();
     }
 
@@ -181,12 +184,19 @@ public class BuscarLibro extends javax.swing.JPanel {
     private void botonBuscarLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarLibroMouseClicked
         String valorCampo = campoISBNLibro.getText();
         String nombreCampo = (String) jComboBox1.getSelectedItem();
-        controlador.llenarTablaBuscarLibro(valorCampo, valorCampo, tableModelBuscarLibro);
+        controlador.llenarTablaBuscarLibro(valorCampo, nombreCampo, tableModelBuscarLibro);
     }//GEN-LAST:event_botonBuscarLibroMouseClicked
 
     private void botonEliminarLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarLibroMouseClicked
         int filaSeleccionada = jTable1.getSelectedRow();
-        if (filaSeleccionada == 1) {
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
+            
+        }
+        else if(jTable1.getSelectedRows().length >1){
+            JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
+        }
+        else{
             int columnas = jTable1.getColumnCount();
             Object[] valores = new Object[columnas];
 
@@ -203,9 +213,6 @@ public class BuscarLibro extends javax.swing.JPanel {
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
         }
     }//GEN-LAST:event_botonEliminarLibroMouseClicked
 

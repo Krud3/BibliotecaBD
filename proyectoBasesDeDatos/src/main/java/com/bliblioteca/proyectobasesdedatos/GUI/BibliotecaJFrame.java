@@ -52,7 +52,7 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
         execute();
     }
 
-    public void ShowPanel(JPanel p){
+    public static void ShowPanel(JPanel p){
         p.setSize(460, 430);
         p.setLocation(0, 0);        
         contenido.removeAll();
@@ -251,7 +251,7 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel contenido;
+    private static javax.swing.JPanel contenido;
     private javax.swing.JPanel fondo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel menu;

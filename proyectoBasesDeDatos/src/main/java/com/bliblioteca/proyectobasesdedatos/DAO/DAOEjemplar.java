@@ -88,9 +88,10 @@ public class DAOEjemplar {
         return ejemplar;
     }
 
+       
        public static ArrayList<Ejemplar> obtenerTodosLosEjemplares(){
         ArrayList ejemplares = new ArrayList<>();
-        String sql_consulta = "SELECT * FROM ejemplar GROUP BY ISBN";
+        String sql_consulta = "SELECT * FROM ejemplar GROUP BY ISBN, numero";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -129,12 +130,34 @@ public class DAOEjemplar {
         }
         return ejemplares;
     }
+       
+        public static void actualizarEstadoEjemplar(String isbn, String numero, String nuevoEstado) {
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection conn = conexion.getConnection();
+
+            String sql = "UPDATE ejemplar SET estado = ? WHERE isbn = ? AND numero = ?";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, nuevoEstado);
+                pstmt.setString(2, isbn);
+                pstmt.setString(3, numero);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Estado del ejemplar actualizado correctamente.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                }
+
+            conexion.closeConnection();
+        }
 
        public static boolean actualizarEjemplar(Ejemplar ejemplarModificado) {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar el área
-            String sql_actualizar = "UPDATE ejemplar SET numero = ?, n_cajon = ?, n_pasillo = ?, nom_sala = ?, estante = ?, estado = ? WHERE ISBN = ?";
+            String sql_actualizar = "UPDATE ejemplar SET  n_cajon = ?, n_pasillo = ?, nom_sala = ?, estante = ?, estado = ? WHERE ISBN = ? AND numero = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -153,17 +176,22 @@ public class DAOEjemplar {
                 String nuevoEstado = ejemplarModificado.getEstado();
 
                 // Establecer los valores de los parámetros en la sentencia SQL
-                statement.setString(1, nuevoNumero);
-                statement.setString(2, nuevoNCajon);
-                statement.setString(3, nuevoNpasillo);
-                statement.setString(4, nuevoNomSala);
-                statement.setString(5, nuevoEstante);
-                statement.setString(6, nuevoEstado);
-                statement.setString(7, ISBN);
+                
+                
+                
+                statement.setString(1, nuevoNCajon);
+                statement.setString(2, nuevoNpasillo);
+                statement.setString(3, nuevoNomSala);
+                statement.setString(4, nuevoEstante);
+                System.out.println(nuevoEstado);
+                statement.setString(5, nuevoEstado);
+                statement.setString(6, ISBN);
+                statement.setString(7, nuevoNumero);
 
                 // Ejecutar la actualización
+                System.out.println("Antes de executeupdate");
                 int filasActualizadas = statement.executeUpdate();
-
+                System.out.println("despues de executeupdate");
                 if (filasActualizadas > 0) {
                     isUpdated = true;
                    // System.out.println("El Ejemplar con ISBN " + ISBN + " ha sido actualizada correctamente.");
@@ -177,8 +205,9 @@ public class DAOEjemplar {
                 conexion.closeConnection();
             }
         }
-
+        System.out.println(isUpdated);
         return isUpdated;
+        
     }
     
        public static boolean eliminarEjemplar(String ISBN) {

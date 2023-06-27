@@ -34,7 +34,7 @@ public class CrearPrestamo extends javax.swing.JPanel {
         comboBoxModelCrearPrestamo = new DefaultComboBoxModel();
         comboBoxModelCrearPrestamoISBN = new DefaultComboBoxModel();
         controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamo, true);
-        controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamoISBN, true);
+        controlador.llenarComboBoxAgregarPrestamo(comboBoxModelCrearPrestamoISBN, false);
         initComponents();
         
         
@@ -209,6 +209,7 @@ public class CrearPrestamo extends javax.swing.JPanel {
                 else{
                     String numero = controlador.prestarUltimoEjemplar(disponibles).getNumero();
                     Prestamo prestamo = new Prestamo(numPrestamo, fecha, null, id_usuario, idEmpleado, ISBN, numero);
+                    System.out.println("llegue aca");
                     controlador.agregarObjeto(prestamo);
                     JOptionPane.showMessageDialog(null, "Prestamo agregado con exito");
                 }

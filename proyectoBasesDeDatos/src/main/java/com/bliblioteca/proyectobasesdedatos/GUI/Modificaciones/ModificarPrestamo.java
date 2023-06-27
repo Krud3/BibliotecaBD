@@ -5,16 +5,20 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author juan.quevedo
  */
+
 public class ModificarPrestamo extends javax.swing.JPanel {
 
     /**
      * Creates new form Solicitud
      */
+    private DefaultComboBoxModel modelcomboboxisbn,modelComboboxusuario;
     public ModificarPrestamo() {
         initComponents();
     }
@@ -31,8 +35,6 @@ public class ModificarPrestamo extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        campoModificarIDUsuario = new javax.swing.JTextField();
-        campoModificarISBN = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         campoModificarFechaPrestamo = new javax.swing.JTextField();
@@ -40,6 +42,8 @@ public class ModificarPrestamo extends javax.swing.JPanel {
         botonModificarPrestamo = new javax.swing.JButton();
         campoModificarNumPrestamo = new javax.swing.JTextField();
         campoModificarFechaDevolucion = new javax.swing.JTextField();
+        jComboBoxISBN = new javax.swing.JComboBox<>();
+        jComboBoxUsuario = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -49,12 +53,6 @@ public class ModificarPrestamo extends javax.swing.JPanel {
         jLabel2.setText("Fecha de devolución:");
 
         jLabel4.setText("ID Usuario:");
-
-        campoModificarISBN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoModificarISBNActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("ISBN del libro:");
 
@@ -75,6 +73,10 @@ public class ModificarPrestamo extends javax.swing.JPanel {
             }
         });
 
+        jComboBoxISBN.setModel(modelcomboboxisbn);
+
+        jComboBoxUsuario.setModel(modelComboboxusuario);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,8 +95,6 @@ public class ModificarPrestamo extends javax.swing.JPanel {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoModificarISBN)
-                            .addComponent(campoModificarIDUsuario)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
@@ -103,7 +103,9 @@ public class ModificarPrestamo extends javax.swing.JPanel {
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(campoModificarNumPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(campoModificarFechaDevolucion))))
+                            .addComponent(campoModificarFechaDevolucion)
+                            .addComponent(jComboBoxISBN, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
@@ -128,21 +130,17 @@ public class ModificarPrestamo extends javax.swing.JPanel {
                     .addComponent(campoModificarFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoModificarIDUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBoxUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoModificarISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(90, 90, 90)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jComboBoxISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(87, 87, 87)
                 .addComponent(botonModificarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void campoModificarISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarISBNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoModificarISBNActionPerformed
 
     private void botonModificarPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarPrestamoActionPerformed
         // TODO add your handling code here:
@@ -157,9 +155,9 @@ public class ModificarPrestamo extends javax.swing.JPanel {
     private javax.swing.JButton botonModificarPrestamo;
     private javax.swing.JTextField campoModificarFechaDevolucion;
     private javax.swing.JTextField campoModificarFechaPrestamo;
-    private javax.swing.JTextField campoModificarIDUsuario;
-    private javax.swing.JTextField campoModificarISBN;
     private javax.swing.JTextField campoModificarNumPrestamo;
+    private javax.swing.JComboBox<String> jComboBoxISBN;
+    private javax.swing.JComboBox<String> jComboBoxUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

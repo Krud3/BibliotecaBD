@@ -7,6 +7,11 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
+import java.awt.Color;
+import java.sql.Date;
+import java.text.ParseException;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -184,30 +189,6 @@ public class ModificarSolicitud extends javax.swing.JPanel {
         controlador.llenarComboBoxAgregarSolicitud(comboBoxModelCrearSolicitudIDUS);
         initComponents();
     }
-
-    campoModificarNumSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            CampoModificarNumSolicitudKeyReleased(evt);
-        }
-    });
-
-    campoModificarTituloSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            CampoModificarTituloSolicitudKeyReleased(evt);
-        }
-    });
-
-    campoModificarDescripcioSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            CampoModificarDescripcioSolicitudKeyReleased(evt);
-        }
-    });
-
-    campoModificarISBNSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            CampoModificarISBNSolicitudKeyReleased(evt);
-        }
-    });
     private void comboModificarUsuarioSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboModificarUsuarioSolicitudActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboModificarUsuarioSolicitudActionPerformed
@@ -257,9 +238,9 @@ public class ModificarSolicitud extends javax.swing.JPanel {
     }//GEN-LAST:event_campoModificarFechaSolicitudActionPerformed
 
     private void CampoModificarNumSolicitudKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNumSolicitudKeyReleased
-        String size = campoNumSolicitud.getText();
+        String size = campoModificarNumSolicitud.getText();
         if(size.length()>10){
-            campoNumSolicitud.setText("");
+            campoModificarNumSolicitud.setText("");
             JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 10 caracteres");
         }
     }//GEN-LAST:event_campoNumSolicitudKeyReleased

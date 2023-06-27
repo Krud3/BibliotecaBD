@@ -4,7 +4,10 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,7 +18,11 @@ public class ModificarEstudiante extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    public ModificarEstudiante() {
+    private Controlador controlador;
+    private Usuario usuario;
+    public ModificarEstudiante(Controlador controlador, Usuario usuario) {
+        this.usuario = usuario;
+        this.controlador = controlador;
         initComponents();
     }
 
@@ -50,6 +57,11 @@ public class ModificarEstudiante extends javax.swing.JPanel {
         campoModificarCarrera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoModificarCarreraActionPerformed(evt);
+            }
+        });
+        campoModificarCarrera.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoModificarCarreraKeyReleased(evt);
             }
         });
 
@@ -115,17 +127,6 @@ public class ModificarEstudiante extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    campoModificarCarrera.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            CampoModificarCarreraKeyReleased(evt);
-        }
-    });
-
-    campoModificarUniversidad.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            CampoModificarUniversidadKeyReleased(evt);
-        }
-    });
 
     private void campoModificarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarCarreraActionPerformed
         // TODO add your handling code here:
@@ -164,6 +165,10 @@ public class ModificarEstudiante extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
         }
     }//GEN-LAST:event_campoCarreraKeyReleased
+
+    private void campoModificarCarreraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoModificarCarreraKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoModificarCarreraKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
