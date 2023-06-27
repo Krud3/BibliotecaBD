@@ -5,7 +5,10 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarLibro;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarUsuario;
 import com.bliblioteca.proyectobasesdedatos.logica.Libro;
 import com.bliblioteca.proyectobasesdedatos.logica.Multa;
 import javax.swing.JOptionPane;
@@ -22,7 +25,9 @@ public class BuscarLibro extends javax.swing.JPanel {
      */
     private DefaultTableModel tableModelBuscarLibro;
     private Controlador controlador;
-    public BuscarLibro(Controlador controlador) {
+    private String idEmpleado;
+    public BuscarLibro(Controlador controlador, String idEmpleado) {
+        this.idEmpleado = idEmpleado;
         this.controlador = controlador;
         tableModelBuscarLibro = new DefaultTableModel();
         controlador.llenarTablall(tableModelBuscarLibro);
@@ -62,6 +67,11 @@ public class BuscarLibro extends javax.swing.JPanel {
         jLabel2.setText("Valor del campo:");
 
         botonEditarLibro.setText("Editar");
+        botonEditarLibro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEditarLibroMouseClicked(evt);
+            }
+        });
         botonEditarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarLibroActionPerformed(evt);
@@ -209,6 +219,7 @@ public class BuscarLibro extends javax.swing.JPanel {
             solicitudAEliminar.setISBN((String)valores[0]);
             try{
                 controlador.eliminarObjeto(solicitudAEliminar);
+                JOptionPane.showMessageDialog(null, "LIBRO ELIMINADO");
             }
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -219,6 +230,10 @@ public class BuscarLibro extends javax.swing.JPanel {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         controlador.llenarTablall(tableModelBuscarLibro);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void botonEditarLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarLibroMouseClicked
+        BibliotecaJFrame.ShowPanel(new ModificarLibro(controlador,idEmpleado));
+    }//GEN-LAST:event_botonEditarLibroMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

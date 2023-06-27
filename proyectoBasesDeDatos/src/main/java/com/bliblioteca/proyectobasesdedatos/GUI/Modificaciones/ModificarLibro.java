@@ -5,8 +5,13 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.DAO.DAOLibro;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarLibro;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Libro;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,10 +47,10 @@ public class ModificarLibro extends javax.swing.JPanel {
         campoModificarNumPaginas = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         campoModificarIdioma = new javax.swing.JTextField();
-        campoModificarCodArea = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        campoModificarCodEditorial = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
@@ -93,21 +98,13 @@ public class ModificarLibro extends javax.swing.JPanel {
             }
         });
 
-        campoModificarCodArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoModificarCodAreaActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("Código de Área:");
 
-        campoModificarCodEditorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoModificarCodEditorialActionPerformed(evt);
-            }
-        });
-
         jLabel10.setText("Código de Editorial:");
+
+        jComboBox1.setModel(jcbModelCodArea);
+
+        jComboBox2.setModel(jCbModelCodEditorial);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,8 +133,8 @@ public class ModificarLibro extends javax.swing.JPanel {
                             .addComponent(campoModificarTituloLibro)
                             .addComponent(campoModificarNumPaginas, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                             .addComponent(campoModificarIdioma, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(campoModificarCodArea, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(campoModificarCodEditorial, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
@@ -159,12 +156,12 @@ public class ModificarLibro extends javax.swing.JPanel {
                     .addComponent(jLabel5))
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoModificarCodArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoModificarCodEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel10)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoModificarNumPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,7 +195,7 @@ public class ModificarLibro extends javax.swing.JPanel {
     }//GEN-LAST:event_campoModificarISBNActionPerformed
 
     private void botonModificarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarLibroActionPerformed
-        if(jcbModelCodArea.getSelectedIndex()==0 || jCbModelCodEditorial.getSelectedIndex()==0){
+        if(jComboBox1.getSelectedIndex()==0 || jComboBox2.getSelectedIndex()==0){
             JOptionPane.showMessageDialog(null, "Por favor seleccionar un campo para cod area y/o cod editorial");
         }
         else{
@@ -216,8 +213,9 @@ public class ModificarLibro extends javax.swing.JPanel {
                     int anioPubli = Integer.parseInt((String) campoModificarAnioPublicacion.getText());
                     String idioma = campoModificarIdioma.getText();
                     Libro elLibro = new Libro(ISBN, codArea, codEditorial, id_empleado, tituloLibro, anioPubli, nPaginas, idioma);
-                    controlador.agregarObjeto(elLibro);
+                    DAOLibro.actualizarLibro(elLibro);
                     JOptionPane.showMessageDialog(null, "Libro modificado con exito");
+                    BibliotecaJFrame.ShowPanel(new BuscarLibro(controlador, idEempleado));
 
                 }
                 else{
@@ -239,24 +237,16 @@ public class ModificarLibro extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoModificarIdiomaActionPerformed
 
-    private void campoModificarCodAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarCodAreaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoModificarCodAreaActionPerformed
-
-    private void campoModificarCodEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarCodEditorialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoModificarCodEditorialActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonModificarLibro;
     private javax.swing.JTextField campoModificarAnioPublicacion;
-    private javax.swing.JTextField campoModificarCodArea;
-    private javax.swing.JTextField campoModificarCodEditorial;
     private javax.swing.JTextField campoModificarISBN;
     private javax.swing.JTextField campoModificarIdioma;
     private javax.swing.JTextField campoModificarNumPaginas;
     private javax.swing.JTextField campoModificarTituloLibro;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

@@ -155,15 +155,14 @@ public class Controlador {
         ArrayList<Solicitud> losLibros = DAOSolicitud.obtenerTodasLasSolicitudes();
         for(Solicitud elLibro : losLibros){
             filas[0] = elLibro.getNumeroSolicitud();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            
             filas[1] = elLibro.getTituloLibro();
-            long millis2 = elLibro.getFecha().getTime();
-            Date fecha2 = new Date(millis2);            
-            String fechaStringD = sdf.format(fecha2);
-            filas[2] = fechaStringD;
+            
+            filas[2] = elLibro.getFecha();
             filas[3] = elLibro.getDescripcion();
             filas[4] = elLibro.getISBNSolicitud();
             filas[5] = elLibro.getIdEmpleado();
+            
             filas[6] = elLibro.getIdUsuario();
            
             table.addRow(filas);
@@ -461,7 +460,8 @@ public class Controlador {
         switch (objeto.getClass().getSimpleName()) {
             case "Usuario":
                 Usuario usuario = (Usuario) objeto;
-                eliminarUsuario(usuario);
+                DAOUsuario.eliminarUsuario(usuario.getIdUsuario());
+                //eliminarUsuario(usuario);
                 break;
             case "Libro":
                 Libro libro = (Libro) objeto;

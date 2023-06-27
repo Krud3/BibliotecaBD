@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Crear;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.logica.Estudiante;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import javax.swing.JOptionPane;
@@ -155,14 +156,16 @@ public class CrearEstudiante extends javax.swing.JPanel {
         else{
             String carrera = campoCarrera.getText();
             String universidad =campoUniversidad.getText();
-            controlador.agregarEstudiante(usuario, universidad, carrera);
             controlador.agregarObjeto(usuario);
+            controlador.agregarEstudiante(usuario, universidad, carrera);
+            
             JOptionPane.showMessageDialog(null, "Estudiante agregado con exito");
             botonGuardarEstudiante.setEnabled(false);
             campoUniversidad.setEnabled(false);
             campoUniversidad.setEditable(false);
             campoCarrera.setEditable(false);
             campoCarrera.setEnabled(false);
+            BibliotecaJFrame.ShowPanel(new CrearUsuario(controlador));
         }
     }//GEN-LAST:event_botonGuardarEstudianteMouseClicked
 

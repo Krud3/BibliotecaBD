@@ -37,10 +37,10 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
      */
     public BibliotecaJFrame(Controlador controlador, String idEmpleado) {
         this.idEmpleado = idEmpleado;
-        panel_buscar_libro = new BuscarLibro(controlador);
+        panel_buscar_libro = new BuscarLibro(controlador, idEmpleado);
         panel_buscar_multa = new BuscarMulta(controlador);
-        buscar_prestamo = new BuscarPrestamo(controlador);
-        buscar_solicitud = new BuscarSolicitud(controlador);
+        buscar_prestamo = new BuscarPrestamo(controlador, idEmpleado);
+        buscar_solicitud = new BuscarSolicitud(controlador, idEmpleado);
         buscar_usuario= new BuscarUsuario(controlador);
         panel_crear_usuario= new CrearUsuario(controlador);
         panel_crear_libro = new CrearLibro(controlador, idEmpleado);

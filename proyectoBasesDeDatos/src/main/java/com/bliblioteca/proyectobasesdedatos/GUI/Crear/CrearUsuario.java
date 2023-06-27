@@ -9,6 +9,7 @@ import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 
 /**
  *
@@ -266,12 +267,9 @@ public class CrearUsuario extends javax.swing.JPanel {
                  }
                  else{
                         panelProfesor = new CrearProfesor(controlador, usuario);
-                        panelProfesor.setSize(460, 430);
-                        panelProfesor.setLocation(0, 0);        
-                        this.removeAll();
-                        this.add(panelProfesor, BorderLayout.CENTER);
-                        this.revalidate();
-                        this.repaint();
+                        BibliotecaJFrame.ShowPanel(panelProfesor);
+                        
+                        
                  }
         }
     }//GEN-LAST:event_botonCrearUsuarioMouseClicked

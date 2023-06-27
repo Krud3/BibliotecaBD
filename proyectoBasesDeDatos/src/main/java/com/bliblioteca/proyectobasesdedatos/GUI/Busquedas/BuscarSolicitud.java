@@ -5,7 +5,10 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarPrestamo;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarSolicitud;
 import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import javax.swing.DefaultComboBoxModel;
@@ -25,12 +28,17 @@ public class BuscarSolicitud extends javax.swing.JPanel {
     private DefaultTableModel tableModelBuscarSolicitud;
 
     private Controlador controlador;
-    public BuscarSolicitud(Controlador controlador) {
+    private String idEmpleado;
+    public BuscarSolicitud(Controlador controlador, String idEmpleado) {
+        this.idEmpleado = idEmpleado;
         this.controlador = controlador;
         tableModelBuscarSolicitud= new DefaultTableModel();
         comboBoxModelBuscarSolicitud = new DefaultComboBoxModel();
         controlador.llenarTablaBuscarSolicitud(tableModelBuscarSolicitud);
         controlador.llenarComboBoxBuscarSolicitud(comboBoxModelBuscarSolicitud);
+        
+        Object[] columnas = {"N_SOLICITUD","TITULO", "FECHA","DESCRIP","ISBN_S","ID_EMPLEADO", "ID_USUARIO"};
+        tableModelBuscarSolicitud.setColumnIdentifiers(columnas);
         initComponents();
     }
 
@@ -62,6 +70,11 @@ public class BuscarSolicitud extends javax.swing.JPanel {
         jLabel2.setText("Número de Solcitud:");
 
         botonEditarSolicitud.setText("Editar");
+        botonEditarSolicitud.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEditarSolicitudMouseClicked(evt);
+            }
+        });
         botonEditarSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarSolicitudActionPerformed(evt);
@@ -109,7 +122,7 @@ public class BuscarSolicitud extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonEditarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -127,7 +140,7 @@ public class BuscarSolicitud extends javax.swing.JPanel {
                             .addComponent(botonBuscarSolicitud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,7 +203,14 @@ public class BuscarSolicitud extends javax.swing.JPanel {
 
     private void botonEliminarSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarSolicitudMouseClicked
         int filaSeleccionada = jTable1.getSelectedRow();
-        if (filaSeleccionada == 1) {
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
+            
+        }
+        else if(jTable1.getSelectedRows().length >1){
+            JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
+        }
+        else{
             int columnas = jTable1.getColumnCount();
             Object[] valores = new Object[columnas];
 
@@ -203,19 +223,22 @@ public class BuscarSolicitud extends javax.swing.JPanel {
             solicitudAEliminar.setNumeroSolicitud((String)valores[0]);
             try{
                 controlador.eliminarObjeto(solicitudAEliminar);
+                JOptionPane.showMessageDialog(null, "SOLICITUD ELIMINADA");
             }
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
-        }
+        
     }//GEN-LAST:event_botonEliminarSolicitudMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         controlador.llenarTablaBuscarSolicitud(tableModelBuscarSolicitud);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void botonEditarSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarSolicitudMouseClicked
+        BibliotecaJFrame.ShowPanel(new ModificarSolicitud(controlador, idEmpleado));
+    }//GEN-LAST:event_botonEditarSolicitudMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

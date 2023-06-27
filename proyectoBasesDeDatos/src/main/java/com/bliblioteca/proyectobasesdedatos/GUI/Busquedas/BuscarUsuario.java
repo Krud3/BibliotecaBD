@@ -6,7 +6,10 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.DAO.DAOUsuario;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarSolicitud;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarUsuario;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -30,6 +33,8 @@ public class BuscarUsuario extends javax.swing.JPanel {
         comboBoxModelBuscarUsuario = new DefaultComboBoxModel();
         controlador.llenarTablaBuscarUsuario(tableModelBuscarUsuario);
         controlador.llenarComboBoxBuscarUsuario(comboBoxModelBuscarUsuario);
+        Object[] columnas = {"ID_USUARIO","NOMBRE", "TELEFONO","DIRECCION","EMAIL"};
+        tableModelBuscarUsuario.setColumnIdentifiers(columnas);
         initComponents();
     }
 
@@ -61,6 +66,11 @@ public class BuscarUsuario extends javax.swing.JPanel {
         jLabel2.setText("ID Usuario :");
 
         botonEditarUsuario.setText("Editar");
+        botonEditarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEditarUsuarioMouseClicked(evt);
+            }
+        });
         botonEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarUsuarioActionPerformed(evt);
@@ -108,7 +118,7 @@ public class BuscarUsuario extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonEditarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,7 +136,7 @@ public class BuscarUsuario extends javax.swing.JPanel {
                             .addComponent(botonBuscarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +197,14 @@ public class BuscarUsuario extends javax.swing.JPanel {
 
     private void botonEliminarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarUsuarioMouseClicked
         int filaSeleccionada = jTable1.getSelectedRow();
-        if (filaSeleccionada == 1) {
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
+            
+        }
+        else if(jTable1.getSelectedRows().length >1){
+            JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
+        }
+        else{
             int columnas = jTable1.getColumnCount();
             Object[] valores = new Object[columnas];
 
@@ -196,23 +213,26 @@ public class BuscarUsuario extends javax.swing.JPanel {
             }
 
             
-            Usuario usuarioAEliminar = new Usuario((String)valores[0], "", (String)valores[1],(String) valores[2], (String)valores[3], (String)valores[5]);
+            Usuario usuarioAEliminar = new Usuario((String)valores[0], "", (String)valores[1],(String) valores[2], (String)valores[3], (String)valores[4]);
             try{
                 controlador.eliminarObjeto(usuarioAEliminar);
+                JOptionPane.showMessageDialog(null, "USUARIO ELIMINADO");
             }
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Seleccione un campo de la tabla para eliminar");
-        }
+        
         
     }//GEN-LAST:event_botonEliminarUsuarioMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         controlador.llenarTablaBuscarUsuario(tableModelBuscarUsuario);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void botonEditarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarUsuarioMouseClicked
+        BibliotecaJFrame.ShowPanel(new ModificarUsuario(controlador));
+    }//GEN-LAST:event_botonEditarUsuarioMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

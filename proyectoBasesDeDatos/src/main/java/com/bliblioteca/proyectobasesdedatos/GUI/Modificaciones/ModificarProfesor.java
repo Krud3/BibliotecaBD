@@ -5,7 +5,9 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Profesor;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import javax.swing.JOptionPane;
 
@@ -18,9 +20,6 @@ public class ModificarProfesor extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    public ModificarProfesor() {
-        initComponents();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,6 +140,7 @@ public class ModificarProfesor extends javax.swing.JPanel {
         else{
             String titutlo = campoModificarTituloProfesor.getText();
             String dependencia =campoModificarDependenciaProfesor.getText();
+            controlador.editarUsuario(usuario, null, new Profesor(usuario.getIdUsuario(), titutlo, dependencia));
             controlador.agregarProfesor(usuario, titutlo, dependencia);
             controlador.agregarObjeto(usuario);
             JOptionPane.showMessageDialog(null, "Profesor agregado con exito");
@@ -149,6 +149,7 @@ public class ModificarProfesor extends javax.swing.JPanel {
             campoModificarDependenciaProfesor.setEditable(false);
             campoModificarTituloProfesor.setEditable(false);
             campoModificarTituloProfesor.setEnabled(false);
+            BibliotecaJFrame.ShowPanel(new ModificarUsuario(controlador));
         }
     }//GEN-LAST:event_botonModificarProfesorActionPerformed
 

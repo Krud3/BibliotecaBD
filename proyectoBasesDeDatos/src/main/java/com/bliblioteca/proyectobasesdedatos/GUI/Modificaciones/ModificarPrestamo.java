@@ -8,8 +8,12 @@ import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Ejemplar;
 import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.Stack;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -180,7 +184,7 @@ public class ModificarPrestamo extends javax.swing.JPanel {
                     String numero = controlador.prestarUltimoEjemplar(disponibles).getNumero();
                     Prestamo prestamo = new Prestamo(numPrestamo, fecha, null, id_usuario, idEmpleado, ISBN, numero);
                     System.out.println("llegue aca");
-                    controlador.agregarObjeto(prestamo);
+                    controlador.editarPrestamo(prestamo);
                     JOptionPane.showMessageDialog(null, "Prestamo modificado con exito");
                 }
 

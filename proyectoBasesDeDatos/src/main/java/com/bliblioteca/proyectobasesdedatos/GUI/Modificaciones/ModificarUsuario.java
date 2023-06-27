@@ -5,6 +5,7 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import java.awt.BorderLayout;
@@ -20,9 +21,6 @@ public class ModificarUsuario extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    public ModificarUsuario() {
-        initComponents();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -210,21 +208,12 @@ public class ModificarUsuario extends javax.swing.JPanel {
             Usuario usuario = new Usuario(campoModificarIDUsuario.getText(), "123456", campoModificarNombreUsuario.getText(), campoModificarTelefono.getText(), campoModificarDireccion.getText(), campoModificarEmail.getText());
             if(jRadioButton1.isSelected()){
                 panelEstudiante = new ModificarEstudiante(controlador, usuario);
-                panelEstudiante.setSize(460, 430);
-                panelEstudiante.setLocation(0, 0);
-                this.removeAll();
-                this.add(panelEstudiante, BorderLayout.CENTER);
-                this.revalidate();
-                this.repaint();
+                BibliotecaJFrame.ShowPanel(panelEstudiante);
+                
             }
             else{
                 panelProfesor = new ModificarProfesor(controlador, usuario);
-                panelProfesor.setSize(460, 430);
-                panelProfesor.setLocation(0, 0);
-                this.removeAll();
-                this.add(panelProfesor, BorderLayout.CENTER);
-                this.revalidate();
-                this.repaint();
+                BibliotecaJFrame.ShowPanel(panelProfesor);
             }
         }
     }//GEN-LAST:event_botonModificarUsuarioActionPerformed

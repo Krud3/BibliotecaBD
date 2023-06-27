@@ -5,7 +5,10 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarLibro;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarMulta;
 import com.bliblioteca.proyectobasesdedatos.logica.Multa;
 import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
 import javax.swing.DefaultComboBoxModel;
@@ -64,6 +67,11 @@ public class BuscarMulta extends javax.swing.JPanel {
         jLabel2.setText("Número de Multa:");
 
         botonEditarMulta.setText("Editar");
+        botonEditarMulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEditarMultaMouseClicked(evt);
+            }
+        });
         botonEditarMulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarMultaActionPerformed(evt);
@@ -218,6 +226,7 @@ public class BuscarMulta extends javax.swing.JPanel {
             solicitudAEliminar.setnMulta((String)valores[0]);
             try{
                 controlador.eliminarObjeto(solicitudAEliminar);
+                JOptionPane.showMessageDialog(null, "MULTA ELIMINADA");
             }
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -233,6 +242,10 @@ public class BuscarMulta extends javax.swing.JPanel {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         controlador.llenarTablaBuscarMulta(tableModelBuscarMulta);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void botonEditarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMultaMouseClicked
+        BibliotecaJFrame.ShowPanel(new ModificarMulta(controlador));
+    }//GEN-LAST:event_botonEditarMultaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

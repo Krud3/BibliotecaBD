@@ -316,7 +316,7 @@ public class DAOUsuario {
         boolean isDeleted = false;
 
         // Sentencia SQL para eliminar el estudiante
-        String sql_eliminar = "DELETE FROM usuario WHERE id_usiario= ?";
+        String sql_eliminar = "DELETE FROM usuario WHERE id_usuario= ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();

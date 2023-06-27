@@ -5,7 +5,9 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Estudiante;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 import javax.swing.JOptionPane;
 
@@ -139,14 +141,14 @@ public class ModificarEstudiante extends javax.swing.JPanel {
         else{
             String carrera = campoModificarCarrera.getText();
             String universidad = campoModificarUniversidad.getText();
-            controlador.agregarEstudiante(usuario, universidad, carrera);
-            controlador.agregarObjeto(usuario);
+            controlador.editarUsuario(usuario, new Estudiante(usuario.getIdUsuario(), carrera, universidad), null);
             JOptionPane.showMessageDialog(null, "Estudiante modificado con exito");
             botonModificarEstudiante.setEnabled(false);
             campoModificarUniversidad.setEnabled(false);
             campoModificarUniversidad.setEditable(false);
             campoModificarCarrera.setEditable(false);
             campoModificarCarrera.setEnabled(false);
+            BibliotecaJFrame.ShowPanel(new ModificarUsuario(controlador));
         }
     }//GEN-LAST:event_botonModificarEstudianteActionPerformed
 

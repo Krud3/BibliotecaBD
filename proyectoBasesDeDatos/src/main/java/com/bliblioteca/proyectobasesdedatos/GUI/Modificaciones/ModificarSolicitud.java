@@ -220,7 +220,7 @@ public class ModificarSolicitud extends javax.swing.JPanel {
             try{
                 fecha = controlador.convertirStringADate(date);
                 Solicitud laSolicitud = new Solicitud(nSolicitud, titulo_libro, fecha, descripcion, ISBN, idEmpleado, id_usuario);
-                controlador.agregarObjeto(laSolicitud);
+                controlador.editarSolicitud(laSolicitud);
                 JOptionPane.showMessageDialog(null, "Solicitud modificada con exito");
             }
             catch(ParseException e){

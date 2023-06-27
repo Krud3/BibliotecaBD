@@ -154,8 +154,9 @@ public class CrearProfesor extends javax.swing.JPanel {
         else{
             String titutlo = campoTitulo.getText();
             String dependencia =campoDependencia.getText();
-            controlador.agregarProfesor(usuario, titutlo, dependencia);
+            
             controlador.agregarObjeto(usuario);
+            controlador.agregarProfesor(usuario, titutlo, dependencia);
             JOptionPane.showMessageDialog(null, "Profesor agregado con exito");
             botonGuardarProfesor.setEnabled(false);
             campoDependencia.setEnabled(false);

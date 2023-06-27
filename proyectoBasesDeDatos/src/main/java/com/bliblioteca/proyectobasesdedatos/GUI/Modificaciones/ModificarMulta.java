@@ -5,10 +5,15 @@
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
+import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
+import com.bliblioteca.proyectobasesdedatos.GUI.Busquedas.BuscarMulta;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Multa;
+import java.sql.Date;
+import java.text.ParseException;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,9 +24,19 @@ public class ModificarMulta extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    DefaultComboBoxModel comboBoxModelCrearMultaIdUs,comboBoxModelCrearMultaISBN;
-    public ModificarMulta() {
+    private DefaultComboBoxModel comboBoxModelCrearMultaIdUs;
+    private DefaultComboBoxModel comboBoxModelCrearMultaISBN;
+    private Controlador controlador;
+
+    public ModificarMulta(Controlador controlador) {
+        this.controlador = controlador;
+        comboBoxModelCrearMultaIdUs = new DefaultComboBoxModel();
+        comboBoxModelCrearMultaISBN = new DefaultComboBoxModel();
+        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaIdUs, true);
+        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaISBN, false);
         initComponents();
+
+
     }
 
     /**
@@ -173,19 +188,6 @@ public class ModificarMulta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private DefaultComboBoxModel comboBoxModelCrearMultaIdUs, comboBoxModelCrearMultaISBN;
-    private Controlador controlador;
-
-    public ModificarMulta(Controlador controlador) {
-        this.controlador = controlador;
-        comboBoxModelCrearMultaIdUs = new DefaultComboBoxModel();
-        comboBoxModelCrearMultaISBN = new DefaultComboBoxModel();
-        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaIdUs, true);
-        controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaISBN, false);
-        initComponents();
-
-
-    }
     private void campoModificarNumMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarNumMultaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoModificarNumMultaActionPerformed
@@ -208,8 +210,9 @@ public class ModificarMulta extends javax.swing.JPanel {
                         fecha = controlador.convertirStringADate(date);
                         String numero = controlador.obtenerNEjemplarByISBNIdUsu(ISBN, idUsuario);
                         Multa multa = new Multa(nMulta, valor, fecha, descripcion, ISBN, numero, idUsuario);
-                        controlador.agregarObjeto(multa);
+                        controlador.editarMulta(multa);
                         JOptionPane.showMessageDialog(null, "Multa modificada con exito");
+                        BibliotecaJFrame.ShowPanel(new BuscarMulta(controlador));
                     }
                     catch(ParseException e){
                         JOptionPane.showMessageDialog(null, "Formato de fecha no valido 'DD-MM-YYYY'");
