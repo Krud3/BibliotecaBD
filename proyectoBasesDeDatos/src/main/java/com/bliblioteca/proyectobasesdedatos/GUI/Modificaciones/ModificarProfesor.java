@@ -4,7 +4,9 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
+import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 
 /**
  *
@@ -115,13 +117,65 @@ public class ModificarProfesor extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private Usuario usuario;
+    private Controlador controlador;
+    public ModificarProfesor(Controlador controlador, Usuario usuario) {
+        this.usuario = usuario;
+        this.controlador = controlador;
+        initComponents();
+
+        labelIdUsuario.setText(usuario.getIdUsuario());
+    }
+
+    campoModificarTituloProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            campoModificarTituloProfesorKeyListener(evt);
+        }
+    });
+
+    campoModificarDependenciaProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            campoModificarDependenciaProfesorKeyListener(evt);
+        }
+    });
+
     private void campoModificarDependenciaProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarDependenciaProfesorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoModificarDependenciaProfesorActionPerformed
 
     private void botonModificarProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarProfesorActionPerformed
-        // TODO add your handling code here:
+        if(campoModificarTituloProfesor.getText().equals("")|| campoModificarDependenciaProfesor.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos para continuar");
+        }
+        else{
+            String titutlo = campoModificarTituloProfesor.getText();
+            String dependencia =campoModificarDependenciaProfesor.getText();
+            controlador.agregarProfesor(usuario, titutlo, dependencia);
+            controlador.agregarObjeto(usuario);
+            JOptionPane.showMessageDialog(null, "Profesor agregado con exito");
+            botonModificarProfesor.setEnabled(false);
+            campoModificarDependenciaProfesor.setEnabled(false);
+            campoModificarDependenciaProfesor.setEditable(false);
+            campoModificarTituloProfesor.setEditable(false);
+            campoModificarTituloProfesor.setEnabled(false);
+        }
     }//GEN-LAST:event_botonModificarProfesorActionPerformed
+
+    private void campoModificarTituloProfesorKeyListener(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTituloKeyReleased
+        String size = campoModificarTituloProfesor.getText();
+        if(size.length()>100){
+            campoModificarTituloProfesor.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoTituloKeyReleased
+
+    private void campoModificarDependenciaProfesorKeyListener(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoDependenciaKeyReleased
+        String size = campoModificarDependenciaProfesor.getText();
+        if(size.length()>100){
+            campoModificarDependenciaProfesor.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoDependenciaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

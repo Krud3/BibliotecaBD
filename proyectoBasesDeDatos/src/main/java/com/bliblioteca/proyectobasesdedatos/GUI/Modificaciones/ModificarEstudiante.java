@@ -115,12 +115,24 @@ public class ModificarEstudiante extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    campoModificarCarrera.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            CampoModificarCarreraKeyReleased(evt);
+        }
+    });
+
+    campoModificarUniversidad.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            CampoModificarUniversidadKeyReleased(evt);
+        }
+    });
+
     private void campoModificarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarCarreraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoModificarCarreraActionPerformed
 
     private void botonModificarEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarEstudianteActionPerformed
-        if(campoUniversidad.getText().equals("")|| campoCarrera.getText().equals("")){
+        if(campoModificarUniversidad.getText().equals("")|| campoModificarCarrera.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Por favor llene los campos para continuar");
         }
         else{
@@ -128,14 +140,30 @@ public class ModificarEstudiante extends javax.swing.JPanel {
             String universidad = campoModificarUniversidad.getText();
             controlador.agregarEstudiante(usuario, universidad, carrera);
             controlador.agregarObjeto(usuario);
-            JOptionPane.showMessageDialog(null, "Estudiante agregado con exito");
-            botonGuardarEstudiante.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Estudiante modificado con exito");
+            botonModificarEstudiante.setEnabled(false);
             campoModificarUniversidad.setEnabled(false);
             campoModificarUniversidad.setEditable(false);
             campoModificarCarrera.setEditable(false);
             campoModificarCarrera.setEnabled(false);
         }
     }//GEN-LAST:event_botonModificarEstudianteActionPerformed
+
+    private void CampoModificarUniversidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoUniversidadKeyReleased
+        String size = campoModificarUniversidad.getText();
+        if(size.length()>100){
+            campoModificarUniversidad.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoUniversidadKeyReleased
+
+    private void CampoModificarCarreraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoCarreraKeyReleased
+        String size = campoModificarCarrera.getText();
+        if(size.length()>100){
+            campoModificarCarrera.setText("");
+            JOptionPane.showMessageDialog(null, "El campo no puede tener mas de 100 caracteres");
+        }
+    }//GEN-LAST:event_campoCarreraKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

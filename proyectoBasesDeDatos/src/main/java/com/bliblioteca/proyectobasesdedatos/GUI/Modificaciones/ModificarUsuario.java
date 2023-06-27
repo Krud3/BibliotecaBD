@@ -4,6 +4,7 @@
  */
 package com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones;
 
+import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
 import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
 
@@ -179,7 +180,14 @@ public class ModificarUsuario extends javax.swing.JPanel {
                 .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
+    private Controlador controlador;
 
+    private JPanel panelEstudiante, panelProfesor;
+
+    public ModificarUsuario(Controlador controlador) {
+        this.controlador= controlador;
+        initComponents();
+    }
     private void campoModificarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoModificarTelefonoActionPerformed
         String size = campoModificarTelefono.getText();
         if(size.length()>20){
