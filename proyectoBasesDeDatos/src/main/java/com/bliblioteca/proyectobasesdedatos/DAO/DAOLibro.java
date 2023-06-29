@@ -134,7 +134,7 @@ public class DAOLibro {
 
         ArrayList<Libro> libros = new ArrayList<>();
 
-        String sql_consulta = "SELECT * FROM libro WHERE "+nombreCampo+" = ?";
+        String sql_consulta = "SELECT * FROM libro WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
