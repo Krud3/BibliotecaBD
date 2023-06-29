@@ -234,5 +234,55 @@ public class DAODescarga {
 
         return isDeleted;
     }
+    
+    public ArrayList<Descarga> obtenerDescargaPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Descarga> descargas = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM autor WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }else if(value instanceof Date){
+                    Date dateValue = (Date) value;
+                    statement.setDate(1, dateValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un autor a la lista de descargas en cada iteracion
+                while (resultSet.next()) {
+                    Descarga autor = new Descarga();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Descarga
+                    autor.setISBN(resultSet.getString("ISBN"));
+                    autor.setIdUsuario(resultSet.getString("id_usuario"));
+                    autor.setIpComputadoraDescarga(resultSet.getString("ip_computadora_descarga"));
+                    autor.setFechaDescarga(resultSet.getDate("fecha_descarga"));
+                    autor.setHorarioDescarga(resultSet.getString("horario_descarga"));
+                    descargas.add(autor);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return descargas;
+    }
+
 
 }

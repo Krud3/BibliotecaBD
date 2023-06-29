@@ -194,5 +194,49 @@ public class DAODigital {
 
         return isDeleted;
     }
+        public static ArrayList<Digital> obtenerDigitalPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Digital> digitales = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM digital WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un digital a la lista de digitales en cada iteracion
+                while (resultSet.next()) {
+                    Digital digital = new Digital();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Digital
+                    digital.setISBN(resultSet.getString("ISBN"));
+                    digital.setUrl(resultSet.getString("url"));
+                    digital.setFormato(resultSet.getString("formato"));
+                    digital.setTamanio(resultSet.getString("tamanio"));
+                    digitales.add(digital);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return digitales;
+    }
 
 }

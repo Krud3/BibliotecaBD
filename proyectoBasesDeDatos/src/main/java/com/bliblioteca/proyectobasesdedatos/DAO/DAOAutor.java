@@ -205,5 +205,51 @@ public class DAOAutor {
 
         return isDeleted;
     }
+        public static ArrayList<Autor> obtenerAutorPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Autor> autores = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM autor WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un autor a la lista de autores en cada iteracion
+                while (resultSet.next()) {
+                    Autor autor = new Autor();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Autor
+                    autor.setCodigoAutor(resultSet.getString("codigo_autor"));
+                    autor.setPrimerNombreAutor(resultSet.getString("primer_nombre"));
+                    autor.setSegundoNombreAutor(resultSet.getString("segundo_nombre"));
+                    autor.setPrimerApelldoAutor(resultSet.getString("primer_apellido"));
+                    autor.setSegundoApelldoAutor(resultSet.getString("segundo_apellido"));
+                    autores.add(autor);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return autores;
+    }
+
 
 }

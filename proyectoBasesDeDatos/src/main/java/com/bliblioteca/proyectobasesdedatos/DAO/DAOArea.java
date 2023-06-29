@@ -199,5 +199,49 @@ public class DAOArea {
 
         return isDeleted;
     }
+    public static ArrayList<Area> obtenerAreaPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Area> areas = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM area WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un area a la lista de areas en cada iteracion
+                while (resultSet.next()) {
+                    Area area = new Area();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Area
+                    area.setCodigoArea(resultSet.getString("codigo_area"));
+                    area.setNombreArea(resultSet.getString("nombre_area"));
+                    area.setDescripcionArea(resultSet.getString("descripcion_area"));
+                    area.setNombreAreaHija(resultSet.getString("nombre_area_hija"));
+                    areas.add(area);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return areas;
+    }
 
 }

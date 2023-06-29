@@ -197,5 +197,49 @@ public class DAOEditorial {
 
         return isDeleted;
     }
+    public static ArrayList<Editorial> obtenerEditorialPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Editorial> editoriales = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM editorial WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un editorial a la lista de editoriales en cada iteracion
+                while (resultSet.next()) {
+                    Editorial editorial = new Editorial();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Editorial
+                    editorial.setCodigoEditorial(resultSet.getString("codigo_editorial"));
+                    editorial.setNombreEditorial(resultSet.getString("nombre_editorial"));
+                    editorial.setPaginaWebEditorial(resultSet.getString("pagina_web"));
+                    editorial.setPaisEditorial(resultSet.getString("pais_origen"));
+                    editoriales.add(editorial);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return editoriales;
+    }
 
 }
