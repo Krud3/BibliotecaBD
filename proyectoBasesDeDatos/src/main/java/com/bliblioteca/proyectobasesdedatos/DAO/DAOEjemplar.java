@@ -245,5 +245,53 @@ public class DAOEjemplar {
 
         return isDeleted;
     }
+        
+       public static ArrayList<Ejemplar> obtenerEjemplarPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Ejemplar> ejemplares = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM ejemplar WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un ejemplar a la lista de ejemplares en cada iteracion
+                while (resultSet.next()) {
+                    Ejemplar ejemplar = new Ejemplar();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Ejemplar
+                    ejemplar.setISBN(resultSet.getString("ISBN"));
+                    ejemplar.setNumero(resultSet.getString("numero"));
+                    ejemplar.setnCajon(resultSet.getString("n_cajon"));
+                    ejemplar.setnPasillo(resultSet.getString("n_pasillo"));
+                    ejemplar.setNomSala(resultSet.getString("nom_sala"));
+                    ejemplar.setEstante(resultSet.getString("estante"));
+                    ejemplar.setEstado(resultSet.getString("estado"));
+                    ejemplares.add(ejemplar);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return ejemplares;
+    }
 
 }

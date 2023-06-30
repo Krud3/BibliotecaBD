@@ -215,4 +215,58 @@ public class DAOMulta {
         return isDeleted;
     }
 
+    public static ArrayList<Multa> obtenerMultaPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Multa> multas = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM multa WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }else if(value instanceof Integer){
+                    int intValue = (int) value;
+                    statement.setInt(1, intValue);
+                }else if(value instanceof Date){
+                    Date dateValue = (Date) value;
+                    statement.setDate(1, dateValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un multa a la lista de multas en cada iteracion
+                while (resultSet.next()) {
+                    Multa multa = new Multa();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Multa
+                    multa.setnMulta(resultSet.getString("n_multa"));
+                    multa.setValor(resultSet.getInt("valor"));
+                    multa.setFecha(resultSet.getDate("fecha"));
+                    multa.setDescripcion(resultSet.getString("descripcion"));
+                    multa.setISBN(resultSet.getString("ISBN"));
+                    multa.setNumero(resultSet.getString("numero"));
+                    multa.setIdUsuario(resultSet.getString("id_usuario"));
+                    multas.add(multa);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return multas;
+    }
+
 }

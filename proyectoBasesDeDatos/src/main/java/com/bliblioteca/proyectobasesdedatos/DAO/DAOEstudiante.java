@@ -193,5 +193,50 @@ public class DAOEstudiante {
 
         return isDeleted;
     }
+    
+    public static ArrayList<Estudiante> obtenerEstudiantePorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Estudiante> estudiantes = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM estudiante WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un estudiante a la lista de estudiantes en cada iteracion
+                while (resultSet.next()) {
+                    Estudiante estudiante = new Estudiante();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Estudiante
+                    estudiante.setIdUsuario(resultSet.getString("id_usuario"));
+                    estudiante.setCarreraEstudiante(resultSet.getString("carrera_estudiante"));
+                    estudiante.setUniversidadEstudiante(resultSet.getString("universidad_estudiante"));
+                    estudiantes.add(estudiante);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return estudiantes;
+    }
+
 
 }
