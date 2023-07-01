@@ -212,5 +212,55 @@ public class DAOPrestamo {
 
         return isDeleted;
     }
+    public static ArrayList<Prestamo> obtenerPrestamoPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Prestamo> prestamos = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM prestamo WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }else if(value instanceof Date){
+                    Date dateValue = (Date) value;
+                    statement.setDate(1, dateValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un prestamo a la lista de prestamos en cada iteracion
+                while (resultSet.next()) {
+                    Prestamo prestamo = new Prestamo();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Prestamo
+                    prestamo.setnPrestamo(resultSet.getString("n_prestamo"));
+                    prestamo.setFechaR(resultSet.getDate("fecha_R"));
+                    prestamo.setFechaD(resultSet.getDate("fecha_D"));
+                    prestamo.setIdUsuario(resultSet.getString("id_usuario"));
+                    prestamo.setIdEmpleado(resultSet.getString("id_empleado"));
+                    prestamo.setISBN(resultSet.getString("ISBN"));
+                    prestamo.setNumero(resultSet.getString("numero"));
+                    prestamos.add(prestamo);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return prestamos;
+    }
 
 }
