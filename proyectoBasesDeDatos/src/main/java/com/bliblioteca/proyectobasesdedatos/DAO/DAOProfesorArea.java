@@ -189,5 +189,49 @@ public class DAOProfesorArea {
 
         return isDeleted;
     }
+    
+    public static ArrayList<ProfesorArea> obtenerProfesorAreaPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<ProfesorArea> profesorAreas = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM profesor_area WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un profesorArea a la lista de profesorAreas en cada iteracion
+                while (resultSet.next()) {
+                    ProfesorArea profesorArea = new ProfesorArea();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto ProfesorArea
+                    profesorArea.setIdUsuario(resultSet.getString("id_usuario"));
+                    profesorArea.setCodigoArea(resultSet.getString("codigo_area"));
+                    profesorAreas.add(profesorArea);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return profesorAreas;
+    }
+
 
 }

@@ -212,5 +212,55 @@ public class DAOSolicitud {
 
         return isDeleted;
     }
+    public static ArrayList<Solicitud> obtenerPrestamoPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Solicitud> solicitudes = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM solicitud WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }else if(value instanceof Date){
+                    Date dateValue = (Date) value;
+                    statement.setDate(1, dateValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un solicitud a la lista de solicitudes en cada iteracion
+                while (resultSet.next()) {
+                    Solicitud solicitud = new Solicitud();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Solicitud
+                    solicitud.setNumeroSolicitud(resultSet.getString("n_solicitud"));
+                    solicitud.setTituloLibro(resultSet.getString("titulo_libro"));
+                    solicitud.setFecha(resultSet.getDate("fecha"));
+                    solicitud.setDescripcion(resultSet.getString("descripcion"));
+                    solicitud.setISBNSolicitud(resultSet.getString("ISBN_solicitud"));
+                    solicitud.setIdEmpleado(resultSet.getString("id_empleado"));
+                    solicitud.setIdUsuario(resultSet.getString("id_usuario"));
+                    solicitudes.add(solicitud);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return solicitudes;
+    }
 
 }

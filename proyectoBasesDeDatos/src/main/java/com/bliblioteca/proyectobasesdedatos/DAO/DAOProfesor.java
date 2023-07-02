@@ -193,5 +193,50 @@ public class DAOProfesor {
 
         return isDeleted;
     }
+    
+    public static ArrayList<Profesor> obtenerProfesorPorCualquierCampo(Object value, String nombreCampo){
+
+        ArrayList<Profesor> profesors = new ArrayList<>();
+
+        String sql_consulta = "SELECT * FROM profesor WHERE "+nombreCampo+" LIKE CONCAT ('%',?,'%')";
+
+        // Obtener la conexión
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sql_consulta)) {
+                // Establecer el valor del parámetro en la sentencia SQL
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    statement.setString(1, stringValue);
+                }
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // agrega un profesor a la lista de profesors en cada iteracion
+                while (resultSet.next()) {
+                    Profesor profesor = new Profesor();
+
+                    // Obtener los valores de las columnas y asignarlos al objeto Profesor
+                    profesor.setIdUsuario(resultSet.getString("id_usuario"));
+                    profesor.setTitulo(resultSet.getString("titulo_profesor"));
+                    profesor.setDependencia(resultSet.getString("dependencia_profesor"));
+                    profesors.add(profesor);
+
+                }
+
+                resultSet.close();
+            } catch (SQLException e) {
+                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+            } finally {
+                // Cerrar la conexión
+                conexion.closeConnection();
+            }
+        }
+        return profesors;
+    }
+
 
 }
