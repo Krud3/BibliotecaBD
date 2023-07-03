@@ -137,14 +137,6 @@ public class BuscarLibro extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonBuscarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botonEditarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(456, 456, 456)
-                                .addComponent(botonEliminarLibro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,7 +148,15 @@ public class BuscarLibro extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(218, 218, 218)))
+                        .addGap(218, 218, 218))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(botonEditarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonEliminarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -178,12 +178,12 @@ public class BuscarLibro extends javax.swing.JPanel {
                     .addComponent(botonBuscarLibro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEliminarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEditarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(botonEditarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEliminarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -240,7 +240,42 @@ public class BuscarLibro extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void botonEditarLibroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarLibroMouseClicked
-        BibliotecaJFrame.ShowPanel(new ModificarLibro(controlador,idEmpleado));
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
+            
+        }
+        else if(jTable1.getSelectedRows().length >1){
+            JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
+        }
+        else{
+            int columnas = jTable1.getColumnCount();
+            Object[] valores = new Object[columnas];
+
+            for (int columna = 0; columna < columnas; columna++) {
+                valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
+                
+            }
+            Libro solicitudAEliminar = new Libro();
+            solicitudAEliminar.setISBN((String)valores[0]);
+            solicitudAEliminar.setCodArea((String)valores[1]);
+            solicitudAEliminar.setCodigoEditorial((String)valores[2]);
+            solicitudAEliminar.setIdEmpleado((String)valores[3]);
+            solicitudAEliminar.setTituloLibro((String)valores[4]);
+            solicitudAEliminar.setAnioPublicacion((Integer)valores[5]);
+            solicitudAEliminar.setNumeroPaginas((Integer)valores[6]);
+            solicitudAEliminar.setIdioma((String)valores[7]);
+            
+      
+            try{
+                BibliotecaJFrame.ShowPanel(new ModificarLibro(controlador,idEmpleado, solicitudAEliminar));
+                
+            }
+            catch(UnsupportedOperationException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        
     }//GEN-LAST:event_botonEditarLibroMouseClicked
 
 

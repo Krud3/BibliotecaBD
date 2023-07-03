@@ -125,11 +125,11 @@ public class DAOMulta {
     }
 
     //Actualiza la multa, retorna true si actualizo correctamente de lo contrario retorna false
-    public static boolean actualizarMulta(Multa multaModificada) {
+    public static boolean actualizarMulta(Multa multaModificada, String n_multa) {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar la multa
-        String sql_actualizar = "UPDATE multa SET valor = ?, fecha = ?, descripcion = ?, ISBN = ?, id_usuario =?  WHERE n_multa = ?";
+        String sql_actualizar = "UPDATE multa SET valor = ?, fecha = ?, descripcion = ?, ISBN = ?, numero = ?, id_usuario =?, n_multa = ?  WHERE n_multa = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -148,14 +148,14 @@ public class DAOMulta {
                 String nuevoIdUsuario = multaModificada.getIdUsuario();
 
                 
-                statement.setString(1, numeroMulta);
-                statement.setInt(2, nuevoValor);
-                statement.setDate(3, nuevaFecha);
-                statement.setString(4, nuevaDescripcion);
-                statement.setString(5, nuevoISBN);
-                statement.setString(6, nuevoNum);
-                statement.setString(7, nuevoIdUsuario);
-                
+                statement.setInt(1, nuevoValor);
+                statement.setDate(2, nuevaFecha);
+                statement.setString(3, nuevaDescripcion);
+                statement.setString(4, nuevoISBN);
+                statement.setString(5, nuevoNum);
+                statement.setString(6, nuevoIdUsuario);
+                statement.setString(7, numeroMulta);
+                statement.setString(8, n_multa);
 
 
                 // Ejecutar la actualización

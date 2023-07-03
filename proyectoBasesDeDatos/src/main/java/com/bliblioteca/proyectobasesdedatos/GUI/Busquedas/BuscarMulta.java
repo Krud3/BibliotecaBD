@@ -11,6 +11,11 @@ import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarLibro;
 import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarMulta;
 import com.bliblioteca.proyectobasesdedatos.logica.Multa;
 import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -132,12 +137,17 @@ public class BuscarMulta extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxIdMulta, 0, 274, Short.MAX_VALUE))
+                        .addComponent(jComboBoxIdMulta, 0, 414, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -145,11 +155,7 @@ public class BuscarMulta extends javax.swing.JPanel {
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(botonBuscarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jScrollPane1))))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -169,12 +175,12 @@ public class BuscarMulta extends javax.swing.JPanel {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -251,7 +257,46 @@ public class BuscarMulta extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void botonEditarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMultaMouseClicked
-        BibliotecaJFrame.ShowPanel(new ModificarMulta(controlador));
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
+            
+        }
+        else if(jTable1.getSelectedRows().length >1){
+            JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
+        }
+        else{
+            int columnas = jTable1.getColumnCount();
+            Object[] valores = new Object[columnas];
+
+            for (int columna = 0; columna < columnas; columna++) {
+                valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
+            }
+
+            
+            Multa solicitudAEliminar = new Multa();
+            solicitudAEliminar.setnMulta((String)valores[0]);
+            solicitudAEliminar.setValor((Integer)valores[1]);
+            SimpleDateFormat formato = new SimpleDateFormat("DD-MM-YYYY");
+            Date fecha = null;
+            try {
+                fecha = (Date) formato.parse((String) valores[2]);
+            } catch (ParseException ex) {
+                Logger.getLogger(BuscarMulta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            solicitudAEliminar.setFecha(fecha);
+            solicitudAEliminar.setDescripcion((String) valores[3]);
+            solicitudAEliminar.setISBN((String) valores[4]);
+            solicitudAEliminar.setNumero((String)valores[5]);
+            try{
+                BibliotecaJFrame.ShowPanel(new ModificarMulta(controlador,solicitudAEliminar));
+            }
+            catch(UnsupportedOperationException e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        
+        
     }//GEN-LAST:event_botonEditarMultaMouseClicked
 
 

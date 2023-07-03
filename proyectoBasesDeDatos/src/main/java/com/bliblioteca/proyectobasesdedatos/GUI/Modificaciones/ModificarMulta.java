@@ -27,14 +27,23 @@ public class ModificarMulta extends javax.swing.JPanel {
     private DefaultComboBoxModel comboBoxModelCrearMultaIdUs;
     private DefaultComboBoxModel comboBoxModelCrearMultaISBN;
     private Controlador controlador;
+    private Multa multaAmodificar;
+    private String n_multa;
 
-    public ModificarMulta(Controlador controlador) {
+    public ModificarMulta(Controlador controlador, Multa multa) {
+        this.multaAmodificar = multa;
+        n_multa = this.multaAmodificar.getnMulta();
         this.controlador = controlador;
         comboBoxModelCrearMultaIdUs = new DefaultComboBoxModel();
         comboBoxModelCrearMultaISBN = new DefaultComboBoxModel();
         controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaIdUs, true);
         controlador.llenarComboBoxAgregarMulta(comboBoxModelCrearMultaISBN, false);
         initComponents();
+        
+        campoModificarNumMulta.setText(this.multaAmodificar.getnMulta());
+        //campoModificarFechaMulta.setText(multaAmodificar.getFecha().toString());
+        campoModificarValorMulta.setText(String.valueOf(multaAmodificar.getValor()));
+        campoModificarDescripcion.setText(multaAmodificar.getDescripcion());
 
 
     }
@@ -210,7 +219,8 @@ public class ModificarMulta extends javax.swing.JPanel {
                         fecha = controlador.convertirStringADate(date);
                         String numero = controlador.obtenerNEjemplarByISBNIdUsu(ISBN, idUsuario);
                         Multa multa = new Multa(nMulta, valor, fecha, descripcion, ISBN, numero, idUsuario);
-                        controlador.editarMulta(multa);
+                        System.out.println("lOS NUMEROS: "+multa.getNumero());
+                        controlador.editarMulta(multa,n_multa);
                         JOptionPane.showMessageDialog(null, "Multa modificada con exito");
                         BibliotecaJFrame.ShowPanel(new BuscarMulta(controlador));
                     }

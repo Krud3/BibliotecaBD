@@ -19,12 +19,6 @@ import javax.swing.JOptionPane;
  */
 public class ModificarLibro extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Solicitud
-     */
-    public ModificarLibro() {
-        initComponents();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -179,14 +173,26 @@ public class ModificarLibro extends javax.swing.JPanel {
     private DefaultComboBoxModel jCbModelCodEditorial,jcbModelCodArea;
     private String idEempleado;
     private Controlador controlador;
-    public ModificarLibro(Controlador controlador, String idEmpleado) {
+    private Libro libroAeditar;
+    private String oldISBN;
+    public ModificarLibro(Controlador controlador, String idEmpleado, Libro libroAeditar) {
+        
+        this.libroAeditar = libroAeditar;
         this.idEempleado = idEmpleado;
         this.controlador = controlador;
         jCbModelCodEditorial = new DefaultComboBoxModel();
         jcbModelCodArea = new DefaultComboBoxModel();
         this.controlador.llenarComboBoxAgregarLibro(jcbModelCodArea, true);
         this.controlador.llenarComboBoxAgregarLibro(jCbModelCodEditorial, false);
+        
         initComponents();
+        oldISBN = this.libroAeditar.getISBN();
+        
+        campoModificarTituloLibro.setText(this.libroAeditar.getTituloLibro());
+        campoModificarAnioPublicacion.setText(String.valueOf(this.libroAeditar.getAnioPublicacion()));
+        campoModificarISBN.setText(this.libroAeditar.getISBN());
+        campoModificarNumPaginas.setText(String.valueOf(this.libroAeditar.getNumeroPaginas()));
+        campoModificarIdioma.setText(this.libroAeditar.getIdioma());
     }
 
 
@@ -204,23 +210,30 @@ public class ModificarLibro extends javax.swing.JPanel {
             }
             else{
                 String ISBN =campoModificarISBN.getText();
-                String codArea = (String) jcbModelCodArea.getSelectedItem();
-                String codEditorial = (String) jCbModelCodEditorial.getSelectedItem();
-                String id_empleado = this.idEempleado;
-                String tituloLibro = campoModificarTituloLibro.getText();
-                if(controlador.esEntero(campoModificarNumPaginas.getText()) &&controlador.esEntero(campoModificarNumPaginas.getText())){
-                    int nPaginas = Integer.parseInt((String) campoModificarNumPaginas.getText());
-                    int anioPubli = Integer.parseInt((String) campoModificarAnioPublicacion.getText());
-                    String idioma = campoModificarIdioma.getText();
-                    Libro elLibro = new Libro(ISBN, codArea, codEditorial, id_empleado, tituloLibro, anioPubli, nPaginas, idioma);
-                    DAOLibro.actualizarLibro(elLibro);
-                    JOptionPane.showMessageDialog(null, "Libro modificado con exito");
-                    BibliotecaJFrame.ShowPanel(new BuscarLibro(controlador, idEempleado));
-
+                //System.out.println(ISBN);
+                if(!DAOLibro.obtenerLibroPorID(ISBN).getISBN().equals("")){
+                    
+                    JOptionPane.showMessageDialog(null, "ISBN existente, por favor valirdar el campo");
                 }
                 else{
+                    String codArea = (String) jcbModelCodArea.getSelectedItem();
+                    String codEditorial = (String) jCbModelCodEditorial.getSelectedItem();
+                    String id_empleado = this.idEempleado;
+                    String tituloLibro = campoModificarTituloLibro.getText();
+                    if(controlador.esEntero(campoModificarNumPaginas.getText()) &&controlador.esEntero(campoModificarNumPaginas.getText())){
+                        int nPaginas = Integer.parseInt((String) campoModificarNumPaginas.getText());
+                        int anioPubli = Integer.parseInt((String) campoModificarAnioPublicacion.getText());
+                        String idioma = campoModificarIdioma.getText();
+                        Libro elLibro = new Libro(ISBN, codArea, codEditorial, id_empleado, tituloLibro, anioPubli, nPaginas, idioma);
+                        DAOLibro.actualizarLibro(elLibro, oldISBN);
+                        JOptionPane.showMessageDialog(null, "Libro modificado con exito");
+                        BibliotecaJFrame.ShowPanel(new BuscarLibro(controlador, idEempleado));
+                    }
+                    else{
                     JOptionPane.showMessageDialog(null, "Numero pagianas y anio deben ser enteros");
+                    }
                 }
+                
             }
         }
     }//GEN-LAST:event_botonModificarLibroActionPerformed

@@ -182,11 +182,11 @@ public class DAOLibro {
         return libros;
     }
 
-       public static boolean actualizarLibro(Libro libroModificado) {
+       public static boolean actualizarLibro(Libro libroModificado, String oldISBN) {
         boolean isUpdated = false;
 
         // Sentencia SQL para actualizar el área
-        String sql_actualizar = "UPDATE libro SET codigo_area = ?, codigo_editorial = ?, id_empleado = ?, titulo = ?, anio_publicacion = ?, numero_paginas = ?, idioma = ? WHERE ISBN = ?";
+        String sql_actualizar = "UPDATE libro SET codigo_area = ?, codigo_editorial = ?, id_empleado = ?, titulo = ?, anio_publicacion = ?, numero_paginas = ?, idioma = ?, ISBN = ? WHERE ISBN = ?";
 
         // Obtener la conexión
         ConexionBD conexion = new ConexionBD();
@@ -214,6 +214,9 @@ public class DAOLibro {
                 statement.setInt(6, nuevoNumeroPaginas);
                 statement.setString(7, nuevoIdioma);
                 statement.setString(8, ISBN);
+                statement.setString(9, oldISBN);
+                System.out.println(oldISBN);
+                //statement.setString(8, oldISBN);
 
                 // Ejecutar la actualización
                 int filasActualizadas = statement.executeUpdate();

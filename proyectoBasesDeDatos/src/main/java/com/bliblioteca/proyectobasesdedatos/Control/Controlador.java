@@ -502,7 +502,7 @@ public class Controlador {
                 break;
             case "Multa":
                 Multa multa = (Multa) objeto;
-                editarMulta(multa);
+                editarMulta(multa, "");
                 break;
             case "Prestamo":
                 Prestamo prestamo = (Prestamo) objeto;
@@ -524,8 +524,8 @@ public class Controlador {
     public void editarPrestamo(Prestamo prestamo){
         DAOPrestamo.actualizarPrestamo(prestamo);
     }
-    public void editarMulta(Multa multa){
-        DAOMulta.actualizarMulta(multa);
+    public void editarMulta(Multa multa, String n_multa){
+        DAOMulta.actualizarMulta(multa, n_multa);
     }
     public void editarLibro(Libro libro, Ejemplar ejemplar, Digital digital){
         
@@ -554,7 +554,7 @@ public class Controlador {
                 DAODigital.actualizarDigital(digital);
             }
         }
-        DAOLibro.actualizarLibro(libro);
+        DAOLibro.actualizarLibro(libro, libro.getISBN());
         
     }
     public void editarUsuario(Usuario usuario, Estudiante estudiante, Profesor profesor){
