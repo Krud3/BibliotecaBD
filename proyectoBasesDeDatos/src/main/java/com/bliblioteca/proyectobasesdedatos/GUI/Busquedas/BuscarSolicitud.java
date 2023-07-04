@@ -7,12 +7,14 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
-import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarPrestamo;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarLibro;
 import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarSolicitud;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarUsuario;
+import com.bliblioteca.proyectobasesdedatos.logica.Libro;
+import com.bliblioteca.proyectobasesdedatos.logica.Multa;
 import com.bliblioteca.proyectobasesdedatos.logica.Solicitud;
-import com.bliblioteca.proyectobasesdedatos.logica.Usuario;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,20 +26,16 @@ public class BuscarSolicitud extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    private DefaultComboBoxModel comboBoxModelBuscarSolicitud;
     private DefaultTableModel tableModelBuscarSolicitud;
-
     private Controlador controlador;
     private String idEmpleado;
     public BuscarSolicitud(Controlador controlador, String idEmpleado) {
         this.idEmpleado = idEmpleado;
         this.controlador = controlador;
-        tableModelBuscarSolicitud= new DefaultTableModel();
-        comboBoxModelBuscarSolicitud = new DefaultComboBoxModel();
-        controlador.llenarTablaBuscarSolicitud(tableModelBuscarSolicitud);
-        controlador.llenarComboBoxBuscarSolicitud(comboBoxModelBuscarSolicitud);
-        
-        Object[] columnas = {"N_SOLICITUD","TITULO", "FECHA","DESCRIP","ISBN_S","ID_EMPLEADO", "ID_USUARIO"};
+        tableModelBuscarSolicitud = new DefaultTableModel();
+        controlador.llenarTablaBuscarTodasLasSolicitudes(tableModelBuscarSolicitud);
+
+        Object[] columnas = {"N_SOLICITUD","TITULO_LIBRO", "FECHA","DESCRIPCION","ISBN_SOLICITUD","ID_EMPLEADO", "ID_USUARIO"};
         tableModelBuscarSolicitud.setColumnIdentifiers(columnas);
         initComponents();
     }
@@ -55,20 +53,22 @@ public class BuscarSolicitud extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         botonEditarSolicitud = new javax.swing.JButton();
+        campoISBNLibro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         botonBuscarSolicitud = new javax.swing.JButton();
         botonEliminarSolicitud = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Buscar Solicitud");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel2.setText("Número de Solcitud:");
+        jLabel2.setText("Valor del campo:");
 
         botonEditarSolicitud.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         botonEditarSolicitud.setText("Editar");
@@ -82,6 +82,8 @@ public class BuscarSolicitud extends javax.swing.JPanel {
                 botonEditarSolicitudActionPerformed(evt);
             }
         });
+
+        campoISBNLibro.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         jTable1.setModel(tableModelBuscarSolicitud);
         jScrollPane1.setViewportView(jTable1);
@@ -112,8 +114,11 @@ public class BuscarSolicitud extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jComboBox1.setModel(comboBoxModelBuscarSolicitud);
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setText("Nombre del Campo:");
+
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "n_solicitud", "titulo_libro", "fecha", "descripcion", "ISBN_solicitud","id_empleado","id_usuario" }));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jButton1.setText("Mostrar todos");
@@ -128,52 +133,59 @@ public class BuscarSolicitud extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonBuscarSolicitud, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(botonEditarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonEliminarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(41, 41, 41))
+                        .addComponent(botonBuscarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoISBNLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(218, 218, 218))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonEditarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonEliminarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonBuscarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campoISBNLibro))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(botonBuscarSolicitud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEditarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(140, 140, 140))
+                    .addComponent(botonEditarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEliminarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -190,31 +202,16 @@ public class BuscarSolicitud extends javax.swing.JPanel {
     }//GEN-LAST:event_botonEliminarSolicitudActionPerformed
 
     private void botonBuscarSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarSolicitudMouseClicked
-        if(jComboBox1.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(null, "Por favor seleccione un numero de solicitud");
-        }
-        else{
-            String numSolicitud = (String) jComboBox1.getSelectedItem();
-            Solicitud solicitudEncontrada = controlador.buscarSolicitud(numSolicitud);
-            Object[] filas = new Object[7];
-            tableModelBuscarSolicitud.setRowCount(0);
-            filas[0] = solicitudEncontrada.getNumeroSolicitud();
-            filas[1] = solicitudEncontrada.getTituloLibro();
-            filas[2] = solicitudEncontrada.getFecha();
-            filas[3] = solicitudEncontrada.getDescripcion();
-            filas[4] = solicitudEncontrada.getISBNSolicitud();
-            filas[5] = solicitudEncontrada.getIdEmpleado();
-            filas[6] = solicitudEncontrada.getIdUsuario();
-            tableModelBuscarSolicitud.addRow(filas);
-            
-        }
+        String valorCampo = campoISBNLibro.getText();
+        String nombreCampo = (String) jComboBox1.getSelectedItem();
+        controlador.llenarTablaBuscarSolicitud(valorCampo, nombreCampo, tableModelBuscarSolicitud);
     }//GEN-LAST:event_botonBuscarSolicitudMouseClicked
 
     private void botonEliminarSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarSolicitudMouseClicked
         int filaSeleccionada = jTable1.getSelectedRow();
         if(jTable1.getSelectedRow()==-1){
             JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
-            
+
         }
         else if(jTable1.getSelectedRows().length >1){
             JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
@@ -227,7 +224,6 @@ public class BuscarSolicitud extends javax.swing.JPanel {
                 valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
             }
 
-            
             Solicitud solicitudAEliminar = new Solicitud();
             solicitudAEliminar.setNumeroSolicitud((String)valores[0]);
             try{
@@ -238,11 +234,10 @@ public class BuscarSolicitud extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
-        
     }//GEN-LAST:event_botonEliminarSolicitudMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        controlador.llenarTablaBuscarSolicitud(tableModelBuscarSolicitud);
+        controlador.llenarTablaBuscarTodasLasSolicitudes(tableModelBuscarSolicitud);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void botonEditarSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarSolicitudMouseClicked
@@ -255,10 +250,12 @@ public class BuscarSolicitud extends javax.swing.JPanel {
     private javax.swing.JButton botonEditarSolicitud;
     private javax.swing.JButton botonEliminarSolicitud;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField campoISBNLibro;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

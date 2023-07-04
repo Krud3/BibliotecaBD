@@ -1,3 +1,5 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/proyectoBasesDeDatos/src/main/java/com/bliblioteca/proyectobasesdedatos/DAO/ConexionBD.java
+/proyectoBasesDeDatos/target/

@@ -19,8 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  *
@@ -38,10 +37,10 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
     public BibliotecaJFrame(Controlador controlador, String idEmpleado) {
         this.idEmpleado = idEmpleado;
         panel_buscar_libro = new BuscarLibro(controlador, idEmpleado);
-        panel_buscar_multa = new BuscarMulta(controlador);
+        panel_buscar_multa = new BuscarMulta(controlador, idEmpleado);
         buscar_prestamo = new BuscarPrestamo(controlador, idEmpleado);
         buscar_solicitud = new BuscarSolicitud(controlador, idEmpleado);
-        buscar_usuario= new BuscarUsuario(controlador);
+        buscar_usuario= new BuscarUsuario(controlador, idEmpleado);
         panel_crear_usuario= new CrearUsuario(controlador);
         panel_crear_libro = new CrearLibro(controlador, idEmpleado);
         panel_crear_multa = new CrearMulta(controlador);
@@ -94,7 +93,7 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         panelMenuLayout.setVerticalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,8 +105,8 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
-                .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 165, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,14 +121,14 @@ public class BibliotecaJFrame extends javax.swing.JFrame {
         contenido.setLayout(contenidoLayout);
         contenidoLayout.setHorizontalGroup(
             contenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 920, Short.MAX_VALUE)
+            .addGap(0, 1090, Short.MAX_VALUE)
         );
         contenidoLayout.setVerticalGroup(
             contenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 860, Short.MAX_VALUE)
         );
 
-        fondo.add(contenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 920, 860));
+        fondo.add(contenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1090, 860));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

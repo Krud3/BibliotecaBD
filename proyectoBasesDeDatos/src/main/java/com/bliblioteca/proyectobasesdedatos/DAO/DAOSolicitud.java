@@ -212,7 +212,7 @@ public class DAOSolicitud {
 
         return isDeleted;
     }
-    public static ArrayList<Solicitud> obtenerPrestamoPorCualquierCampo(Object value, String nombreCampo){
+    public static ArrayList<Solicitud> obtenerSolicitudPorCualquierCampo(Object value, String nombreCampo){
 
         ArrayList<Solicitud> solicitudes = new ArrayList<>();
 

@@ -7,18 +7,18 @@ package com.bliblioteca.proyectobasesdedatos.GUI.Busquedas;
 import com.bliblioteca.proyectobasesdedatos.Control.Controlador;
 import com.bliblioteca.proyectobasesdedatos.GUI.BibliotecaJFrame;
 import com.bliblioteca.proyectobasesdedatos.GUI.Crear.*;
-import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarLibro;
 import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarMulta;
+import com.bliblioteca.proyectobasesdedatos.GUI.Modificaciones.ModificarUsuario;
 import com.bliblioteca.proyectobasesdedatos.logica.Multa;
-import com.bliblioteca.proyectobasesdedatos.logica.Prestamo;
-import java.sql.Date;
+import com.bliblioteca.proyectobasesdedatos.logica.Multa;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,15 +29,14 @@ public class BuscarMulta extends javax.swing.JPanel {
     /**
      * Creates new form Solicitud
      */
-    private DefaultComboBoxModel modelComboBoxBuscarMulta;
     private DefaultTableModel tableModelBuscarMulta;
     private Controlador controlador;
-    public BuscarMulta(Controlador controlador) {
+    private String idEmpleado;
+    public BuscarMulta(Controlador controlador, String idEmpleado) {
+        this.idEmpleado = idEmpleado;
         this.controlador = controlador;
         tableModelBuscarMulta = new DefaultTableModel();
-        modelComboBoxBuscarMulta = new DefaultComboBoxModel();
-        controlador.llenarComboBoxBuscarMulta(modelComboBoxBuscarMulta);
-        controlador.llenarTablaBuscarMulta(tableModelBuscarMulta);
+        controlador.llenarTablall(tableModelBuscarMulta);
 
         Object[] columnas = {"N_MULTA","VALOR", "FECHA","DESCRIPCION","ISBN","NUMERO", "ID_USUARIO"};
         tableModelBuscarMulta.setColumnIdentifiers(columnas);
@@ -57,20 +56,22 @@ public class BuscarMulta extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         botonEditarMulta = new javax.swing.JButton();
+        campoISBNMulta = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         botonBuscarMulta = new javax.swing.JButton();
         botonEliminarMulta = new javax.swing.JButton();
-        jComboBoxIdMulta = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(460, 430));
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Buscar Multa");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel2.setText("Número de Multa:");
+        jLabel2.setText("Valor del campo:");
 
         botonEditarMulta.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         botonEditarMulta.setText("Editar");
@@ -84,6 +85,8 @@ public class BuscarMulta extends javax.swing.JPanel {
                 botonEditarMultaActionPerformed(evt);
             }
         });
+
+        campoISBNMulta.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         jTable1.setModel(tableModelBuscarMulta);
         jScrollPane1.setViewportView(jTable1);
@@ -114,8 +117,11 @@ public class BuscarMulta extends javax.swing.JPanel {
             }
         });
 
-        jComboBoxIdMulta.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jComboBoxIdMulta.setModel(modelComboBoxBuscarMulta);
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setText("Nombre del Campo:");
+
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "n_multa", "valor", "fecha", "descripcion", "ISBN","numero","id_usuario" }));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jButton1.setText("Mostrar todos");
@@ -124,63 +130,65 @@ public class BuscarMulta extends javax.swing.JPanel {
                 jButton1MouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(botonBuscarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxIdMulta, 0, 414, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoISBNMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botonBuscarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))))
-                .addGap(30, 30, 30))
+                                .addGap(2, 2, 2)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(218, 218, 218))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBoxIdMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campoISBNMulta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonBuscarMulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(botonEditarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEliminarMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,31 +205,16 @@ public class BuscarMulta extends javax.swing.JPanel {
     }//GEN-LAST:event_botonEliminarMultaActionPerformed
 
     private void botonBuscarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarMultaMouseClicked
-        if(jComboBoxIdMulta.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(null, "Por favor seleccione un numero de multa");
-        }
-        else{
-            String numPrestamo = (String) jComboBoxIdMulta.getSelectedItem();
-            Multa solicitudEncontrada = controlador.buscarMulta(numPrestamo);
-            Object[] filas = new Object[7];
-            tableModelBuscarMulta.setRowCount(0);
-            filas[0] = solicitudEncontrada.getnMulta();
-            filas[1] = solicitudEncontrada.getValor();
-            filas[2] = solicitudEncontrada.getFecha();
-            filas[3] = solicitudEncontrada.getDescripcion();
-            filas[4] = solicitudEncontrada.getISBN();
-            filas[5] = solicitudEncontrada.getNumero();
-            filas[6] = solicitudEncontrada.getIdUsuario();
-            tableModelBuscarMulta.addRow(filas);
-            
-        }
+        String valorCampo = campoISBNMulta.getText();
+        String nombreCampo = (String) jComboBox1.getSelectedItem();
+        controlador.llenarTablaBuscarMultaPorCualquierCampo(valorCampo, nombreCampo, tableModelBuscarMulta);
     }//GEN-LAST:event_botonBuscarMultaMouseClicked
 
-    private void botonEliminarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarMultaMouseClicked
+    private void botonEliminarMultaMouseClicked(java.awt.event.MouseEvent evt) {
         int filaSeleccionada = jTable1.getSelectedRow();
         if(jTable1.getSelectedRow()==-1){
             JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
-            
+
         }
         else if(jTable1.getSelectedRows().length >1){
             JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
@@ -234,7 +227,6 @@ public class BuscarMulta extends javax.swing.JPanel {
                 valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
             }
 
-            
             Multa solicitudAEliminar = new Multa();
             solicitudAEliminar.setnMulta((String)valores[0]);
             try{
@@ -245,22 +237,18 @@ public class BuscarMulta extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
-      
-    }//GEN-LAST:event_botonEliminarMultaMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         controlador.llenarTablaBuscarMulta(tableModelBuscarMulta);
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void botonEditarMultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMultaMouseClicked
+    private void botonEditarMultaMouseClicked(java.awt.event.MouseEvent evt) {
         int filaSeleccionada = jTable1.getSelectedRow();
         if(jTable1.getSelectedRow()==-1){
             JOptionPane.showMessageDialog(null,"Seleccione una fila de la tabla...");
-            
+
         }
         else if(jTable1.getSelectedRows().length >1){
             JOptionPane.showMessageDialog(null,"Seleccione SOLO UNA fila...");
@@ -273,7 +261,7 @@ public class BuscarMulta extends javax.swing.JPanel {
                 valores[columna] = jTable1.getValueAt(filaSeleccionada, columna);
             }
 
-            
+
             Multa solicitudAEliminar = new Multa();
             solicitudAEliminar.setnMulta((String)valores[0]);
             solicitudAEliminar.setValor((Integer)valores[1]);
@@ -289,15 +277,15 @@ public class BuscarMulta extends javax.swing.JPanel {
             solicitudAEliminar.setISBN((String) valores[4]);
             solicitudAEliminar.setNumero((String)valores[5]);
             try{
-                BibliotecaJFrame.ShowPanel(new ModificarMulta(controlador,solicitudAEliminar));
+                BibliotecaJFrame.ShowPanel(new ModificarMulta(controlador,solicitudAEliminar,idEmpleado));
             }
             catch(UnsupportedOperationException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
-        
-        
-    }//GEN-LAST:event_botonEditarMultaMouseClicked
+
+
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -305,10 +293,12 @@ public class BuscarMulta extends javax.swing.JPanel {
     private javax.swing.JButton botonEditarMulta;
     private javax.swing.JButton botonEliminarMulta;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField campoISBNMulta;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBoxIdMulta;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -29,8 +29,10 @@ public class ModificarMulta extends javax.swing.JPanel {
     private Controlador controlador;
     private Multa multaAmodificar;
     private String n_multa;
+    private String idEempleado;
 
-    public ModificarMulta(Controlador controlador, Multa multa) {
+    public ModificarMulta(Controlador controlador, Multa multa, String idEmpleado) {
+        this.idEempleado = idEmpleado;
         this.multaAmodificar = multa;
         n_multa = this.multaAmodificar.getnMulta();
         this.controlador = controlador;
@@ -222,7 +224,7 @@ public class ModificarMulta extends javax.swing.JPanel {
                         System.out.println("lOS NUMEROS: "+multa.getNumero());
                         controlador.editarMulta(multa,n_multa);
                         JOptionPane.showMessageDialog(null, "Multa modificada con exito");
-                        BibliotecaJFrame.ShowPanel(new BuscarMulta(controlador));
+                        BibliotecaJFrame.ShowPanel(new BuscarMulta(controlador,idEempleado));
                     }
                     catch(ParseException e){
                         JOptionPane.showMessageDialog(null, "Formato de fecha no valido 'DD-MM-YYYY'");

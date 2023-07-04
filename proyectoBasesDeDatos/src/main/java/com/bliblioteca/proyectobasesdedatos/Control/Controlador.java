@@ -102,6 +102,27 @@ public class Controlador {
             table.addRow(filas);
         }
     }
+    public void llenarTablaBuscarMultaPorCualquierCampo(String valor, String campo, DefaultTableModel table){
+        Object[] filas = new Object[8];
+        table.setRowCount(0);
+
+        ArrayList<Multa> lasMultas = DAOMulta.obtenerMultaPorCualquierCampo(valor, campo);
+        for(Multa laMulta : lasMultas){
+            filas[0] = laMulta.getnMulta();
+            filas[1] = laMulta.getValor();
+            long millis = laMulta.getFecha().getTime();
+            Date fecha = new Date(millis);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaString = sdf.format(fecha);
+            filas[2] = fechaString;
+            filas[3] = laMulta.getDescripcion();
+            filas[4] = laMulta.getISBN();
+            filas[5] = laMulta.getNumero();
+            filas[6] = laMulta.getIdUsuario();
+
+            table.addRow(filas);
+        }
+    }
     public void llenarTablaBuscarMulta(DefaultTableModel table){
         Object[] filas = new Object[7];
         table.setRowCount(0);
@@ -123,6 +144,24 @@ public class Controlador {
             table.addRow(filas);
         }
     }
+    public void llenarTablaBuscarPrestamoPorCualquierCampo(String valor, String campo, DefaultTableModel table){
+        Object[] filas = new Object[7];
+        table.setRowCount(0);
+
+        ArrayList<Prestamo> LosPrestamos = DAOPrestamo.obtenerPrestamoPorCualquierCampo(valor, campo);
+        for(Prestamo elPrestamo : LosPrestamos){
+            filas[0] = elPrestamo.getnPrestamo();
+            filas[1] = elPrestamo.getFechaR();
+            filas[2] = elPrestamo.getFechaD();
+            filas[3] = elPrestamo.getIdUsuario();
+            filas[4] = elPrestamo.getIdEmpleado();
+            filas[5] = elPrestamo.getISBN();
+            filas[6] = elPrestamo.getNumero();
+
+            table.addRow(filas);
+        }
+    }
+
     public void llenarTablaBuscarPrestamo(DefaultTableModel table){
         Object[] filas = new Object[7];
         table.setRowCount(0);
@@ -148,26 +187,62 @@ public class Controlador {
             table.addRow(filas);
         }
     }
-    public void llenarTablaBuscarSolicitud(DefaultTableModel table){
+    public void llenarTablaBuscarTodasLasSolicitudes(DefaultTableModel table){
         Object[] filas = new Object[7];
         table.setRowCount(0);
-                
-        ArrayList<Solicitud> losLibros = DAOSolicitud.obtenerTodasLasSolicitudes();
-        for(Solicitud elLibro : losLibros){
-            filas[0] = elLibro.getNumeroSolicitud();
+
+        ArrayList<Solicitud> lasSolicitudes = DAOSolicitud.obtenerTodasLasSolicitudes();
+        for(Solicitud laSolicitud : lasSolicitudes){
+            filas[0] = laSolicitud.getNumeroSolicitud();
+
+            filas[1] = laSolicitud.getTituloLibro();
+
+            filas[2] = laSolicitud.getFecha();
+            filas[3] = laSolicitud.getDescripcion();
+            filas[4] = laSolicitud.getISBNSolicitud();
+            filas[5] = laSolicitud.getIdEmpleado();
+
+            filas[6] = laSolicitud.getIdUsuario();
+
+            table.addRow(filas);
+        }
+    }
+    public void llenarTablaBuscarSolicitud(String valor, String campo, DefaultTableModel table){
+        Object[] filas = new Object[7];
+        table.setRowCount(0);
+
+        ArrayList<Solicitud> lasSolicitudes = DAOSolicitud.obtenerSolicitudPorCualquierCampo(valor, campo);
+        for(Solicitud laSolicitud : lasSolicitudes){
+            filas[0] = laSolicitud.getNumeroSolicitud();
             
-            filas[1] = elLibro.getTituloLibro();
+            filas[1] = laSolicitud.getTituloLibro();
             
-            filas[2] = elLibro.getFecha();
-            filas[3] = elLibro.getDescripcion();
-            filas[4] = elLibro.getISBNSolicitud();
-            filas[5] = elLibro.getIdEmpleado();
+            filas[2] = laSolicitud.getFecha();
+            filas[3] = laSolicitud.getDescripcion();
+            filas[4] = laSolicitud.getISBNSolicitud();
+            filas[5] = laSolicitud.getIdEmpleado();
             
-            filas[6] = elLibro.getIdUsuario();
+            filas[6] = laSolicitud.getIdUsuario();
            
             table.addRow(filas);
         }
     }
+    public void llenarTablaBuscarUsuarioPorCualquierCampo(String valor, String campo, DefaultTableModel table){
+        Object[] filas = new Object[5];
+        table.setRowCount(0);
+
+        ArrayList<Usuario> losUsuarios = DAOUsuario.obtenerUsuarioPorCualquierCampo(valor, campo);
+        for(Usuario elUsuario : losUsuarios){
+            filas[0] = elUsuario.getIdUsuario();
+            filas[1] = elUsuario.getNombreUsuario();
+            filas[2] = elUsuario.getTelUsuario();
+            filas[3] = elUsuario.getDirUsuario();
+            filas[4] = elUsuario.getEmailUsuario();
+
+            table.addRow(filas);
+        }
+    }
+
     public void llenarTablaBuscarUsuario(DefaultTableModel table){
         Object[] filas = new Object[5];
         table.setRowCount(0);
